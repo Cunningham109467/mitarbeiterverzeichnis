@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #05050f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  /* Hintergrund-Nebel */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse at center, rgba(109,40,217,0.28) 0%, rgba(67,20,150,0.12) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scrollbar transparent */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.25); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.45); }
+  * { scrollbar-width: thin; scrollbar-color: rgba(139,92,246,0.25) transparent; }
+
+  /* LOGIN */
+  #login-screen {
+    position: relative; z-index: 1;
+    background: rgba(15, 12, 40, 0.85);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 18px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 44px 40px 40px;
+    width: 100%; max-width: 400px;
+    box-shadow: 0 0 60px rgba(109,40,217,0.18), 0 2px 32px rgba(0,0,0,0.5);
+  }
+
+  #login-screen h1 {
+    font-size: 22px; font-weight: 600;
+    color: #e2d9ff;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  #login-screen .subtitle {
+    font-size: 13.5px; color: rgba(180,160,255,0.6);
+    margin-bottom: 32px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 12.5px; font-weight: 500;
+    color: rgba(180,160,255,0.75); margin-bottom: 7px; letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .form-group input {
+    width: 100%; padding: 11px 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(139,92,246,0.22);
+    border-radius: 10px;
+    color: #e2d9ff; font-size: 14.5px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-group input::placeholder { color: rgba(180,160,255,0.3); }
+  .form-group input:focus {
+    border-color: rgba(139,92,246,0.65);
+    box-shadow: 0 0 0 3px rgba(109,40,217,0.15);
+  }
+
+  .btn-login {
+    width: 100%; padding: 12px;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white; border: none; border-radius: 10px;
+    font-size: 14.5px; font-weight: 600;
+    cursor: pointer; margin-top: 6px;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.2px;
+  }
+  .btn-login:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-login:active { transform: scale(0.98); }
+  .btn-login:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  #login-error {
+    color: #f87171; font-size: 13px;
+    margin-top: 14px; display: none;
+    padding: 10px 14px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 8px;
+  }
+
+  /* DASHBOARD */
+  #dashboard {
+    display: none; width: 100%; max-width: 1140px;
+    position: relative; z-index: 1;
+    padding: 24px 16px;
+  }
+
+  .dash-header {
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(15,12,40,0.8);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    padding: 16px 24px;
+    margin-bottom: 16px;
+  }
+  .dash-header h2 { font-size: 17px; font-weight: 600; color: #e2d9ff; }
+  .dash-header .user-info { font-size: 13px; color: rgba(180,160,255,0.55); margin-top: 2px; }
+
+  .btn-logout {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 8px; font-size: 13px;
+    color: rgba(180,160,255,0.7); cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-logout:hover { background: rgba(139,92,246,0.12); color: #e2d9ff; }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(15,12,40,0.8);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    padding: 12px 18px;
+    margin-bottom: 14px;
+  }
+  .search-bar input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13.5px;
+    color: #e2d9ff; outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar input::placeholder { color: rgba(180,160,255,0.35); }
+  .search-bar input:focus { border-color: rgba(139,92,246,0.55); }
+  #result-count { font-size: 12.5px; color: rgba(180,160,255,0.45); white-space: nowrap; }
+
+  .table-wrapper {
+    background: rgba(15,12,40,0.8);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    overflow: auto;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead tr { background: rgba(109,40,217,0.12); }
+  th {
+    padding: 13px 16px; text-align: left;
+    font-weight: 600; font-size: 12px;
+    color: rgba(180,160,255,0.6);
+    border-bottom: 1px solid rgba(139,92,246,0.15);
+    white-space: nowrap;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    position: sticky; top: 0;
+    background: rgba(20,15,50,0.95);
+    backdrop-filter: blur(8px);
+  }
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(139,92,246,0.08);
+    color: rgba(220,210,255,0.85);
+    max-width: 240px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(109,40,217,0.07); }
+
+  .no-results {
+    text-align: center; padding: 48px;
+    color: rgba(180,160,255,0.35); font-size: 14px;
+  }
+
+  #loading {
+    display: none; text-align: center;
+    padding: 40px; color: rgba(180,160,255,0.45); font-size: 14px;
+  }
+  #data-error {
+    display: none; color: #f87171;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 10px; padding: 14px 18px;
+    margin-bottom: 14px; font-size: 13.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <h1>Willkommen</h1>
+  <p class="subtitle">Bitte melde dich an, um fortzufahren.</p>
+
+  <div class="form-group">
+    <label for="username">Name</label>
+    <input type="text" id="username" placeholder="Dein Name" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label for="password">Passwort</label>
+    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+  </div>
+  <button class="btn-login" id="login-btn" onclick="doLogin()">Anmelden</button>
+  <div id="login-error"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dash-header">
+    <div>
+      <h2>Formular-Antworten</h2>
+      <div class="user-info" id="welcome-text"></div>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Abmelden</button>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Suchen nach Person, Antwort oder Datum ..." oninput="filterTable()">
+    <span id="result-count"></span>
+  </div>
+
+  <div id="data-error"></div>
+  <div id="loading">Daten werden geladen ...</div>
+
+  <div class="table-wrapper">
+    <table id="answers-table">
+      <thead id="table-head"></thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <div class="no-results" id="no-results" style="display:none">Keine Ergebnisse gefunden.</div>
+  </div>
+</div>
+
+<script>
+  var allRows = [], allHeaders = [];
+
+  // SHA-256 im Browser (gleicher Algorithmus wie server-seitig)
+  async function hashPassword(password) {
+    const enc = new TextEncoder().encode(password);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('username').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('password').focus(); });
+
+  async function doLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const btn = document.getElementById('login-btn');
+    const errDiv = document.getElementById('login-error');
+
+    if (!username || !password) {
+      errDiv.textContent = 'Bitte Name und Passwort eingeben.';
+      errDiv.style.display = 'block'; return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Wird geprüft ...';
+    errDiv.style.display = 'none';
+
+    // Passwort clientseitig hashen vor dem Senden
+    const hashed = await hashPassword(password);
+
+    google.script.run
+      .withSuccessHandler(result => {
+        btn.disabled = false; btn.textContent = 'Anmelden';
+        if (result.success) {
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'block';
+          document.getElementById('welcome-text').textContent = 'Angemeldet als ' + result.name;
+          loadAnswers();
+        } else {
+          errDiv.textContent = result.error || 'Name oder Passwort falsch.';
+          errDiv.style.display = 'block';
+        }
+      })
+      .withFailureHandler(err => {
+        btn.disabled = false; btn.textContent = 'Anmelden';
+        errDiv.textContent = 'Server-Fehler: ' + err.message;
+        errDiv.style.display = 'block';
+      })
+      .checkLogin(username, hashed);
+  }
+
+  function doLogout() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'block';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('login-error').style.display = 'none';
+    allRows = []; allHeaders = [];
+    document.getElementById('table-head').innerHTML = '';
+    document.getElementById('table-body').innerHTML = '';
+  }
+
+  function loadAnswers() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('data-error').style.display = 'none';
+    google.script.run
+      .withSuccessHandler(result => {
+        document.getElementById('loading').style.display = 'none';
+        if (!result.success) {
+          const e = document.getElementById('data-error');
+          e.textContent = result.error; e.style.display = 'block'; return;
+        }
+        allHeaders = result.headers; allRows = result.rows;
+        renderTable(allRows);
+      })
+      .withFailureHandler(err => {
+        document.getElementById('loading').style.display = 'none';
+        const e = document.getElementById('data-error');
+        e.textContent = 'Fehler beim Laden: ' + err.message; e.style.display = 'block';
+      })
+      .getFormAnswers();
+  }
+
+  function renderTable(rows) {
+    const thead = document.getElementById('table-head');
+    const tbody = document.getElementById('table-body');
+    thead.innerHTML = ''; tbody.innerHTML = '';
+    document.getElementById('no-results').style.display = 'none';
+
+    const count = document.getElementById('result-count');
+
+    if (allHeaders.length) {
+      const tr = document.createElement('tr');
+      allHeaders.forEach(h => { const th = document.createElement('th'); th.textContent = h; tr.appendChild(th); });
+      thead.appendChild(tr);
+    }
+
+    if (!rows.length) {
+      document.getElementById('no-results').style.display = 'block';
+      count.textContent = '0 Einträge';
+    } else {
+      count.textContent = rows.length + (rows.length === 1 ? ' Eintrag' : ' Einträge');
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell; td.title = cell; tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  }
+
+  function filterTable() {
+    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    renderTable(q ? allRows.filter(r => r.some(c => c.toLowerCase().includes(q))) : allRows);
+  }
+</script>
+</body>
+</html>
