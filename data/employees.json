@@ -604,6 +604,30 @@
     "Sanktionen": []
   },
   {
+    "ID": "105851",
+    "Name": "Timo Kugelblitz",
+    "Rang": "24. Deputy Division Chief",
+    "DN": "112",
+    "Division": "Stellv. Division Lead",
+    "Strikes": 0,
+    "Invite": "",
+    "Last Rank-up": "",
+    "Hauptabteilung": "CIRG",
+    "Nebenabteilung": "",
+    "Ausbildungen": {
+      "GA": true,
+      "EVS": true,
+      "LST": true,
+      "AKS": true,
+      "TST": true,
+      "VHF/EL": true,
+      "JUR": true,
+      "UC": true,
+      "FTK": true
+    },
+    "Sanktionen": []
+  },
+  {
     "ID": "50287",
     "Name": "Devin Midnight",
     "Rang": "24. Deputy Division Chief",
@@ -1732,30 +1756,6 @@
     "Sanktionen": []
   },
   {
-    "ID": "105851",
-    "Name": "Timo Kugelblitz",
-    "Rang": "24. Deputy Division Chief",
-    "DN": "112",
-    "Division": "Stellv. Division Lead",
-    "Strikes": 0,
-    "Invite": "",
-    "Last Rank-up": "",
-    "Hauptabteilung": "CIRG",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": true,
-      "EVS": true,
-      "LST": true,
-      "AKS": true,
-      "TST": true,
-      "VHF/EL": true,
-      "JUR": true,
-      "UC": true,
-      "FTK": true
-    },
-    "Sanktionen": []
-  },
-  {
     "ID": "266149",
     "Name": "Noah Herzberg",
     "Rang": "17. Elite Agent",
@@ -2004,6 +2004,30 @@
     "Strikes": 0,
     "Invite": "03.03.2026",
     "Last Rank-up": "03.03.2026",
+    "Hauptabteilung": "",
+    "Nebenabteilung": "",
+    "Ausbildungen": {
+      "GA": true,
+      "EVS": true,
+      "LST": true,
+      "AKS": true,
+      "TST": true,
+      "VHF/EL": true,
+      "JUR": true,
+      "UC": true,
+      "FTK": true
+    },
+    "Sanktionen": []
+  },
+  {
+    "ID": "225011",
+    "Name": "Odin Wolf",
+    "Rang": "16. Commander",
+    "DN": "37",
+    "Division": "Command",
+    "Strikes": 0,
+    "Invite": "26.02.2026",
+    "Last Rank-up": "19.04.2026",
     "Hauptabteilung": "",
     "Nebenabteilung": "",
     "Ausbildungen": {
