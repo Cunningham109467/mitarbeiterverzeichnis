@@ -21,7 +21,35 @@
       "UC": true,
       "FTK": true
     },
-    "Sanktionen": []
+    "Sanktionen": [
+      {
+        "id": "322f1643-f3b7-46c0-955e-a5b4f02cbc00",
+        "type": "katalog",
+        "name": "5.4",
+        "regel": "Vom Konvoi / Einsatz entfernen ohne Genehmigung",
+        "penalties": [
+          {
+            "type": "Humane Labs",
+            "value": "max. 30min"
+          },
+          {
+            "type": "NG-Runden",
+            "value": "max. 2x"
+          },
+          {
+            "type": "Strike",
+            "value": "(✓)"
+          }
+        ],
+        "status": "ABSOLVIERT",
+        "akte": "https://discord.com/channels/1462134583678992497/1471500794380681327",
+        "notiz": "",
+        "erstelltVon": "Noah Azzlack",
+        "erstelltAm": "2026-05-01",
+        "aktualisiertVon": "Noah Azzlack",
+        "aktualisiertAm": "2026-05-01"
+      }
+    ]
   },
   {
     "ID": "102262",
@@ -1976,30 +2004,6 @@
     "Strikes": 0,
     "Invite": "03.03.2026",
     "Last Rank-up": "03.03.2026",
-    "Hauptabteilung": "",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": true,
-      "EVS": true,
-      "LST": true,
-      "AKS": true,
-      "TST": true,
-      "VHF/EL": true,
-      "JUR": true,
-      "UC": true,
-      "FTK": true
-    },
-    "Sanktionen": []
-  },
-  {
-    "ID": "225011",
-    "Name": "Odin Wolf",
-    "Rang": "16. Commander",
-    "DN": "37",
-    "Division": "Command",
-    "Strikes": 0,
-    "Invite": "26.02.2026",
-    "Last Rank-up": "19.04.2026",
     "Hauptabteilung": "",
     "Nebenabteilung": "",
     "Ausbildungen": {
