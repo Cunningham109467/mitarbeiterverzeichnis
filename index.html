@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitarbeiterverzeichnis</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#05050f;min-height:100vh;color:#c9d1d9;overflow-x:hidden}
+body::before{content:'';position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);width:700px;height:700px;background:radial-gradient(ellipse at center,rgba(109,40,217,0.22) 0%,rgba(67,20,150,0.08) 50%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.25);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:rgba(139,92,246,0.45)}
+
+/* ── LOGIN ── */
+#login-wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.login-card{background:rgba(15,12,40,0.88);border:1px solid rgba(139,92,246,0.28);border-radius:18px;backdrop-filter:blur(20px);padding:44px 40px 40px;width:100%;max-width:400px;box-shadow:0 0 70px rgba(109,40,217,0.18),0 4px 32px rgba(0,0,0,0.5)}
+.login-card h1{font-size:22px;font-weight:600;color:#e2d9ff;margin-bottom:5px;letter-spacing:-0.3px}
+.login-card .sub{font-size:13px;color:rgba(180,160,255,0.55);margin-bottom:30px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11.5px;font-weight:600;color:rgba(180,160,255,0.7);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.5px}
+.form-group input,.form-group select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.22);border-radius:9px;color:#e2d9ff;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-group input::placeholder{color:rgba(180,160,255,0.3)}
+.form-group input:focus,.form-group select:focus{border-color:rgba(139,92,246,0.6);box-shadow:0 0 0 3px rgba(109,40,217,0.14)}
+.form-group select option{background:#1a1030;color:#e2d9ff}
+.btn-primary{width:100%;padding:11px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:0.2px}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-ghost{padding:8px 16px;background:transparent;border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:rgba(180,160,255,0.7);font-size:13px;cursor:pointer;transition:background .2s,color .2s}
+.btn-ghost:hover{background:rgba(139,92,246,0.12);color:#e2d9ff}
+.btn-danger{padding:7px 14px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:7px;color:#f87171;font-size:12.5px;cursor:pointer;transition:background .2s}
+.btn-danger:hover{background:rgba(239,68,68,0.22)}
+.btn-success{padding:7px 14px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:7px;color:#4ade80;font-size:12.5px;cursor:pointer;transition:background .2s}
+.btn-success:hover{background:rgba(34,197,94,0.22)}
+.btn-edit{padding:7px 14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);border-radius:7px;color:#a5b4fc;font-size:12.5px;cursor:pointer;transition:background .2s}
+.btn-edit:hover{background:rgba(99,102,241,0.22)}
+.error-box{color:#f87171;font-size:13px;margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;display:none}
+
+/* ── DASHBOARD ── */
+#app{display:none;position:relative;z-index:1;min-height:100vh;padding:20px 16px}
+.app-header{display:flex;align-items:center;justify-content:space-between;background:rgba(15,12,40,0.82);border:1px solid rgba(139,92,246,0.2);border-radius:14px;backdrop-filter:blur(14px);padding:14px 22px;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.app-header h2{font-size:16px;font-weight:600;color:#e2d9ff}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.user-badge{font-size:12px;color:rgba(180,160,255,0.55);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);border-radius:99px;padding:4px 12px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;background:rgba(15,12,40,0.7);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:6px;margin-bottom:14px;backdrop-filter:blur(10px)}
+.tab{padding:8px 20px;border-radius:8px;border:none;background:transparent;color:rgba(180,160,255,0.55);font-size:13.5px;font-weight:500;cursor:pointer;transition:background .2s,color .2s}
+.tab.active{background:rgba(109,40,217,0.25);color:#e2d9ff;border:1px solid rgba(139,92,246,0.3)}
+.tab:hover:not(.active){background:rgba(139,92,246,0.08);color:rgba(180,160,255,0.8)}
+
+/* ── SEARCH ── */
+.search-row{display:flex;align-items:center;gap:10px;background:rgba(15,12,40,0.75);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:10px 16px;margin-bottom:12px;backdrop-filter:blur(10px)}
+.search-row input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:8px 13px;font-size:13px;color:#e2d9ff;outline:none;transition:border-color .2s}
+.search-row input::placeholder{color:rgba(180,160,255,0.3)}
+.search-row input:focus{border-color:rgba(139,92,246,0.5)}
+#result-count{font-size:12px;color:rgba(180,160,255,0.4);white-space:nowrap}
+
+/* ── TABLE ── */
+.table-wrap{background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:14px;backdrop-filter:blur(12px);overflow:auto;max-height:calc(100vh - 260px)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:rgba(20,15,50,0.98)}
+th{padding:12px 14px;text-align:left;font-weight:600;font-size:11px;color:rgba(180,160,255,0.55);border-bottom:1px solid rgba(139,92,246,0.15);white-space:nowrap;text-transform:uppercase;letter-spacing:0.5px;position:sticky;top:0;background:rgba(20,15,50,0.98);backdrop-filter:blur(8px);z-index:2}
+td{padding:10px 14px;border-bottom:1px solid rgba(139,92,246,0.07);color:rgba(220,210,255,0.82);vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(109,40,217,0.06)}
+.td-actions{display:flex;gap:6px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.badge-strike{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
+.badge-ok{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}
+.empty-state{text-align:center;padding:56px 24px;color:rgba(180,160,255,0.3);font-size:14px}
+
+/* ── EVENTS ── */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.event-card{background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:18px 20px;backdrop-filter:blur(10px)}
+.event-card h3{font-size:14px;font-weight:600;color:#e2d9ff;margin-bottom:6px}
+.event-meta{font-size:12px;color:rgba(180,160,255,0.5);margin-bottom:10px}
+.event-desc{font-size:13px;color:rgba(220,210,255,0.7);line-height:1.5}
+.event-author{font-size:11.5px;color:rgba(180,160,255,0.35);margin-top:10px}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#100d28;border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:32px 36px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 0 60px rgba(109,40,217,0.25)}
+.modal h3{font-size:17px;font-weight:600;color:#e2d9ff;margin-bottom:22px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap}
+.modal-footer .btn-primary{width:auto;padding:10px 24px}
+
+/* ── SANCTIONS ── */
+.sanction-item{background:rgba(255,255,255,0.03);border:1px solid rgba(139,92,246,0.15);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.sanction-item h4{font-size:13.5px;font-weight:600;color:#e2d9ff;margin-bottom:4px}
+.sanction-meta{font-size:12px;color:rgba(180,160,255,0.45)}
+.status-badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;margin-left:8px}
+.status-offen{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+.status-absolviert{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}
+
+/* ── TOKEN MODAL ── */
+.token-info{font-size:12.5px;color:rgba(180,160,255,0.55);line-height:1.6;margin-bottom:18px}
+.token-info a{color:#a78bfa;text-decoration:none}
+.token-info a:hover{text-decoration:underline}
+
+/* ── LOADING ── */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(139,92,246,0.3);border-top-color:#a78bfa;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-overlay{position:fixed;inset:0;background:rgba(5,5,15,0.75);backdrop-filter:blur(3px);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.loading-overlay p{color:rgba(180,160,255,0.7);font-size:14px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:#161030;border:1px solid rgba(139,92,246,0.35);border-radius:10px;padding:12px 18px;font-size:13.5px;color:#e2d9ff;z-index:300;box-shadow:0 4px 24px rgba(0,0,0,0.4);transform:translateY(80px);opacity:0;transition:transform .3s,opacity .3s;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.toast-ok{border-color:rgba(34,197,94,0.35);color:#4ade80}
+.toast.toast-err{border-color:rgba(239,68,68,0.35);color:#f87171}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-wrap">
+  <div class="login-card">
+    <h1>Willkommen</h1>
+    <p class="sub">Melde dich an, um fortzufahren.</p>
+    <div class="form-group">
+      <label>Benutzername</label>
+      <input id="inp-user" type="text" placeholder="Dein Name" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>Passwort</label>
+      <input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" id="login-btn" onclick="doLogin()">Anmelden</button>
+    <div class="error-box" id="login-err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="app-header">
+    <h2>Mitarbeiterverzeichnis</h2>
+    <div class="header-right">
+      <span class="user-badge" id="user-badge">—</span>
+      <button class="btn-ghost" onclick="showTokenModal()">🔑 Token</button>
+      <button class="btn-ghost" onclick="doLogout()">Abmelden</button>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="switchTab('employees')" id="tab-employees">👥 Mitarbeiter</button>
+    <button class="tab" onclick="switchTab('events')" id="tab-events">📅 Events</button>
+    <button class="tab" onclick="switchTab('sanctions')" id="tab-sanctions" style="display:none">⚖️ Sanktionen</button>
+  </div>
+
+  <!-- MITARBEITER TAB -->
+  <div id="tab-employees-content">
+    <div class="search-row">
+      <input id="search" type="text" placeholder="Suchen nach Name, ID, Rang, Division …" oninput="filterEmployees()">
+      <span id="result-count"></span>
+      <button class="btn-primary" id="add-emp-btn" style="width:auto;padding:9px 18px;display:none" onclick="openEmployeeModal()">+ Hinzufügen</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Name</th><th>Rang</th><th>DN</th><th>Division</th>
+            <th>Strikes</th><th>Invite</th><th>Last Rank-up</th><th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody id="emp-body"></tbody>
+      </table>
+      <div class="empty-state" id="emp-empty" style="display:none">Noch keine Mitarbeiter eingetragen.</div>
+    </div>
+  </div>
+
+  <!-- EVENTS TAB -->
+  <div id="tab-events-content" style="display:none">
+    <div class="search-row" style="margin-bottom:14px">
+      <span style="color:rgba(180,160,255,0.5);font-size:13px;flex:1">Kommende und vergangene Veranstaltungen</span>
+      <button class="btn-primary" id="add-event-btn" style="width:auto;padding:9px 18px;display:none" onclick="openEventModal()">+ Event</button>
+    </div>
+    <div class="events-grid" id="events-grid"></div>
+    <div class="empty-state" id="events-empty" style="display:none">Keine Events eingetragen.</div>
+  </div>
+
+  <!-- SANKTIONEN TAB -->
+  <div id="tab-sanctions-content" style="display:none">
+    <div class="search-row">
+      <input id="sanction-search" type="text" placeholder="Mitarbeiter suchen …" oninput="filterSanctions()">
+    </div>
+    <div id="sanctions-list"></div>
+    <div class="empty-state" id="sanctions-empty" style="display:none">Keine offenen Sanktionen.</div>
+  </div>
+</div>
+
+<!-- TOKEN MODAL -->
+<div class="modal-bg" id="token-modal" style="display:none" onclick="if(event.target===this&&!tokenRequired)closeTokenModal()">
+  <div class="modal">
+    <h3>🔑 GitHub Write-Token</h3>
+    <p class="token-info">
+      Für das Speichern von Änderungen wird ein GitHub Personal Access Token benötigt.<br><br>
+      Token erstellen: <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a><br>
+      Scope: <strong>public_repo</strong> · Ablauf: nach Bedarf<br><br>
+      Das Token wird nur für diese Browser-Session gespeichert.
+    </p>
+    <div class="form-group">
+      <label>Personal Access Token</label>
+      <input id="token-inp" type="password" placeholder="ghp_…">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="if(!tokenRequired)closeTokenModal()">Abbrechen</button>
+      <button class="btn-primary" onclick="saveToken()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYEE MODAL -->
+<div class="modal-bg" id="emp-modal" style="display:none" onclick="if(event.target===this)closeEmpModal()">
+  <div class="modal">
+    <h3 id="emp-modal-title">Mitarbeiter hinzufügen</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+      <div class="form-group"><label>ID</label><input id="emp-id" type="text" placeholder="z.B. 1042"></div>
+      <div class="form-group"><label>Name</label><input id="emp-name" type="text" placeholder="Vorname Nachname"></div>
+      <div class="form-group"><label>Rang</label><input id="emp-rang" type="text" placeholder="z.B. Officer"></div>
+      <div class="form-group"><label>DN</label><input id="emp-dn" type="text" placeholder="Dienstnummer"></div>
+      <div class="form-group"><label>Division</label><input id="emp-div" type="text" placeholder="z.B. Officer"></div>
+      <div class="form-group"><label>Strikes</label><input id="emp-strikes" type="number" min="0" value="0"></div>
+      <div class="form-group"><label>Invite (Datum)</label><input id="emp-invite" type="date"></div>
+      <div class="form-group"><label>Last Rank-up</label><input id="emp-rankup" type="date"></div>
+      <div class="form-group"><label>Hauptabteilung</label><input id="emp-haupt" type="text"></div>
+      <div class="form-group"><label>Nebenabteilung</label><input id="emp-neben" type="text"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeEmpModal()">Abbrechen</button>
+      <button class="btn-primary" onclick="saveEmployee()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT MODAL -->
+<div class="modal-bg" id="event-modal" style="display:none" onclick="if(event.target===this)closeEventModal()">
+  <div class="modal">
+    <h3>Event hinzufügen</h3>
+    <div class="form-group"><label>Titel</label><input id="ev-title" type="text" placeholder="Event-Name"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+      <div class="form-group"><label>Datum</label><input id="ev-date" type="date"></div>
+      <div class="form-group"><label>Uhrzeit</label><input id="ev-time" type="time"></div>
+    </div>
+    <div class="form-group"><label>Beschreibung</label><input id="ev-desc" type="text" placeholder="Kurzbeschreibung"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeEventModal()">Abbrechen</button>
+      <button class="btn-primary" onclick="saveEvent()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- SANCTIONS MODAL -->
+<div class="modal-bg" id="sanction-modal" style="display:none" onclick="if(event.target===this)closeSanctionModal()">
+  <div class="modal" style="max-width:600px">
+    <h3 id="sanction-modal-title">Sanktionen</h3>
+    <div id="sanction-modal-list"></div>
+    <hr style="border-color:rgba(139,92,246,0.15);margin:18px 0">
+    <h4 style="font-size:14px;color:#e2d9ff;margin-bottom:14px">Neue Sanktion</h4>
+    <div class="form-group"><label>Bezeichnung</label><input id="s-name" type="text" placeholder="z.B. Regelverstoß §3"></div>
+    <div class="form-group"><label>Beschreibung</label><input id="s-desc" type="text" placeholder="Kurzbeschreibung"></div>
+    <div class="form-group"><label>Strafe</label><input id="s-penalty" type="text" placeholder="z.B. Verwarnung, 3 Tage Suspension"></div>
+    <div class="form-group"><label>Aktenlink (Discord Thread URL)</label><input id="s-akte" type="text" placeholder="https://discord.com/…"></div>
+    <div class="form-group"><label>Notiz</label><input id="s-notiz" type="text" placeholder="Optional"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeSanctionModal()">Schließen</button>
+      <button class="btn-primary" onclick="addSanction()">Sanktion hinzufügen</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading" style="display:none">
+  <div class="spinner" style="width:32px;height:32px;border-width:3px"></div>
+  <p id="loading-msg">Laden …</p>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  CONFIG — auto-detected from GitHub Pages URL
+// ═══════════════════════════════════════════════
+const REPO   = 'mitarbeiterverzeichnis';
+const BRANCH = 'main';
+let   OWNER  = '';
+
+function detectOwner() {
+  const h = location.hostname;
+  if (h.endsWith('.github.io')) {
+    OWNER = h.replace('.github.io', '');
+  } else {
+    OWNER = localStorage.getItem('ghOwner') || '';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let session       = null;   // { username, level }
+let employees     = [];
+let eventsData    = [];
+let admins        = [];
+let writeToken    = sessionStorage.getItem('writeToken') || '';
+let tokenRequired = false;
+let editingEmpIdx = -1;     // index in employees[] or -1 for new
+let sanctionEmpIdx = -1;    // index in employees[] for sanctions modal
+let filteredEmps  = [];
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+window.addEventListener('load', () => {
+  detectOwner();
+  document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  document.getElementById('inp-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
+});
+
+// ═══════════════════════════════════════════════
+//  SHA-256
+// ═══════════════════════════════════════════════
+async function sha256(str) {
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ═══════════════════════════════════════════════
+//  GITHUB DATA LAYER
+// ═══════════════════════════════════════════════
+function rawUrl(file) {
+  return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${file}?t=${Date.now()}`;
+}
+
+async function loadJSON(file) {
+  const r = await fetch(rawUrl(file));
+  if (!r.ok) {
+    if (r.status === 404) return null;
+    throw new Error(`Kann ${file} nicht laden (HTTP ${r.status})`);
+  }
+  return r.json();
+}
+
+function toBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+async function saveJSON(file, data) {
+  if (!writeToken) {
+    await requireToken();
+    if (!writeToken) throw new Error('Kein Token gesetzt.');
+  }
+  // Get current SHA
+  const metaR = await fetch(
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,
+    { headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json' } }
+  );
+  const payload = {
+    message: `Update ${file}`,
+    content: toBase64(JSON.stringify(data, null, 2))
+  };
+  if (metaR.ok) {
+    const meta = await metaR.json();
+    payload.sha = meta.sha;
+  }
+  const r = await fetch(
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,
+    {
+      method: 'PUT',
+      headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }
+  );
+  if (!r.ok) {
+    const e = await r.json();
+    if (r.status === 401 || r.status === 403) {
+      writeToken = '';
+      sessionStorage.removeItem('writeToken');
+      throw new Error('Token ungültig oder abgelaufen. Bitte neues Token eingeben.');
+    }
+    throw new Error(e.message || `HTTP ${r.status}`);
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  TOKEN
+// ═══════════════════════════════════════════════
+let tokenResolve = null;
+
+function requireToken() {
+  return new Promise(resolve => {
+    tokenResolve = resolve;
+    tokenRequired = true;
+    showTokenModal();
+  });
+}
+
+function showTokenModal() {
+  document.getElementById('token-inp').value = writeToken || '';
+  document.getElementById('token-modal').style.display = 'flex';
+}
+
+function closeTokenModal() {
+  document.getElementById('token-modal').style.display = 'none';
+  tokenRequired = false;
+  if (tokenResolve) { tokenResolve(); tokenResolve = null; }
+}
+
+function saveToken() {
+  const t = document.getElementById('token-inp').value.trim();
+  if (!t) return toast('Bitte Token eingeben.', 'err');
+  writeToken = t;
+  sessionStorage.setItem('writeToken', t);
+  closeTokenModal();
+  toast('Token gespeichert.', 'ok');
+}
+
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
+async function doLogin() {
+  const username = document.getElementById('inp-user').value.trim();
+  const password = document.getElementById('inp-pass').value;
+  const btn      = document.getElementById('login-btn');
+  const errEl    = document.getElementById('login-err');
+  errEl.style.display = 'none';
+
+  if (!username || !password) { showLoginErr('Bitte Name und Passwort eingeben.'); return; }
+
+  // Validate owner
+  if (!OWNER) {
+    OWNER = prompt('GitHub Benutzername (einmalig):') || '';
+    if (!OWNER) { showLoginErr('Kein GitHub-Benutzername angegeben.'); return; }
+    localStorage.setItem('ghOwner', OWNER);
+  }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Wird geprüft …';
+  try {
+    admins = await loadJSON('data/admins.json');
+    if (!admins) throw new Error('admins.json nicht gefunden. Bitte Setup erneut ausführen.');
+    const hash  = await sha256(password);
+    const admin = admins.find(a => a.username.toLowerCase() === username.toLowerCase() && a.passwordHash.toLowerCase() === hash);
+    if (!admin) { showLoginErr('Name oder Passwort falsch.'); return; }
+    session = { username: admin.username, level: admin.level };
+    await loadDashboard();
+  } catch(e) {
+    showLoginErr('Fehler: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Anmelden';
+  }
+}
+
+function showLoginErr(msg) {
+  const el = document.getElementById('login-err');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('login-btn').disabled = false;
+  document.getElementById('login-btn').textContent = 'Anmelden';
+}
+
+function doLogout() {
+  session = null; employees = []; eventsData = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-wrap').style.display = 'flex';
+  document.getElementById('inp-user').value = '';
+  document.getElementById('inp-pass').value = '';
+  document.getElementById('login-err').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════
+async function loadDashboard() {
+  showLoading('Daten werden geladen …');
+  try {
+    const [emps, evs] = await Promise.all([
+      loadJSON('data/employees.json'),
+      loadJSON('data/events.json')
+    ]);
+    employees  = emps  || [];
+    eventsData = evs   || [];
+  } catch(e) {
+    employees = []; eventsData = [];
+  }
+  hideLoading();
+
+  // UI setup
+  document.getElementById('login-wrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-badge').textContent = `${session.username} · Level ${session.level}`;
+
+  // Level-based visibility
+  if (session.level >= 3) document.getElementById('add-emp-btn').style.display = '';
+  if (session.level >= 2) document.getElementById('add-event-btn').style.display = '';
+  if (session.level === 1 || session.level === 4) document.getElementById('tab-sanctions').style.display = '';
+
+  switchTab('employees');
+}
+
+// ═══════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════
+function switchTab(tab) {
+  ['employees','events','sanctions'].forEach(t => {
+    document.getElementById(`tab-${t}-content`).style.display = t===tab ? '' : 'none';
+    document.getElementById(`tab-${t}`)?.classList.toggle('active', t===tab);
+  });
+  if (tab==='employees') renderEmployees(employees);
+  if (tab==='events')    renderEvents();
+  if (tab==='sanctions') renderSanctionsList();
+}
+
+// ═══════════════════════════════════════════════
+//  EMPLOYEES
+// ═══════════════════════════════════════════════
+function renderEmployees(list) {
+  filteredEmps = list;
+  const tbody  = document.getElementById('emp-body');
+  const empty  = document.getElementById('emp-empty');
+  const count  = document.getElementById('result-count');
+  tbody.innerHTML = '';
+
+  if (!list.length) { empty.style.display=''; count.textContent=''; return; }
+  empty.style.display = 'none';
+  count.textContent = `${list.length} Einträge`;
+
+  list.forEach((emp, i) => {
+    const realIdx = employees.indexOf(emp);
+    const strikes = parseInt(emp.Strikes) || 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${esc(emp.ID)}</td>
+      <td><strong style="color:#e2d9ff">${esc(emp.Name)}</strong></td>
+      <td>${esc(emp.Rang)}</td>
+      <td>${esc(emp.DN)}</td>
+      <td>${esc(emp.Division)}</td>
+      <td>${strikes > 0 ? `<span class="badge badge-strike">${strikes}</span>` : `<span class="badge badge-ok">0</span>`}</td>
+      <td>${esc(emp.Invite||'—')}</td>
+      <td>${esc(emp['Last Rank-up']||'—')}</td>
+      <td class="td-actions">
+        ${session.level >= 2 ? `<button class="btn-edit" onclick="openEmployeeModal(${realIdx})">Bearbeiten</button>` : ''}
+        ${(session.level===1||session.level===4) ? `<button class="btn-ghost" style="padding:7px 12px;font-size:12.5px" onclick="openSanctionModal(${realIdx})">⚖️ Sanktionen</button>` : ''}
+        ${session.level >= 4 ? `<button class="btn-danger" onclick="deleteEmployee(${realIdx})">Löschen</button>` : ''}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterEmployees() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  if (!q) { renderEmployees(employees); return; }
+  renderEmployees(employees.filter(e =>
+    [e.ID,e.Name,e.Rang,e.DN,e.Division,e.Hauptabteilung,e.Nebenabteilung]
+      .some(v => String(v||'').toLowerCase().includes(q))
+  ));
+}
+
+function openEmployeeModal(idx=-1) {
+  editingEmpIdx = idx;
+  document.getElementById('emp-modal-title').textContent = idx===-1 ? 'Mitarbeiter hinzufügen' : 'Mitarbeiter bearbeiten';
+  const emp = idx===-1 ? {} : employees[idx];
+  document.getElementById('emp-id').value      = emp.ID      || '';
+  document.getElementById('emp-name').value    = emp.Name    || '';
+  document.getElementById('emp-rang').value    = emp.Rang    || '';
+  document.getElementById('emp-dn').value      = emp.DN      || '';
+  document.getElementById('emp-div').value     = emp.Division|| '';
+  document.getElementById('emp-strikes').value = emp.Strikes ?? 0;
+  document.getElementById('emp-invite').value  = emp.Invite  || '';
+  document.getElementById('emp-rankup').value  = emp['Last Rank-up'] || '';
+  document.getElementById('emp-haupt').value   = emp.Hauptabteilung  || '';
+  document.getElementById('emp-neben').value   = emp.Nebenabteilung  || '';
+  document.getElementById('emp-modal').style.display = 'flex';
+}
+
+function closeEmpModal() { document.getElementById('emp-modal').style.display='none'; }
+
+async function saveEmployee() {
+  const emp = {
+    ID:              document.getElementById('emp-id').value.trim(),
+    Name:            document.getElementById('emp-name').value.trim(),
+    Rang:            document.getElementById('emp-rang').value.trim(),
+    DN:              document.getElementById('emp-dn').value.trim(),
+    Division:        document.getElementById('emp-div').value.trim(),
+    Strikes:         parseInt(document.getElementById('emp-strikes').value)||0,
+    Invite:          document.getElementById('emp-invite').value,
+    'Last Rank-up':  document.getElementById('emp-rankup').value,
+    Hauptabteilung:  document.getElementById('emp-haupt').value.trim(),
+    Nebenabteilung:  document.getElementById('emp-neben').value.trim(),
+    Sanktionen:      editingEmpIdx===-1 ? [] : (employees[editingEmpIdx].Sanktionen||[])
+  };
+  if (!emp.Name) return toast('Name ist erforderlich.','err');
+
+  closeEmpModal();
+  showLoading('Wird gespeichert …');
+  try {
+    if (editingEmpIdx===-1) employees.push(emp);
+    else employees[editingEmpIdx] = emp;
+    await saveJSON('data/employees.json', employees);
+    toast('Gespeichert!','ok');
+    renderEmployees(employees);
+  } catch(e) { toast('Fehler: '+e.message,'err'); }
+  hideLoading();
+}
+
+async function deleteEmployee(idx) {
+  const emp = employees[idx];
+  if (!confirm(`Mitarbeiter "${emp.Name}" wirklich löschen?`)) return;
+  showLoading('Wird gelöscht …');
+  try {
+    employees.splice(idx,1);
+    await saveJSON('data/employees.json', employees);
+    toast('Gelöscht.','ok');
+    renderEmployees(employees);
+  } catch(e) { toast('Fehler: '+e.message,'err'); employees.splice(idx,0,emp); }
+  hideLoading();
+}
+
+// ═══════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════
+function renderEvents() {
+  const grid  = document.getElementById('events-grid');
+  const empty = document.getElementById('events-empty');
+  grid.innerHTML = '';
+  if (!eventsData.length) { empty.style.display=''; return; }
+  empty.style.display = 'none';
+  eventsData.slice().reverse().forEach((ev,i) => {
+    const realIdx = eventsData.length-1-i;
+    const div = document.createElement('div');
+    div.className = 'event-card';
+    div.innerHTML = `
+      <h3>${esc(ev.title)}</h3>
+      <div class="event-meta">📅 ${esc(ev.date||'—')}  ⏰ ${esc(ev.time||'—')}</div>
+      <div class="event-desc">${esc(ev.desc||'')}</div>
+      <div class="event-author">Erstellt von: ${esc(ev.author||'—')}
+        ${session.level>=4 ? `<button class="btn-danger" style="margin-left:12px;padding:4px 10px;font-size:11px" onclick="deleteEvent(${realIdx})">Löschen</button>` : ''}
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function openEventModal() { document.getElementById('event-modal').style.display='flex'; }
+function closeEventModal() { document.getElementById('event-modal').style.display='none'; }
+
+async function saveEvent() {
+  const ev = {
+    title:  document.getElementById('ev-title').value.trim(),
+    date:   document.getElementById('ev-date').value,
+    time:   document.getElementById('ev-time').value,
+    desc:   document.getElementById('ev-desc').value.trim(),
+    author: session.username
+  };
+  if (!ev.title) return toast('Titel ist erforderlich.','err');
+  closeEventModal();
+  showLoading('Wird gespeichert …');
+  try {
+    eventsData.push(ev);
+    await saveJSON('data/events.json', eventsData);
+    toast('Event gespeichert!','ok');
+    renderEvents();
+    ['ev-title','ev-date','ev-time','ev-desc'].forEach(id => document.getElementById(id).value='');
+  } catch(e) { toast('Fehler: '+e.message,'err'); eventsData.pop(); }
+  hideLoading();
+}
+
+async function deleteEvent(idx) {
+  if (!confirm('Event wirklich löschen?')) return;
+  const ev = eventsData.splice(idx,1)[0];
+  showLoading('Wird gelöscht …');
+  try {
+    await saveJSON('data/events.json', eventsData);
+    toast('Event gelöscht.','ok');
+    renderEvents();
+  } catch(e) { toast('Fehler: '+e.message,'err'); eventsData.splice(idx,0,ev); }
+  hideLoading();
+}
+
+// ═══════════════════════════════════════════════
+//  SANCTIONS (overview list)
+// ═══════════════════════════════════════════════
+function renderSanctionsList() {
+  const list  = document.getElementById('sanctions-list');
+  const empty = document.getElementById('sanctions-empty');
+  const q     = document.getElementById('sanction-search').value.toLowerCase().trim();
+  list.innerHTML = '';
+
+  const withSanctions = employees.filter(e =>
+    (e.Sanktionen||[]).length > 0 &&
+    (!q || e.Name.toLowerCase().includes(q) || (e.ID||'').toLowerCase().includes(q))
+  );
+
+  if (!withSanctions.length) { empty.style.display=''; return; }
+  empty.style.display='none';
+
+  withSanctions.forEach(emp => {
+    const idx = employees.indexOf(emp);
+    const card = document.createElement('div');
+    card.style.cssText = 'background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:16px 20px;margin-bottom:10px';
+    card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong style="color:#e2d9ff">${esc(emp.Name)} <span style="color:rgba(180,160,255,0.45);font-weight:400;font-size:12px">${esc(emp.Rang)}</span></strong>
+      <button class="btn-edit" onclick="openSanctionModal(${idx})">Verwalten</button>
+    </div>
+    ${(emp.Sanktionen||[]).map(s=>`<div class="sanction-item">
+      <h4>${esc(s.name)} <span class="status-badge ${s.status==='OFFEN'?'status-offen':'status-absolviert'}">${esc(s.status)}</span></h4>
+      <div class="sanction-meta">${esc(s.penalty||'')} · ${esc(s.erstelltAm||'')} · ${esc(s.erstelltVon||'')}</div>
+    </div>`).join('')}`;
+    list.appendChild(card);
+  });
+}
+
+function filterSanctions() { renderSanctionsList(); }
+
+// ═══════════════════════════════════════════════
+//  SANCTIONS MODAL (per employee)
+// ═══════════════════════════════════════════════
+function openSanctionModal(idx) {
+  sanctionEmpIdx = idx;
+  const emp = employees[idx];
+  document.getElementById('sanction-modal-title').textContent = `⚖️ Sanktionen: ${emp.Name}`;
+  renderSanctionModalList();
+  ['s-name','s-desc','s-penalty','s-akte','s-notiz'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('sanction-modal').style.display='flex';
+}
+
+function closeSanctionModal() { document.getElementById('sanction-modal').style.display='none'; }
+
+function renderSanctionModalList() {
+  const emp  = employees[sanctionEmpIdx];
+  const list = document.getElementById('sanction-modal-list');
+  const sans = emp.Sanktionen||[];
+  if (!sans.length) { list.innerHTML='<p style="color:rgba(180,160,255,0.4);font-size:13px;margin-bottom:12px">Noch keine Sanktionen.</p>'; return; }
+  list.innerHTML = sans.map((s,i)=>`
+    <div class="sanction-item">
+      <h4>${esc(s.name)} <span class="status-badge ${s.status==='OFFEN'?'status-offen':'status-absolviert'}">${esc(s.status)}</span></h4>
+      <div class="sanction-meta">${esc(s.penalty||'')} · ${esc(s.desc||'')} · ${esc(s.erstelltAm||'')}</div>
+      ${s.akte?`<div style="font-size:11.5px;margin-top:4px"><a href="${esc(s.akte)}" target="_blank" style="color:#a78bfa">Aktenlink</a></div>`:''}
+      ${s.notiz?`<div style="font-size:12px;color:rgba(180,160,255,0.45);margin-top:3px">Notiz: ${esc(s.notiz)}</div>`:''}
+      <div style="margin-top:10px;display:flex;gap:8px">
+        ${s.status==='OFFEN'
+          ? `<button class="btn-success" onclick="toggleSanction(${i},'ABSOLVIERT')">Als absolviert markieren</button>`
+          : `<button class="btn-ghost" style="padding:7px 12px;font-size:12.5px" onclick="toggleSanction(${i},'OFFEN')">Wieder öffnen</button>`}
+        <button class="btn-danger" onclick="deleteSanction(${i})">Löschen</button>
+      </div>
+    </div>`).join('');
+}
+
+async function addSanction() {
+  const s = {
+    id:          crypto.randomUUID(),
+    name:        document.getElementById('s-name').value.trim(),
+    desc:        document.getElementById('s-desc').value.trim(),
+    penalty:     document.getElementById('s-penalty').value.trim(),
+    akte:        document.getElementById('s-akte').value.trim(),
+    notiz:       document.getElementById('s-notiz').value.trim(),
+    status:      'OFFEN',
+    erstelltVon: session.username,
+    erstelltAm:  new Date().toISOString().split('T')[0]
+  };
+  if (!s.name) return toast('Bezeichnung erforderlich.','err');
+  if (!s.akte) return toast('Aktenlink (Discord) ist erforderlich.','err');
+
+  const emp = employees[sanctionEmpIdx];
+  if (!emp.Sanktionen) emp.Sanktionen = [];
+  emp.Sanktionen.push(s);
+  showLoading('Wird gespeichert …');
+  try {
+    await saveJSON('data/employees.json', employees);
+    toast('Sanktion gespeichert.','ok');
+    renderSanctionModalList();
+    ['s-name','s-desc','s-penalty','s-akte','s-notiz'].forEach(id => document.getElementById(id).value='');
+  } catch(e) { toast('Fehler: '+e.message,'err'); emp.Sanktionen.pop(); }
+  hideLoading();
+}
+
+async function toggleSanction(sIdx, newStatus) {
+  employees[sanctionEmpIdx].Sanktionen[sIdx].status = newStatus;
+  showLoading('Wird gespeichert …');
+  try {
+    await saveJSON('data/employees.json', employees);
+    toast('Status aktualisiert.','ok');
+    renderSanctionModalList();
+    renderSanctionsList();
+  } catch(e) { toast('Fehler: '+e.message,'err'); }
+  hideLoading();
+}
+
+async function deleteSanction(sIdx) {
+  if (!confirm('Sanktion wirklich löschen?')) return;
+  const removed = employees[sanctionEmpIdx].Sanktionen.splice(sIdx,1)[0];
+  showLoading('Wird gelöscht …');
+  try {
+    await saveJSON('data/employees.json', employees);
+    toast('Sanktion gelöscht.','ok');
+    renderSanctionModalList();
+  } catch(e) { toast('Fehler: '+e.message,'err'); employees[sanctionEmpIdx].Sanktionen.splice(sIdx,0,removed); }
+  hideLoading();
+}
+
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showLoading(msg='Laden …') {
+  document.getElementById('loading-msg').textContent = msg;
+  document.getElementById('loading').style.display = 'flex';
+}
+function hideLoading() { document.getElementById('loading').style.display = 'none'; }
+
+let toastTimer;
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type==='ok'?' toast-ok':type==='err'?' toast-err':'');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.className='toast'; },3500);
+}
+</script>
+</body>
+</html>
