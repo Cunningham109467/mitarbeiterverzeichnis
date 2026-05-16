@@ -3766,29 +3766,5 @@
       "FTK": false
     },
     "Sanktionen": []
-  },
-  {
-    "ID": "-",
-    "Name": "-",
-    "Rang": "01. Visitor",
-    "DN": "-",
-    "Division": "Besucher",
-    "Strikes": 0,
-    "Invite": "-",
-    "Last Rank-up": "-",
-    "Hauptabteilung": "",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": false,
-      "EVS": false,
-      "LST": false,
-      "AKS": false,
-      "TST": false,
-      "VHF/EL": false,
-      "JUR": false,
-      "UC": false,
-      "FTK": false
-    },
-    "Sanktionen": []
   }
 ]
