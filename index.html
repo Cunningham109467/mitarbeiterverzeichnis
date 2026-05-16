@@ -1370,7 +1370,7 @@ function detectOwner() {
 // ═══════════════════════════════════════════════════════
 //  DATA LAYER
 // ═══════════════════════════════════════════════════════
-let writeToken = sessionStorage.getItem('writeToken') || '';
+let writeToken = localStorage.getItem('writeToken') || '';
 
 function rawUrl(file) {
   return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${file}?t=${Date.now()}`;
@@ -1401,7 +1401,7 @@ async function saveJSON(file, data) {
   });
   if (!r.ok) {
     const e = await r.json();
-    if (r.status === 401 || r.status === 403) { writeToken = ''; sessionStorage.removeItem('writeToken'); throw new Error('Token ungültig. Bitte neu eingeben.'); }
+    if (r.status === 401 || r.status === 403) { writeToken = ''; localStorage.removeItem('writeToken'); throw new Error('Token ungültig. Bitte neu eingeben.'); }
     throw new Error(e.message || `HTTP ${r.status}`);
   }
 }
@@ -1443,7 +1443,7 @@ function saveTokenModal() {
   const t = document.getElementById('tokenInput').value.trim();
   if (!t) { showToast('Bitte Token eingeben.', 'red'); return; }
   writeToken = t;
-  sessionStorage.setItem('writeToken', t);
+  localStorage.setItem('writeToken', t);
   closeTokenModal();
   showToast('Token gespeichert ✓', 'green');
 }
@@ -2567,4 +2567,4 @@ Object.assign(window, {
 </script>
 
 </body>
-</html>
+</html>      
