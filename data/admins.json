@@ -1,0 +1,22 @@
+[
+  {
+    "username": "admin",
+    "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "level": 4
+  },
+  {
+    "username": "mod",
+    "passwordHash": "09fbcc458fb3430db7ec54ee95635e7fbc06ccfd982b49c55ec53ab8ac2397e7",
+    "level": 3
+  },
+  {
+    "username": "event",
+    "passwordHash": "cd7966c7cf778089b25c3d35c8c804c84e85f1c0530657251e06706e48747cde",
+    "level": 2
+  },
+  {
+    "username": "law",
+    "passwordHash": "99d41ec38f7ea9af66b27172b3ed74e62a89caa347cce841ecad7298e3887a22",
+    "level": 1
+  }
+]
