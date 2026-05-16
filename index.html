@@ -1237,7 +1237,7 @@
       </div>
     </div>
     <div class="uprank-input-row">
-      <input class="uprank-id-input" type="text" id="uprankSearch" placeholder="🔍 Name, DN oder Rang suchen…" oninput="renderUprankList()">
+      <input class="uprank-id-input" type="text" id="uprankSearch" placeholder="🔍 ID suchen…" oninput="renderUprankList()">
       <span style="font-size:11px;color:var(--muted);white-space:nowrap;font-family:'JetBrains Mono',monospace;flex-shrink:0">⏰ Auto-Save: So. 20:00</span>
     </div>
     <div class="uprank-body" id="uprankList">
@@ -1437,12 +1437,15 @@ function getInitials(name) {
 }
 function getRoleLabel(level) { return {1:'LAW',2:'TD',3:'HR',4:'Admin'}[level]||'Gast'; }
 
-function showToast(msg, type) {
+function showToast(msg, type, duration) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.style.display = 'block';
-  t.style.borderColor = type==='green'?'rgba(31,204,110,.4)':'rgba(232,64,64,.4)';
-  t.style.color = type==='green'?'var(--green)':'var(--red)';
-  setTimeout(()=>{ t.style.display='none'; }, 3000);
+  const colorMap = {green:'rgba(31,204,110,.4)', red:'rgba(232,64,64,.4)', orange:'rgba(245,158,11,.4)'};
+  const textMap  = {green:'var(--green)', red:'var(--red)', orange:'#f59e0b'};
+  t.style.borderColor = colorMap[type]||colorMap.red;
+  t.style.color = textMap[type]||textMap.red;
+  if (window._toastTimer) clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>{ t.style.display='none'; }, duration||3000);
 }
 
 function setLoadingFact(index) {
@@ -1525,6 +1528,13 @@ async function doLogin() {
     sessionToken = 'gh-session';
     isAdmin = true; adminLevel = admin.level; adminUsername = admin.username;
     showApp(admin.username);
+    // Auto-prompt for write token if not set (needed for all save operations)
+    if (!writeToken && admin.level >= 2) {
+      setTimeout(() => {
+        showToast('GitHub-Token fehlt – bitte eintragen für Speichern.', 'orange', 5000);
+        setTimeout(showTokenModal, 800);
+      }, 600);
+    }
   } catch(e) { document.getElementById('loginErr').textContent = 'Fehler: ' + e.message; }
 }
 
@@ -2110,7 +2120,7 @@ function renderUprankList() {
   const search = (document.getElementById('uprankSearch')?.value||'').toLowerCase();
   const container = document.getElementById('uprankList');
   let list = allBeamte;
-  if (search) list = allBeamte.filter(b=>(b['Name']||'').toLowerCase().includes(search)||(b['DN']||'').toLowerCase().includes(search)||(b['Rang']||'').toLowerCase().includes(search));
+  if (search) list = allBeamte.filter(b=>(b['ID']||'').toLowerCase().includes(search));
   if (!list.length) { container.innerHTML='<div class="uprank-empty">Keine Mitarbeiter gefunden.</div>'; return; }
   container.innerHTML = list.map(b => {
     const pendingRang = uprankChanges[b._row];
