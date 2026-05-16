@@ -1,289 +1,1362 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mitarbeiterverzeichnis</title>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#05050f;min-height:100vh;color:#c9d1d9;overflow-x:hidden}
-body::before{content:'';position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);width:700px;height:700px;background:radial-gradient(ellipse at center,rgba(109,40,217,0.22) 0%,rgba(67,20,150,0.08) 50%,transparent 70%);pointer-events:none;z-index:0}
-::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.25);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:rgba(139,92,246,0.45)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verzeichnis</title>
+  <link rel="preconnect" href="https://imgur.com/a/77HDOGm">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── LOGIN ── */
-#login-wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
-.login-card{background:rgba(15,12,40,0.88);border:1px solid rgba(139,92,246,0.28);border-radius:18px;backdrop-filter:blur(20px);padding:44px 40px 40px;width:100%;max-width:400px;box-shadow:0 0 70px rgba(109,40,217,0.18),0 4px 32px rgba(0,0,0,0.5)}
-.login-card h1{font-size:22px;font-weight:600;color:#e2d9ff;margin-bottom:5px;letter-spacing:-0.3px}
-.login-card .sub{font-size:13px;color:rgba(180,160,255,0.55);margin-bottom:30px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:11.5px;font-weight:600;color:rgba(180,160,255,0.7);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.5px}
-.form-group input,.form-group select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.22);border-radius:9px;color:#e2d9ff;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
-.form-group input::placeholder{color:rgba(180,160,255,0.3)}
-.form-group input:focus,.form-group select:focus{border-color:rgba(139,92,246,0.6);box-shadow:0 0 0 3px rgba(109,40,217,0.14)}
-.form-group select option{background:#1a1030;color:#e2d9ff}
-.btn-primary{width:100%;padding:11px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:0.2px}
-.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
-.btn-primary:active{transform:scale(.98)}
-.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.btn-ghost{padding:8px 16px;background:transparent;border:1px solid rgba(139,92,246,0.3);border-radius:8px;color:rgba(180,160,255,0.7);font-size:13px;cursor:pointer;transition:background .2s,color .2s}
-.btn-ghost:hover{background:rgba(139,92,246,0.12);color:#e2d9ff}
-.btn-danger{padding:7px 14px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:7px;color:#f87171;font-size:12.5px;cursor:pointer;transition:background .2s}
-.btn-danger:hover{background:rgba(239,68,68,0.22)}
-.btn-success{padding:7px 14px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:7px;color:#4ade80;font-size:12.5px;cursor:pointer;transition:background .2s}
-.btn-success:hover{background:rgba(34,197,94,0.22)}
-.btn-edit{padding:7px 14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);border-radius:7px;color:#a5b4fc;font-size:12.5px;cursor:pointer;transition:background .2s}
-.btn-edit:hover{background:rgba(99,102,241,0.22)}
-.error-box{color:#f87171;font-size:13px;margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;display:none}
+    :root {
+      --bg:        #08080f;
+      --surface:   #0f0f1a;
+      --card:      #131320;
+      --card2:     #181828;
+      --border:    #1e1e35;
+      --border2:   #252545;
+      --accent:    #4f6ef7;
+      --accent2:   #7b93ff;
+      --accent3:   #a5b8ff;
+      --green:     #1fcc6e;
+      --red:       #e84040;
+      --yellow:    #f0a030;
+      --text:      #d8d8f0;
+      --muted:     #5a5a80;
+      --muted2:    #3a3a60;
+      --scrollbar: #1e1e35;
+      --scrollbar-thumb: #2e2e55;
+    }
 
-/* ── DASHBOARD ── */
-#app{display:none;position:relative;z-index:1;min-height:100vh;padding:20px 16px}
-.app-header{display:flex;align-items:center;justify-content:space-between;background:rgba(15,12,40,0.82);border:1px solid rgba(139,92,246,0.2);border-radius:14px;backdrop-filter:blur(14px);padding:14px 22px;margin-bottom:14px;gap:12px;flex-wrap:wrap}
-.app-header h2{font-size:16px;font-weight:600;color:#e2d9ff}
-.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.user-badge{font-size:12px;color:rgba(180,160,255,0.55);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);border-radius:99px;padding:4px 12px}
+    * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar); }
+    *::-webkit-scrollbar { width: 6px; height: 6px; }
+    *::-webkit-scrollbar-track { background: var(--scrollbar); }
+    *::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+    *::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* ── TABS ── */
-.tabs{display:flex;gap:4px;background:rgba(15,12,40,0.7);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:6px;margin-bottom:14px;backdrop-filter:blur(10px)}
-.tab{padding:8px 20px;border-radius:8px;border:none;background:transparent;color:rgba(180,160,255,0.55);font-size:13.5px;font-weight:500;cursor:pointer;transition:background .2s,color .2s}
-.tab.active{background:rgba(109,40,217,0.25);color:#e2d9ff;border:1px solid rgba(139,92,246,0.3)}
-.tab:hover:not(.active){background:rgba(139,92,246,0.08);color:rgba(180,160,255,0.8)}
+    html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; }
+    body { background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
 
-/* ── SEARCH ── */
-.search-row{display:flex;align-items:center;gap:10px;background:rgba(15,12,40,0.75);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:10px 16px;margin-bottom:12px;backdrop-filter:blur(10px)}
-.search-row input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:8px 13px;font-size:13px;color:#e2d9ff;outline:none;transition:border-color .2s}
-.search-row input::placeholder{color:rgba(180,160,255,0.3)}
-.search-row input:focus{border-color:rgba(139,92,246,0.5)}
-#result-count{font-size:12px;color:rgba(180,160,255,0.4);white-space:nowrap}
+    /* ─── LOADING SCREEN ─── */
+    #loadingScreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999;
+      background: radial-gradient(ellipse at 50% 40%, #1a0a3e 0%, #0d0d14 70%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+    }
+    #loadingScreen.hidden { display: none; }
+    .loading-logo {
+      width: 120px; height: 120px; object-fit: contain;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.95); }
+    }
+    .loading-text {
+      font-size: 16px; font-weight: 600; color: var(--text);
+      font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;
+    }
+    .loading-fact {
+      width: min(520px, calc(100% - 40px));
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,.22);
+      backdrop-filter: blur(8px);
+      animation: factFloat 2.8s ease-in-out infinite;
+    }
+    .loading-fact-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .loading-fact-text {
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .loading-fact-text.fade-out {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    .loading-fact-text.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @keyframes factFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .loading-spinner {
+      width: 40px; height: 40px; border: 3px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-/* ── TABLE ── */
-.table-wrap{background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:14px;backdrop-filter:blur(12px);overflow:auto;max-height:calc(100vh - 260px)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead tr{background:rgba(20,15,50,0.98)}
-th{padding:12px 14px;text-align:left;font-weight:600;font-size:11px;color:rgba(180,160,255,0.55);border-bottom:1px solid rgba(139,92,246,0.15);white-space:nowrap;text-transform:uppercase;letter-spacing:0.5px;position:sticky;top:0;background:rgba(20,15,50,0.98);backdrop-filter:blur(8px);z-index:2}
-td{padding:10px 14px;border-bottom:1px solid rgba(139,92,246,0.07);color:rgba(220,210,255,0.82);vertical-align:middle;white-space:nowrap}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(109,40,217,0.06)}
-.td-actions{display:flex;gap:6px;flex-wrap:wrap}
-.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
-.badge-strike{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
-.badge-ok{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}
-.empty-state{text-align:center;padding:56px 24px;color:rgba(180,160,255,0.3);font-size:14px}
+    /* ─── LOGIN ─── */
+    #loginPage {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at 50% 40%, #1a0a3e 0%, #0d0d14 70%);
+    }
+    .login-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 40px 36px; width: 360px;
+      box-shadow: 0 8px 48px rgba(109,74,247,.2);
+    }
+    .login-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .login-logo-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+    .login-title { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+    .login-sub { font-size: 12px; color: var(--muted); margin-bottom: 28px; margin-top: 2px; }
+    .login-sub span { color: var(--accent2); cursor: pointer; }
+    label { display: block; font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+    input[type=text], input[type=password], input[type=date] {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 7px; color: var(--text); padding: 11px 14px; font-size: 14px;
+      font-family: inherit; outline: none; transition: border-color .2s; margin-bottom: 16px;
+    }
+    input:focus { border-color: var(--accent); }
+    .btn {
+      display: block; width: 100%; padding: 10px 16px; border-radius: 7px; border: none;
+      font-size: 13px; font-family: 'Rajdhani', sans-serif; font-weight: 600; cursor: pointer;
+      transition: opacity .15s, transform .1s; letter-spacing: 0.5px;
+    }
+    .btn:hover { opacity: .88; } .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+    .btn-small { padding: 5px 10px; font-size: 11px; width: auto; border-radius: 5px; border: none; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 600; transition: opacity .15s; letter-spacing: 0.3px; }
+    .btn-small:hover { opacity: .8; }
+    .btn-edit { background: rgba(29,78,216,.8); color: #93c5fd; border: 1px solid rgba(59,130,246,.3); }
+    .btn-del  { background: rgba(127,29,29,.8); color: #fca5a5; border: 1px solid rgba(239,68,68,.25); }
+    .btn-info { background: rgba(79,110,247,.15); border: 1px solid rgba(79,110,247,.4); color: var(--accent2); font-weight: 700; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s; }
+    .btn-info:hover { background: rgba(79,110,247,.35); }
+    .login-err { color: var(--red); font-size: 12px; text-align: center; margin-top: 8px; min-height: 18px; }
+    .login-footer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 24px; }
+    .login-footer span { color: var(--accent2); }
 
-/* ── EVENTS ── */
-.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.event-card{background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:18px 20px;backdrop-filter:blur(10px)}
-.event-card h3{font-size:14px;font-weight:600;color:#e2d9ff;margin-bottom:6px}
-.event-meta{font-size:12px;color:rgba(180,160,255,0.5);margin-bottom:10px}
-.event-desc{font-size:13px;color:rgba(220,210,255,0.7);line-height:1.5}
-.event-author{font-size:11.5px;color:rgba(180,160,255,0.35);margin-top:10px}
+    /* ─── APP LAYOUT ─── */
+    #appPage { display: none; flex-direction: column; height: 100%; width: 100%; overflow: hidden; }
+    #appPage.visible { display: flex; }
 
-/* ── MODAL ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:#100d28;border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:32px 36px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 0 60px rgba(109,40,217,0.25)}
-.modal h3{font-size:17px;font-weight:600;color:#e2d9ff;margin-bottom:22px}
-.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap}
-.modal-footer .btn-primary{width:auto;padding:10px 24px}
+    /* ─── EVENT BANNER ─── */
+    #eventBanner { display: none; background: rgba(79,110,247,0.06); border-bottom: 1px solid rgba(79,110,247,0.2); overflow: hidden; flex-shrink: 0; }
+    #eventBanner.has-events { display: block; }
+    .event-banner-inner { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+    .event-banner-inner::-webkit-scrollbar { display: none; }
+    .event-item { display: flex; align-items: center; gap: 10px; padding: 7px 16px; border-right: 1px solid rgba(79,110,247,.15); white-space: nowrap; flex-shrink: 0; }
+    .event-title { font-size: 12px; font-weight: 700; color: var(--accent2); font-family: 'Rajdhani', sans-serif; }
+    .event-meta { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .event-del-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; padding: 0 2px; line-height: 1; }
+    .event-del-btn:hover { color: var(--red); }
 
-/* ── SANCTIONS ── */
-.sanction-item{background:rgba(255,255,255,0.03);border:1px solid rgba(139,92,246,0.15);border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.sanction-item h4{font-size:13.5px;font-weight:600;color:#e2d9ff;margin-bottom:4px}
-.sanction-meta{font-size:12px;color:rgba(180,160,255,0.45)}
-.status-badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;margin-left:8px}
-.status-offen{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
-.status-absolviert{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}
+    /* ─── TOPBAR ─── */
+    .topbar {
+      height: 56px; background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 18px; gap: 10px; flex-shrink: 0;
+    }
+    .topbar-logo { width: 32px; height: 32px; border-radius: 7px; object-fit: contain; flex-shrink: 0; }
+    .topbar-title { font-size: 14px; font-weight: 700; white-space: nowrap; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px; }
+    .topbar-sub { font-size: 11px; color: var(--muted); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+    .topbar-spacer { flex: 1; }
+    .pill { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: rgba(31,204,110,.1); color: var(--green); border: 1px solid rgba(31,204,110,.25); font-family: 'JetBrains Mono', monospace; }
+    .topbar-archive-label { font-size: 13px; font-weight: 700; color: var(--muted); font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; white-space: nowrap; }
 
-/* ── TOKEN MODAL ── */
-.token-info{font-size:12.5px;color:rgba(180,160,255,0.55);line-height:1.6;margin-bottom:18px}
-.token-info a{color:#a78bfa;text-decoration:none}
-.token-info a:hover{text-decoration:underline}
+    .admin-level-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; border: 1px solid; font-family: 'JetBrains Mono', monospace; }
+    .level-1 { background: rgba(240,160,48,.1); color: var(--yellow); border-color: rgba(240,160,48,.3); }
+    .level-2 { background: rgba(79,110,247,.1); color: var(--accent2); border-color: rgba(79,110,247,.3); }
+    .level-3 { background: rgba(232,64,64,.1); color: #f87171; border-color: rgba(232,64,64,.3); }
 
-/* ── LOADING ── */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(139,92,246,0.3);border-top-color:#a78bfa;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-overlay{position:fixed;inset:0;background:rgba(5,5,15,0.75);backdrop-filter:blur(3px);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
-.loading-overlay p{color:rgba(180,160,255,0.7);font-size:14px}
+    .topbar-user { font-size: 12px; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 6px; font-family: 'Rajdhani', sans-serif; }
+    .topbar-user strong { color: var(--accent2); font-weight: 700; }
+    .topbar-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-family: 'Rajdhani', sans-serif; font-weight: 600; cursor: pointer; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
+    .topbar-btn:hover { border-color: var(--red); color: var(--red); }
+    .topbar-btn-login { background: rgba(79,110,247,.12); border: 1px solid rgba(79,110,247,.3); color: var(--accent2); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; transition: all .15s; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.3px; }
+    .topbar-btn-login:hover { background: rgba(79,110,247,.25); }
+    .btn-topbar-action { background: rgba(79,110,247,.12); border: 1px solid rgba(79,110,247,.3); color: var(--accent2); padding: 5px 13px; border-radius: 6px; font-size: 12px; font-family: 'Rajdhani', sans-serif; cursor: pointer; transition: all .15s; font-weight: 700; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.3px; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-topbar-action:hover { background: rgba(79,110,247,.22); }
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;right:24px;background:#161030;border:1px solid rgba(139,92,246,0.35);border-radius:10px;padding:12px 18px;font-size:13.5px;color:#e2d9ff;z-index:300;box-shadow:0 4px 24px rgba(0,0,0,0.4);transform:translateY(80px);opacity:0;transition:transform .3s,opacity .3s;max-width:320px}
-.toast.show{transform:translateY(0);opacity:1}
-.toast.toast-ok{border-color:rgba(34,197,94,0.35);color:#4ade80}
-.toast.toast-err{border-color:rgba(239,68,68,0.35);color:#f87171}
-</style>
+    /* ─── TABS ─── */
+    .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); padding: 0 18px; flex-shrink: 0; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 10px 18px; font-size: 13px; font-family: 'Rajdhani', sans-serif; font-weight: 600; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all .15s; letter-spacing: 0.5px; white-space: nowrap; display: inline-flex; align-items: center; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent); }
+    .tab-btn-text { display: inline; }
+    .tab-content { display: none; flex: 1; overflow: hidden; }
+    .tab-content.active { display: flex; flex-direction: column; }
+
+    /* ─── BEAMTE TAB ─── */
+    .main { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; flex: 1; overflow: hidden; }
+    .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
+    .search-box {
+      background: var(--card); border: 1px solid var(--border2); border-radius: 8px;
+      color: var(--text); padding: 9px 13px 9px 36px; font-size: 13px;
+      font-family: 'Rajdhani', sans-serif; outline: none; flex: 1; min-width: 180px;
+      max-width: 320px; transition: border-color .2s;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-box::placeholder { color: var(--muted); }
+    .search-wrap { position: relative; flex: 1; min-width: 180px; max-width: 320px; }
+    .search-wrap svg.lucide { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--muted); pointer-events: none; }
+    .filter-select {
+      background: var(--card); border: 1px solid var(--border2); border-radius: 8px;
+      color: var(--text); padding: 9px 10px; font-size: 12px;
+      font-family: 'Rajdhani', sans-serif; font-weight: 600; outline: none; cursor: pointer;
+    }
+    .filter-select option { background: var(--card2); }
+    .count-badge { font-size: 12px; color: var(--muted); margin-left: auto; white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── TABLE ─── */
+    .table-wrap { flex: 1; overflow: auto; border-radius: 8px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    thead { background: var(--card2); position: sticky; top: 0; z-index: 5; }
+    thead th { padding: 9px 12px; text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); white-space: nowrap; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; }
+    tbody tr { border-bottom: 1px solid rgba(30,30,53,.8); transition: background .1s; }
+    tbody tr:hover { background: rgba(79,110,247,.05); }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 8px 12px; color: var(--text); white-space: nowrap; font-family: 'Rajdhani', sans-serif; font-size: 13px; }
+    .strike-dot { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+    .strike-0 { background: rgba(31,204,110,.1); color: var(--green); border: 1px solid rgba(31,204,110,.25); }
+    .strike-1 { background: rgba(240,160,48,.1); color: var(--yellow); border: 1px solid rgba(240,160,48,.25); }
+    .strike-2 { background: rgba(232,64,64,.12); color: var(--red); border: 1px solid rgba(232,64,64,.25); }
+    .strike-3 { background: var(--red); color: #fff; border: 1px solid rgba(232,64,64,.6); }
+    .beamte-empty { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+
+    /* keep old rank/td classes for akte modal compatibility */
+    .rank-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.3px; }
+    .rank-officer    { background: rgba(59,130,246,.15); color: #7db4ff; border: 1px solid rgba(59,130,246,.25); }
+    .rank-command    { background: rgba(234,179,8,.1); color: #fbbf24; border: 1px solid rgba(234,179,8,.25); }
+    .rank-hc         { background: rgba(232,64,64,.12); color: #f87171; border: 1px solid rgba(232,64,64,.25); }
+    .rank-leadership { background: rgba(79,110,247,.15); color: #a5b8ff; border: 1px solid rgba(79,110,247,.3); }
+    .td-id { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    .td-dn { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    .td-name { font-weight: 600; }
+    .td-date { color: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── PERSONALAKTE MODAL ─── */
+    .akte-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 300; align-items: center; justify-content: center; }
+    .akte-overlay.active { display: flex; }
+    .akte-modal { background: var(--card); border: 1px solid var(--border2); border-radius: 14px; width: 680px; max-width: 96vw; max-height: 92vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,.7); }
+    .akte-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .akte-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #6d28d9); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .akte-headinfo { flex: 1; }
+    .akte-name { font-size: 18px; font-weight: 700; font-family: 'Rajdhani', sans-serif; }
+    .akte-rang { font-size: 12px; color: var(--accent2); margin-top: 2px; font-family: 'Rajdhani', sans-serif; }
+    .akte-id { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+    .akte-close { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px; transition: color .15s; }
+    .akte-close:hover { color: var(--text); }
+    .akte-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 22px; background: var(--card2); flex-shrink: 0; }
+    .akte-tab-btn { padding: 9px 15px; font-size: 12px; font-family: 'Rajdhani', sans-serif; font-weight: 600; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all .15s; white-space: nowrap; letter-spacing: 0.3px; }
+    .akte-tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent); }
+    .akte-tab-content { display: none; }
+    .akte-tab-content.active { display: block; }
+    .akte-body { flex: 1; overflow-y: auto; padding: 18px 22px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-item { background: var(--card2); border: 1px solid var(--border); border-radius: 7px; padding: 10px 13px; }
+    .info-label { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; font-family: 'JetBrains Mono', monospace; }
+    .info-value { font-size: 13px; color: var(--text); font-weight: 600; font-family: 'Rajdhani', sans-serif; }
+    .info-full { grid-column: 1 / -1; }
+    .aus-list { display: flex; flex-direction: column; gap: 5px; }
+    .aus-row { display: flex; align-items: center; justify-content: space-between; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 9px 13px; }
+    .aus-row-name { font-size: 13px; color: var(--text); font-family: 'Rajdhani', sans-serif; font-weight: 500; }
+    .aus-status { display: flex; align-items: center; gap: 8px; }
+    .aus-check { font-size: 14px; }
+    .aus-check.pass { color: var(--green); }
+    .aus-check.fail { color: var(--red); }
+    .aus-toggle { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+    .aus-toggle input { opacity: 0; width: 0; height: 0; }
+    .aus-slider { position: absolute; cursor: pointer; inset: 0; border-radius: 20px; background: rgba(90,90,128,.3); transition: background .2s; }
+    .aus-slider::before { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; left: 3px; bottom: 3px; transition: transform .2s; }
+    .aus-toggle input:checked + .aus-slider { background: var(--green); }
+    .aus-toggle input:checked + .aus-slider::before { transform: translateX(16px); }
+    
+    /* ─── PERSONALAKTE SANKTIONEN ─── */
+    .sank-akte-list { display: flex; flex-direction: column; gap: 8px; }
+    .sank-akte-item { background: var(--card2); border-radius: 7px; padding: 10px 12px; border-left: 4px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+    .sank-akte-item.offen { border-left-color: #ffa500; }
+    .sank-akte-item.absolviert { border-left-color: var(--green); }
+    .sank-akte-item.nicht { border-left-color: #ff4444; }
+    .sank-akte-item.revidiert { border-left-color: #999; }
+    .sank-akte-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .sank-akte-status { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 700; flex-shrink: 0; border: 1px solid; }
+    .sank-status-offen { background: rgba(255,165,0,.15); color: #ffa500; border-color: rgba(255,165,0,.3); }
+    .sank-status-absolviert { background: rgba(43,191,106,.15); color: var(--green); border-color: rgba(43,191,106,.3); }
+    .sank-status-nicht { background: rgba(255,68,68,.15); color: #ff4444; border-color: rgba(255,68,68,.3); }
+    .sank-status-revidiert { background: rgba(102,102,102,.15); color: #999; border-color: rgba(102,102,102,.3); }
+    .sank-akte-name { font-size: 13px; font-weight: 600; color: var(--text); font-family: 'Rajdhani', sans-serif; flex: 1; }
+    .sank-akte-date { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .sank-akte-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; margin-top: 4px; }
+    .sank-akte-creator { color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .sank-akte-akte { color: var(--accent); text-decoration: none; cursor: pointer; padding: 2px 6px; background: rgba(79,110,247,.08); border-radius: 3px; }
+    .sank-akte-akte:hover { background: rgba(79,110,247,.15); text-decoration: underline; }
+    .sank-akte-notiz { font-size: 12px; color: var(--text); background: rgba(79,110,247,.05); padding: 8px 10px; border-radius: 4px; border-left: 3px solid var(--accent); font-style: italic; }
+    .sank-akte-actions { display: flex; gap: 6px; }
+    .sank-akte-btn { padding: 4px 8px; font-size: 11px; border: 1px solid var(--border2); border-radius: 4px; background: var(--card); color: var(--text); cursor: pointer; transition: all .15s; font-family: 'Rajdhani', sans-serif; }
+    .sank-akte-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .sank-akte-empty { text-align: center; color: var(--muted); padding: 20px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    
+    .akte-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 22px; border-top: 1px solid var(--border); flex-shrink: 0; background: var(--card2); }
+
+    /* ─── EDIT/ADD MODAL ─── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 200; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--card); border: 1px solid var(--border2); border-radius: 13px; padding: 26px; width: 580px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 80px rgba(0,0,0,.6); }
+    .modal h2 { font-size: 16px; margin-bottom: 18px; color: var(--accent2); font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 0.5px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-col-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--card2); border: 1px solid var(--border2); border-radius: 6px;
+      color: var(--text); padding: 8px 11px; font-size: 13px;
+      font-family: 'Rajdhani', sans-serif; outline: none; transition: border-color .2s;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+    .form-group select option { background: var(--card); }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-group input:disabled, .form-group select:disabled { opacity: .4; cursor: not-allowed; }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+    .dn-hint { font-size: 11px; color: var(--yellow); margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+    .dn-hint-box { background: rgba(240,160,48,.06); border: 1px solid rgba(240,160,48,.2); border-radius: 7px; padding: 9px 13px; margin-bottom: 12px; font-size: 12px; color: var(--yellow); font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── KÜNDIGUNG MODAL ─── */
+    .kuend-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 400; align-items: center; justify-content: center; }
+    .kuend-overlay.active { display: flex; }
+    .kuend-modal { background: var(--card); border: 1px solid rgba(232,64,64,.3); border-radius: 13px; padding: 26px; width: 460px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 80px rgba(232,64,64,.1); }
+    .kuend-modal h2 { font-size: 16px; margin-bottom: 4px; color: var(--red); font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+    .kuend-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; }
+    .kuend-field { margin-bottom: 10px; }
+    .kuend-field label { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
+    .kuend-field input, .kuend-field select, .kuend-field textarea { width: 100%; background: var(--card2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); padding: 8px 11px; font-size: 13px; font-family: 'Rajdhani', sans-serif; outline: none; }
+    .kuend-field textarea { resize: vertical; min-height: 70px; }
+    .kuend-field select option { background: var(--card); }
+    .kuend-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+    .btn-danger { background: #991b1b; color: #fca5a5; border: 1px solid rgba(232,64,64,.3); padding: 8px 18px; border-radius: 7px; font-size: 13px; font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; transition: background .15s; letter-spacing: 0.3px; }
+    .btn-danger:hover { background: #7f1d1d; }
+
+    /* ─── EVENT MODAL ─── */
+    .event-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 350; align-items: center; justify-content: center; }
+    .event-modal-overlay.active { display: flex; }
+    .event-modal { background: var(--card); border: 1px solid rgba(79,110,247,.3); border-radius: 13px; padding: 26px; width: 460px; max-width: 95vw; box-shadow: 0 20px 80px rgba(79,110,247,.1); }
+    .event-modal h2 { font-size: 16px; margin-bottom: 16px; color: var(--accent2); font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+
+    /* ─── UP-RANK MODAL ─── */
+    .uprank-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 500; align-items: center; justify-content: center; }
+    .uprank-overlay.active { display: flex; }
+    .uprank-modal { background: var(--card); border: 1px solid rgba(79,110,247,.3); border-radius: 14px; width: 620px; max-width: 96vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(79,110,247,.15); overflow: hidden; }
+    .uprank-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .uprank-header h2 { font-size: 16px; color: var(--accent2); font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+    .uprank-close { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; }
+    .uprank-close:hover { color: var(--text); }
+    .uprank-input-row { padding: 14px 22px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; flex-shrink: 0; }
+    .uprank-id-input { flex: 1; background: var(--card2); border: 1px solid var(--border2); border-radius: 7px; color: var(--text); padding: 8px 13px; font-size: 13px; font-family: 'Rajdhani', sans-serif; outline: none; }
+    .uprank-id-input:focus { border-color: var(--accent); }
+    .uprank-body { flex: 1; overflow-y: auto; padding: 14px 22px; display: flex; flex-direction: column; gap: 8px; }
+    .uprank-card { background: var(--card2); border: 1px solid var(--border); border-radius: 9px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; }
+    .uprank-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #6d28d9); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .uprank-info { flex: 1; }
+    .uprank-name { font-size: 14px; font-weight: 700; color: var(--text); font-family: 'Rajdhani', sans-serif; }
+    .uprank-meta { font-size: 11px; color: var(--muted); margin-top: 1px; font-family: 'JetBrains Mono', monospace; }
+    .uprank-ranks { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .uprank-rang-current { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(79,110,247,.12); color: var(--accent2); border: 1px solid rgba(79,110,247,.25); white-space: nowrap; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+    .uprank-not-found { font-size: 11px; color: var(--muted); font-style: italic; font-family: 'JetBrains Mono', monospace; }
+    .uprank-empty { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    .uprank-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 4px; }
+    .uprank-del:hover { color: var(--red); }
+
+    /* ─── KÜNDIGUNGEN TAB ─── */
+    .kuend-tab-main { padding: 18px; flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 12px; }
+    .kuend-list { display: flex; flex-direction: column; gap: 8px; }
+    .kuend-entry { background: var(--card); border: 1px solid rgba(232,64,64,.18); border-radius: 9px; padding: 13px 16px; }
+    .kuend-entry-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .kuend-entry-name { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; font-family: 'Rajdhani', sans-serif; }
+    .kuend-entry-datum { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .kuend-entry-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+    .kuend-entry-field { background: var(--card2); border-radius: 5px; padding: 7px 9px; }
+    .kuend-entry-label { font-size: 10px; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 2px; font-family: 'JetBrains Mono', monospace; }
+    .kuend-entry-value { font-size: 12px; color: var(--text); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+    .kuend-grund-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(232,64,64,.1); color: #f87171; border: 1px solid rgba(232,64,64,.2); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+
+    /* ─── SANKTIONSKATALOG TAB ─── */
+    .sankti-main { padding: 16px 18px; flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+    .sankti-toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
+    .sankti-search { background: var(--card); border: 1px solid var(--border2); border-radius: 7px; color: var(--text); padding: 8px 13px; font-size: 13px; font-family: 'Rajdhani', sans-serif; outline: none; flex: 1; min-width: 180px; max-width: 340px; transition: border-color .2s; }
+    .sankti-search:focus { border-color: var(--accent); }
+    .sankti-search::placeholder { color: var(--muted); }
+    .sankti-count { font-size: 11px; color: var(--muted); margin-left: auto; font-family: 'JetBrains Mono', monospace; }
+    .sankti-table-wrap { flex: 1; overflow: auto; border-radius: 8px; border: 1px solid var(--border); min-height: 0; }
+    .sankti-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+    .sankti-table col.col-para   { width: 52px; }
+    .sankti-table col.col-regel  { width: auto; }
+    .sankti-table col.col-pen    { width: 88px; }
+    .sankti-table col.col-check  { width: 56px; }
+    .sankti-table thead { background: var(--card2); position: sticky; top: 0; z-index: 5; }
+    .sankti-table thead th { padding: 8px 10px; text-align: center; font-size: 9px; letter-spacing: 1.3px; text-transform: uppercase; color: var(--muted); white-space: nowrap; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; }
+    .sankti-table thead th.th-left { text-align: left; }
+    .sankti-table tbody tr { border-bottom: 1px solid rgba(30,30,53,.7); transition: background .1s; }
+    .sankti-table tbody tr:hover { background: rgba(79,110,247,.04); }
+    .sankti-section-row td { background: rgba(127,29,29,.18); border-top: 1px solid rgba(232,64,64,.25); border-bottom: 1px solid rgba(232,64,64,.25); padding: 7px 13px; color: #f87171; font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .sankti-table td { padding: 7px 10px; color: var(--text); vertical-align: middle; font-family: 'Rajdhani', sans-serif; font-size: 12px; white-space: normal; }
+    .sankti-table td.td-para { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; white-space: nowrap; text-align: center; }
+    .sankti-table td.td-regel { word-break: break-word; overflow-wrap: anywhere; line-height: 1.35; }
+    .sankti-table td.td-pen { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); text-align: center; white-space: nowrap; }
+    .sankti-table td.td-check { text-align: center; }
+    .sankti-empty, .sankti-loading { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    .sankti-check { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; }
+    .sankti-check.yes  { background: rgba(31,204,110,.15); color: var(--green);  border: 1px solid rgba(31,204,110,.3); }
+    .sankti-check.opt  { background: rgba(240,160,48,.1);  color: var(--yellow); border: 1px solid rgba(240,160,48,.3); }
+    .sankti-check.no   { color: var(--muted); opacity: .3; }
+    .sankti-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; white-space: nowrap; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.3px; }
+    .sankti-badge-warn   { background: rgba(240,160,48,.1); color: var(--yellow); border: 1px solid rgba(240,160,48,.25); }
+    .sankti-badge-strike { background: rgba(232,64,64,.1); color: #f87171; border: 1px solid rgba(232,64,64,.25); }
+    .sankti-badge-kick   { background: rgba(232,64,64,.2); color: #fca5a5; border: 1px solid rgba(232,64,64,.4); }
+
+    /* ─── LAW SANKTIONEN TAB ─── */
+    .law-main { padding: 16px 18px; flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+    .law-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+    .law-toolbar h2 { margin: 0; font-size: 16px; color: var(--text); font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+    .law-content { flex: 1; overflow: auto; min-height: 0; display: flex; flex-direction: column; }
+    .law-beamte-list { display: flex; flex-direction: column; gap: 8px; }
+    .law-beamte-card { background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 14px; }
+    .law-beamte-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; }
+    .law-beamte-header:hover { opacity: .8; }
+    .law-beamte-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #6d28d9); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .law-beamte-info { flex: 1; }
+    .law-beamte-name { font-size: 14px; font-weight: 700; color: var(--text); font-family: 'Rajdhani', sans-serif; }
+    .law-beamte-details { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .law-beamte-toggle { cursor: pointer; color: var(--accent); font-size: 12px; }
+    .law-beamte-toggle:hover { color: var(--accent2); }
+    .law-sanktionen { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); flex-direction: column; gap: 8px; }
+    .law-sanktionen.open { display: flex; }
+    .law-sanktion { background: var(--card2); border-radius: 7px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
+    .law-sanktion-status { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .sank-status-offen { background: rgba(255,165,0,.15); color: var(--yellow); border: 1px solid rgba(255,165,0,.3); }
+    .sank-status-absolviert { background: rgba(43,191,106,.15); color: var(--green); border: 1px solid rgba(43,191,106,.3); }
+    .sank-status-nicht { background: rgba(255,68,68,.15); color: #ff4444; border: 1px solid rgba(255,68,68,.3); }
+    .sank-status-revidiert { background: rgba(102,102,102,.15); color: #999; border: 1px solid rgba(102,102,102,.3); }
+    .law-sanktion-content { flex: 1; }
+    .law-sanktion-name { font-size: 13px; font-weight: 600; color: var(--text); font-family: 'Rajdhani', sans-serif; }
+    .law-sanktion-meta { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+    .law-sanktion-actions { display: flex; gap: 6px; }
+    .law-sank-btn { padding: 4px 8px; font-size: 11px; border: 1px solid var(--border2); border-radius: 4px; background: var(--card); color: var(--text); cursor: pointer; transition: all .15s; }
+    .law-sank-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .law-empty { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── DOKUMENTE TAB ─── */
+    .dok-main {
+      padding: 20px 24px 28px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background:
+        radial-gradient(circle at 85% -10%, rgba(79,110,247,.16), transparent 42%),
+        linear-gradient(180deg, rgba(15,15,26,.92) 0%, rgba(8,8,15,.94) 100%);
+    }
+    .dok-shell { width: min(1080px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .dok-hero {
+      border: 1px solid rgba(79,110,247,.25);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background:
+        linear-gradient(135deg, rgba(79,110,247,.14), rgba(15,15,26,.65) 45%),
+        linear-gradient(180deg, rgba(24,24,40,.8), rgba(19,19,32,.8));
+      box-shadow: inset 0 1px 0 rgba(165,184,255,.18), 0 14px 30px rgba(0,0,0,.26);
+    }
+    .dok-hero-title { font-size: 20px; font-weight: 700; letter-spacing: .4px; color: #dfe6ff; font-family: 'Rajdhani', sans-serif; }
+    .dok-hero-sub { margin-top: 4px; font-size: 12px; color: #9ea8d8; font-family: 'JetBrains Mono', monospace; }
+    .dok-section { display: flex; flex-direction: column; gap: 12px; }
+    .dok-section-title {
+      font-size: 10px;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      color: #8590c7;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(79,110,247,.22);
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dok-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+    .dok-card {
+      position: relative;
+      text-decoration: none;
+      border-radius: 12px;
+      border: 1px solid var(--border2);
+      background: linear-gradient(160deg, rgba(24,24,40,.96), rgba(16,16,29,.96));
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 128px;
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.2);
+    }
+    .dok-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(79,110,247,.12), transparent 42%);
+      opacity: 0;
+      transition: opacity .18s ease;
+      pointer-events: none;
+    }
+    .dok-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(123,147,255,.55);
+      box-shadow: 0 14px 24px rgba(0,0,0,.32);
+    }
+    .dok-card:hover::before { opacity: 1; }
+    .dok-card-top { display: flex; align-items: flex-start; gap: 12px; z-index: 1; }
+    .dok-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid transparent;
+    }
+    .dok-icon-purple { background: rgba(79,110,247,.15); border-color: rgba(79,110,247,.25); }
+    .dok-icon-blue   { background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.24); }
+    .dok-icon-green  { background: rgba(31,204,110,.1);  border-color: rgba(31,204,110,.25); }
+    .dok-icon-yellow { background: rgba(240,160,48,.12); border-color: rgba(240,160,48,.22); }
+    .dok-icon-red    { background: rgba(232,64,64,.1);   border-color: rgba(232,64,64,.2); }
+    .dok-card-info { flex: 1; min-width: 0; }
+    .dok-card-name {
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .dok-card-desc {
+      font-size: 11px;
+      color: #8f98c5;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .dok-card-foot { margin-top: auto; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .dok-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: .3px;
+    }
+    .dok-open { color: #93a5ff; opacity: .8; display: inline-flex; align-items: center; }
+    .dok-card:hover .dok-open { opacity: 1; }
+    .badge-form    { background: rgba(79,110,247,.15); color: var(--accent2); border: 1px solid rgba(79,110,247,.32); }
+    .badge-gesetz  { background: rgba(31,204,110,.08); color: var(--green); border: 1px solid rgba(31,204,110,.26); }
+    .badge-discord { background: rgba(59,130,246,.12); color: #8fb8ff; border: 1px solid rgba(59,130,246,.28); }
+
+    /* ─── TOAST ─── */
+    #toast { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--card); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 16px; font-size: 13px; display: none; box-shadow: 0 4px 24px rgba(0,0,0,.5); animation: slideUp .2s ease; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .loading { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .public-banner { background: rgba(79,110,247,.07); border: 1px solid rgba(79,110,247,.18); border-radius: 7px; padding: 8px 13px; font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── KLEIDERORDNUNG ─── */
+    .ko-main { padding: 16px 18px; flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+    .ko-toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
+    .ko-search { background: var(--card); border: 1px solid var(--border2); border-radius: 7px; color: var(--text); padding: 8px 13px; font-size: 13px; font-family: 'Rajdhani', sans-serif; outline: none; flex: 1; min-width: 180px; max-width: 340px; transition: border-color .2s; }
+    .ko-search:focus { border-color: var(--accent); }
+    .ko-search::placeholder { color: var(--muted); }
+    .ko-count { font-size: 11px; color: var(--muted); margin-left: auto; font-family: 'JetBrains Mono', monospace; }
+    .ko-list-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; min-height: 0; }
+    .ko-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+    .ko-card-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--card2); cursor: pointer; user-select: none; }
+    .ko-card-header:hover { background: rgba(79,110,247,.08); }
+    .ko-card-rank { font-size: 14px; font-weight: 700; color: var(--text); font-family: 'Rajdhani', sans-serif; flex: 1; }
+    .ko-card-toggle { color: var(--muted); font-size: 11px; transition: transform .2s; }
+    .ko-card.open .ko-card-toggle { transform: rotate(180deg); }
+    .ko-card-body { display: none; padding: 14px 16px; flex-direction: column; gap: 12px; }
+    .ko-card.open .ko-card-body { display: flex; }
+    .ko-info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ko-info-box { background: var(--card2); border: 1px solid var(--border); border-radius: 7px; padding: 10px 13px; }
+    .ko-info-label { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; font-family: 'JetBrains Mono', monospace; }
+    .ko-info-text { font-size: 12px; color: var(--text); font-family: 'Rajdhani', sans-serif; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+    .ko-outfits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .ko-outfit { background: var(--card2); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; display: flex; flex-direction: column; }
+    .ko-outfit-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 6px 9px; font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,.2); border-bottom: 1px solid var(--border); }
+    .ko-outfit-img-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+    .ko-outfit-img { width: 100%; height: 100%; object-fit: contain; display: block; cursor: pointer; transition: opacity .15s; }
+    .ko-outfit-img:hover { opacity: .85; }
+    .ko-outfit-placeholder { color: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+    .ko-outfit-text { font-size: 11px; color: var(--text); font-family: 'JetBrains Mono', monospace; padding: 8px 9px; word-break: break-word; flex: 1; overflow-y: auto; max-height: 130px; }
+    .ko-waffen { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 6px; }
+    .ko-waffe { display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--card2); border-radius: 8px; padding: 8px 12px; min-width: 80px; border: 1px solid var(--border); transition: border-color .15s; }
+    .ko-waffe.allowed { border-color: rgba(31,204,110,.35); }
+    .ko-waffe.forbidden { border-color: rgba(232,64,64,.2); }
+    .ko-waffe-icon { font-size: 18px; line-height: 1; }
+    .ko-waffe-name { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-align: center; letter-spacing: .5px; }
+    .ko-waffe-ammo { font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .ko-waffe-ammo.allowed { color: var(--green); }
+    .ko-waffe-ammo.forbidden { color: var(--muted); text-decoration: line-through; }
+    .ko-waffe-label { font-size: 9px; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .5px; }
+    .ko-empty { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    .ko-div-sel { background: var(--card); border: 1px solid var(--border2); border-radius: 7px; color: var(--text); padding: 8px 12px; font-size: 13px; font-family: 'Rajdhani', sans-serif; outline: none; font-weight: 600; cursor: pointer; min-width: 240px; }
+    .ko-div-sel option { background: var(--card2); }
+    .ko-div-sel:focus { border-color: var(--accent); }
+    .ko-gender-title { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Rajdhani', sans-serif; padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+    .ko-gender-m { color: var(--accent2); border-color: rgba(79,110,247,.35); }
+    .ko-gender-f { color: #f472b6; border-color: rgba(244,114,182,.3); }
+    .ko-gender-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ko-gender-dot.male  { background: var(--accent2); }
+    .ko-gender-dot.female { background: #f472b6; }
+    .ko-outfits4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+    /* ─── Lucide icon sizing ─── */
+    svg.lucide { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+    .tab-btn svg.lucide { width: 13px; height: 13px; margin-right: 5px; }
+    .akte-tab-btn svg.lucide { width: 12px; height: 12px; margin-right: 4px; }
+    .btn svg.lucide, .btn-danger svg.lucide { width: 12px; height: 12px; margin-right: 4px; }
+    .btn-topbar-action svg.lucide, .topbar-btn svg.lucide, .topbar-btn-login svg.lucide { width: 12px; height: 12px; margin-right: 4px; }
+    .dok-icon svg.lucide { width: 20px; height: 20px; }
+    .dok-section-title svg.lucide { width: 13px; height: 13px; margin-right: 5px; }
+    .ko-waffe-icon svg.lucide { width: 18px; height: 18px; }
+    .kuend-entry-name svg.lucide, .event-item svg.lucide { width: 13px; height: 13px; margin-right: 3px; }
+    /* ─── Outfit item badges ─── */
+    .ko-item-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 3px 0; border-bottom: 1px solid var(--border); }
+    .ko-item-line:last-child { border-bottom: none; }
+    .ko-item-cat { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; white-space: nowrap; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    .ko-item-val { font-size: 11px; color: var(--text); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+    .ko-item-badge { display: inline-flex; align-items: stretch; border-radius: 4px; overflow: hidden; border: 1px solid rgba(79,110,247,.25); flex-shrink: 0; }
+    .ko-item-num { background: rgba(79,110,247,.12); color: var(--text); font-weight: 700; font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 7px; }
+    .ko-item-sep { width: 1px; background: rgba(79,110,247,.2); }
+    .ko-item-col { background: rgba(31,204,110,.08); color: var(--green); font-weight: 700; font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 7px; }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE  — tablet (≤ 900px)
+    ═══════════════════════════════════ */
+    @media (max-width: 900px) {
+      /* Topbar: compact action buttons */
+      .btn-topbar-action { padding: 5px 9px; font-size: 11px; }
+      .topbar-sub { display: none; }
+      .topbar-archive-label { font-size: 11px; }
+      /* Kleiderordnung outfits: 3 cols */
+      .ko-outfits, .ko-outfits4 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE  — mobile (≤ 640px)
+    ═══════════════════════════════════ */
+    @media (max-width: 640px) {
+      /* ── Login ── */
+      .login-card { width: 100%; max-width: 100%; border-radius: 0; min-height: 100dvh; display: flex; flex-direction: column; justify-content: center; padding: 32px 22px; }
+      #loginPage { align-items: flex-start; }
+
+      /* ── Topbar ── */
+      .topbar { padding: 0 12px; gap: 7px; height: 52px; }
+      .topbar-logo { width: 28px; height: 28px; font-size: 14px; }
+      .topbar-title, .topbar-sub, .topbar-archive-label { display: none; }
+      .pill { display: none; }
+      /* Show only icon text for action buttons */
+      #addBtn .btn-text, #eventBtn .btn-text, #uprankBtn .btn-text { display: none; }
+      #addBtn, #eventBtn, #uprankBtn { padding: 6px 8px; min-width: 0; }
+      .topbar-user strong { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+      .admin-level-badge { display: none; }
+      #beamteCount { display: none; }
+
+      /* ── Tabs ── */
+      .tabs { padding: 0 8px; }
+      .tab-btn { padding: 9px 11px; font-size: 12px; letter-spacing: 0; }
+      .tab-btn svg.lucide { margin-right: 3px; }
+
+      /* ── Beamte toolbar ── */
+      .main { padding: 10px 12px; gap: 8px; }
+      .toolbar { gap: 6px; }
+      .search-box { max-width: 100%; min-width: 0; flex: 1 1 120px; font-size: 12px; padding: 7px 10px 7px 33px; }
+      .search-wrap { max-width: 100%; }
+      .filter-select { font-size: 11px; padding: 7px 7px; flex: 1 1 80px; }
+      .count-badge { display: none; }
+
+      /* ── Table: hide more columns, allow scroll ── */
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      td:nth-child(1),  th:nth-child(1)  { display: none; }
+      td:nth-child(3),  th:nth-child(3)  { display: none; }
+      td:nth-child(9),  th:nth-child(9)  { display: none; }
+      td:nth-child(10), th:nth-child(10) { display: none; }
+      td:nth-child(11), th:nth-child(11) { display: none; }
+      td { padding: 7px 8px; font-size: 12px; }
+      thead th { padding: 7px 8px; font-size: 9px; }
+
+      /* ── Sanktionskatalog ── */
+      .sankti-main { padding: 10px 12px; }
+      .sankti-search { max-width: 100%; font-size: 12px; }
+      .sankti-table col.col-pen  { width: 68px; }
+      .sankti-table col.col-check { width: 46px; }
+      .sankti-table thead th,
+      .sankti-table td { padding: 6px 7px; font-size: 11px; }
+
+      /* ── Modals ── */
+      .akte-modal { border-radius: 10px 10px 0 0; max-height: 95dvh; width: 100%; max-width: 100%; align-self: flex-end; margin: auto auto 0 auto; }
+      .modal { border-radius: 10px; padding: 18px 14px; }
+      .kuend-modal, .event-modal { border-radius: 10px; padding: 18px 14px; }
+      .uprank-modal { border-radius: 10px 10px 0 0; max-height: 95dvh; width: 100%; max-width: 100%; align-self: flex-end; margin: auto auto 0 auto; }
+      .form-grid { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .akte-body { padding: 14px 14px; }
+      .akte-header { padding: 14px 14px; gap: 10px; }
+      .akte-footer { padding: 10px 14px; }
+
+      /* ── Dokumente ── */
+      .dok-main { padding: 14px 12px; }
+      .dok-grid { grid-template-columns: 1fr; }
+
+      /* ── Kleiderordnung ── */
+      .ko-main { padding: 10px 12px; }
+      .ko-outfits, .ko-outfits4 { grid-template-columns: repeat(2, 1fr); }
+      .ko-info-row { grid-template-columns: 1fr; }
+
+      /* ── Kündigungen ── */
+      .kuend-tab-main { padding: 12px; }
+      .kuend-entry-grid { grid-template-columns: 1fr 1fr; }
+
+      /* ── Toast ── */
+      #toast { left: 12px; right: 12px; bottom: 12px; text-align: center; }
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE  — very small (≤ 400px)
+    ═══════════════════════════════════ */
+    @media (max-width: 400px) {
+      .tab-btn { padding: 8px 8px; font-size: 11px; }
+      /* Show only icon in tabs, hide text */
+      .tab-btn-text { display: none; }
+      .ko-outfits, .ko-outfits4 { grid-template-columns: 1fr 1fr; }
+      td:nth-child(8), th:nth-child(8) { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-wrap">
+<!-- ═══════════ LOADING SCREEN ═══════════ -->
+<div id="loadingScreen" class="hidden">
+  <img src="https://i.imgur.com/FprVNno.png" alt="FIB Logo" class="loading-logo">
+  <div class="loading-text">Lade Mitarbeiter...</div>
+  <div class="loading-fact">
+    <div class="loading-fact-label">Wusstest du schon?</div>
+    <div class="loading-fact-text" id="loadingFactText">Felix Cunningham und Noah Herzberg haben das System gemeinsam entwickelt.</div>
+  </div>
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="loginPage">
   <div class="login-card">
-    <h1>Willkommen</h1>
-    <p class="sub">Melde dich an, um fortzufahren.</p>
-    <div class="form-group">
-      <label>Benutzername</label>
-      <input id="inp-user" type="text" placeholder="Dein Name" autocomplete="username">
+    <div class="login-logo">
+      <img src="https://i.imgur.com/FprVNno.png" alt="FIB Logo" class="login-logo-icon">
+      <div><div class="login-title">FIB Verzeichnis DE01</div></div>
     </div>
-    <div class="form-group">
-      <label>Passwort</label>
-      <input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button class="btn-primary" id="login-btn" onclick="doLogin()">Anmelden</button>
-    <div class="error-box" id="login-err"></div>
+    <div class="login-sub">GrandRP DE01 · <span>Behördenportal</span></div>
+    <label>Benutzername</label>
+    <input type="text" id="loginUser" placeholder="Name eingeben" autocomplete="username">
+    <label>Passwort</label>
+    <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="btn btn-primary" onclick="doLogin()">Anmelden</button>
+    <div class="login-err" id="loginErr"></div>
+    <button class="btn btn-outline" style="margin-top:8px" onclick="publicView()"><i data-lucide="landmark"></i> Öffentliches Beamtenverzeichnis</button>
+    <div class="login-footer">Developed by <span>GrandRP Mitarbeiter System</span></div>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <div class="app-header">
-    <h2>Mitarbeiterverzeichnis</h2>
-    <div class="header-right">
-      <span class="user-badge" id="user-badge">—</span>
-      <button class="btn-ghost" onclick="showTokenModal()">🔑 Token</button>
-      <button class="btn-ghost" onclick="doLogout()">Abmelden</button>
+<!-- ═══════════ APP PAGE ═══════════ -->
+<div id="appPage">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <img src="https://i.imgur.com/FprVNno.png" alt="FIB Logo" class="topbar-logo">
+    <div>
+      <div class="topbar-title">FIB Archiv</div>
+      <div class="topbar-sub">Made by Felix & Noah</div>
+    </div>
+    <span class="pill">● ONLINE</span>
+    <div class="topbar-spacer"></div>
+    <span class="topbar-archive-label" id="archiveLabel" style="display:none">MITARBEITER ARCHIV</span>
+    <span id="beamteCount" class="count-badge" style="margin-left:0"></span>
+    <div id="topbarUser" class="topbar-user" style="display:none">
+      <strong id="topbarUsername"></strong>
+      <span id="adminLevelBadge" class="admin-level-badge"></span>
+    </div>
+    <button id="addBtn"     class="btn-topbar-action" style="display:none" onclick="openAddModal()"><i data-lucide="user-plus"></i><span class="btn-text"> Beamter</span></button>
+    <button id="eventBtn"   class="btn-topbar-action" style="display:none" onclick="openEventModal()"><i data-lucide="calendar-plus"></i><span class="btn-text"> Event</span></button>
+    <button id="uprankBtn"  class="btn-topbar-action" style="display:none" onclick="openUprankModal()"><i data-lucide="arrow-up-circle"></i><span class="btn-text"> Up-Rank</span></button>
+    <!-- Login-Button: nur sichtbar im Gastmodus -->
+    <button id="loginBtn"   class="topbar-btn-login"  style="display:none" onclick="goToLogin()"><i data-lucide="key-round"></i> Login</button>
+    <!-- Abmelden-Button: nur sichtbar wenn eingeloggt -->
+    <button id="logoutBtn"  class="topbar-btn"        style="display:none" onclick="doLogout()">Abmelden</button>
+  </div>
+
+  <!-- EVENT BANNER -->
+  <div id="eventBanner">
+    <div class="event-banner-inner" id="eventBannerInner"></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('beamte', this)"><i data-lucide="users"></i><span class="tab-btn-text"> Beamte</span></button>
+    <button class="tab-btn" onclick="switchTab('sanktionen', this)"><i data-lucide="scale"></i><span class="tab-btn-text"> Sanktionskatalog</span></button>
+    <button id="lawTabBtn" class="tab-btn" style="display:none" onclick="switchTab('law-sanktionen', this)"><i data-lucide="gavel"></i><span class="tab-btn-text"> Sanktionen</span></button>
+    <button class="tab-btn" onclick="switchTab('dokumente', this)"><i data-lucide="folder"></i><span class="tab-btn-text"> Dokumente</span></button>
+    <button id="kuendTabBtn" class="tab-btn" style="display:none" onclick="switchTab('kuendigungen', this)"><i data-lucide="user-x"></i><span class="tab-btn-text"> Kündigungen</span></button>
+    <button class="tab-btn" style="display:none" onclick="switchTab('kleiderordnung-div', this)"><i data-lucide="shirt"></i><span class="tab-btn-text"> KO Division</span></button>
+  </div>
+
+  <!-- ── TAB: BEAMTE ── -->
+  <div class="tab-content active" id="tab-beamte">
+    <div class="main">
+      <div class="toolbar">
+        <input class="search-box" type="text" id="searchBox" placeholder="🔍  Suche nach Name, ID, DN, Rang…" oninput="renderTable()">
+        <select class="filter-select" id="divFilter" onchange="renderTable()">
+          <option value="">Alle Divisionen</option>
+        </select>
+        <select class="filter-select" id="abtFilter" onchange="renderTable()">
+          <option value="">Alle Abteilungen</option>
+        </select>
+        <span class="count-badge" id="countLabel">0 Beamte</span>
+      </div>
+      <div id="publicBanner" class="public-banner" style="display:none">👁 Gastmodus – Nur-Lese-Ansicht</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>DN</th>
+              <th>Name</th>
+              <th>Rang</th>
+              <th>Division</th>
+              <th>Strikes</th>
+              <th>Eingestellt</th>
+              <th>Last Rank-up</th>
+              <th>Hauptabt.</th>
+              <th>Nebenabt.</th>
+              <th>Aktionen</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="12" class="loading"><span class="spinner"></span>Lade…</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <div class="tabs" id="tabs">
-    <button class="tab active" onclick="switchTab('employees')" id="tab-employees">👥 Mitarbeiter</button>
-    <button class="tab" onclick="switchTab('events')" id="tab-events">📅 Events</button>
-    <button class="tab" onclick="switchTab('sanctions')" id="tab-sanctions" style="display:none">⚖️ Sanktionen</button>
-  </div>
-
-  <!-- MITARBEITER TAB -->
-  <div id="tab-employees-content">
-    <div class="search-row">
-      <input id="search" type="text" placeholder="Suchen nach Name, ID, Rang, Division …" oninput="filterEmployees()">
-      <span id="result-count"></span>
-      <button class="btn-primary" id="add-emp-btn" style="width:auto;padding:9px 18px;display:none" onclick="openEmployeeModal()">+ Hinzufügen</button>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Rang</th><th>DN</th><th>Division</th>
-            <th>Strikes</th><th>Invite</th><th>Last Rank-up</th><th>Aktionen</th>
-          </tr>
-        </thead>
-        <tbody id="emp-body"></tbody>
-      </table>
-      <div class="empty-state" id="emp-empty" style="display:none">Noch keine Mitarbeiter eingetragen.</div>
+  <!-- ── TAB: SANKTIONSKATALOG ── -->
+  <div class="tab-content" id="tab-sanktionen">
+    <div class="sankti-main">
+      <div class="sankti-toolbar">
+        <input class="sankti-search" type="text" id="sanktiSearch" placeholder="🔍  Suche im Sanktionskatalog…" oninput="renderSanktionen()">
+        <span class="sankti-count" id="sanktiCount"></span>
+      </div>
+      <div class="sankti-table-wrap" id="sanktiTableWrap">
+        <div class="sankti-loading"><span class="spinner"></span>Lade Sanktionskatalog…</div>
+      </div>
     </div>
   </div>
 
-  <!-- EVENTS TAB -->
-  <div id="tab-events-content" style="display:none">
-    <div class="search-row" style="margin-bottom:14px">
-      <span style="color:rgba(180,160,255,0.5);font-size:13px;flex:1">Kommende und vergangene Veranstaltungen</span>
-      <button class="btn-primary" id="add-event-btn" style="width:auto;padding:9px 18px;display:none" onclick="openEventModal()">+ Event</button>
+  <!-- ── TAB: LAW SANKTIONEN ── -->
+  <div class="tab-content" id="tab-law-sanktionen">
+    <div class="law-main">
+      <div class="law-toolbar">
+        <h2>Sanktionsverwaltung</h2>
+        <button class="btn btn-primary" style="padding:4px 10px;font-size:11px;font-weight:600" onclick="openCreateSanktionModal()"><i data-lucide="plus-circle" style="width:11px;height:11px"></i> Sanktion</button>
+      </div>
+      <div class="law-content">
+        <div id="lawBeamteList" class="law-beamte-list">
+          <div class="spinner"></div>
+        </div>
+      </div>
     </div>
-    <div class="events-grid" id="events-grid"></div>
-    <div class="empty-state" id="events-empty" style="display:none">Keine Events eingetragen.</div>
   </div>
 
-  <!-- SANKTIONEN TAB -->
-  <div id="tab-sanctions-content" style="display:none">
-    <div class="search-row">
-      <input id="sanction-search" type="text" placeholder="Mitarbeiter suchen …" oninput="filterSanctions()">
+  <!-- ── TAB: DOKUMENTE ── -->
+  <div class="tab-content" id="tab-dokumente">
+    <div class="dok-main">
+      <div class="dok-shell">
+        <div class="dok-hero">
+          <div class="dok-hero-title">Dokumentenhub</div>
+          <div class="dok-hero-sub">Alle Formulare, Gesetze und Richtlinien an einem Ort.</div>
+        </div>
+
+        <div class="dok-section">
+          <div class="dok-section-title"><i data-lucide="clipboard-list"></i> Formulare</div>
+          <div class="dok-grid">
+            <a class="dok-card" href="https://bit.ly/FIBCO-DE01" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-purple"><i data-lucide="file-text"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">FIBCO Fallmeldeformular</div>
+                  <div class="dok-card-desc">Offizielles Formular zur Meldung von Einsätzen und Vorfällen.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-form">Formular</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="dok-section">
+          <div class="dok-section-title"><i data-lucide="library"></i> Gesetze &amp; Vorschriften</div>
+          <div class="dok-grid">
+            <a class="dok-card" href="https://docs.google.com/document/d/1N6BPhsYC12G86xT3Lixpyyl8yvy6fecNk4BO36mGuGg/edit?tab=t.0#heading=h.fliz9zt7d0sk" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-green"><i data-lucide="book-open"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">Öffentliches Gesetzbuch</div>
+                  <div class="dok-card-desc">Aktuelles Gesetzbuch des GrandRP Servers DE01.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-gesetz">Gesetz</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+
+            <a class="dok-card" href="https://docs.google.com/document/d/1VCnokyqBWW1Vf4aCNkK34uLW7kA6JIJUu3LUlbOA19A/edit?tab=t.0" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-blue"><i data-lucide="scale"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">Beamtendienstgesetz Buch</div>
+                  <div class="dok-card-desc">Interne Vorschriften und Verfahrensanweisungen für den Dienst.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-gesetz">Gesetz</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+
+            <a class="dok-card" href="https://docs.google.com/document/d/12N4-InKZ0uQFQvX3uuBWrNK9_MZFyr1fR6dtv_6xfYo/edit?tab=t.0#heading=h.7v59q3kgs8z7" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-yellow"><i data-lucide="landmark"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">Strafprozessordnung &amp; GVG</div>
+                  <div class="dok-card-desc">Strafprozessordnung und Gerichtsverfassungsgesetz.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-gesetz">Gesetz</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+
+            <a class="dok-card" href="https://docs.google.com/document/d/1cuTrfciC5WNQEW0JJruniLSZqg8pXnormDT8wZW-sHw/edit?tab=t.0" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-red"><i data-lucide="scroll"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">Justizbeitreibungsgesetz</div>
+                  <div class="dok-card-desc">Gesetzliche Grundlagen zur Justizbeitreibung.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-gesetz">Gesetz</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+
+            <a class="dok-card" href="https://discord.com/channels/888542815318056980/1492255578704052375" target="_blank" rel="noopener">
+              <div class="dok-card-top">
+                <div class="dok-icon dok-icon-blue"><i data-lucide="file-pen-line"></i></div>
+                <div class="dok-card-info">
+                  <div class="dok-card-name">Arbeitsvertrag</div>
+                  <div class="dok-card-desc">Aktueller Arbeitsvertrag im Discord-Kanal.</div>
+                </div>
+              </div>
+              <div class="dok-card-foot">
+                <span class="dok-card-badge badge-discord">Discord</span>
+                <span class="dok-open"><i data-lucide="arrow-up-right"></i></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="sanctions-list"></div>
-    <div class="empty-state" id="sanctions-empty" style="display:none">Keine offenen Sanktionen.</div>
+  </div>
+
+  <!-- ── TAB: KÜNDIGUNGEN ── -->
+  <div class="tab-content" id="tab-kuendigungen">
+    <div class="kuend-tab-main">
+      <div id="kuendListContainer">
+        <div class="loading"><span class="spinner"></span>Lade…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB: KLEIDERORDNUNG ── -->
+  <div class="tab-content" id="tab-kleiderordnung">
+    <div class="ko-main">
+      <div class="ko-toolbar">
+        <input class="ko-search" type="text" id="koSearch" placeholder="🔍 Rang suchen…" oninput="renderKleiderordnung()">
+        <span class="ko-count" id="koCount"></span>
+      </div>
+      <div class="ko-list-wrap" id="koListWrap">
+        <div class="ko-empty">Wähle den Reiter, um Daten zu laden.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB: KLEIDERORDNUNG DIVISION ── -->
+  <div class="tab-content" id="tab-kleiderordnung-div">
+    <div class="ko-main">
+      <div class="ko-toolbar">
+        <select class="ko-div-sel" id="koDivSel" onchange="renderKleiderordnungDiv()">
+          <option value="">— Division wählen —</option>
+        </select>
+        <span class="ko-count" id="koDivCount"></span>
+      </div>
+      <div class="ko-list-wrap" id="koDivListWrap">
+        <div class="ko-empty">Wähle den Reiter, um Daten zu laden.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#appPage -->
+
+<!-- ═══════════ PERSONALAKTE MODAL ═══════════ -->
+<div class="akte-overlay" id="akteOverlay">
+  <div class="akte-modal">
+    <div class="akte-header">
+      <div class="akte-avatar" id="akteAvatarInitials">–</div>
+      <div class="akte-headinfo">
+        <div class="akte-name" id="akteNameHeader">–</div>
+        <div class="akte-rang" id="akteRangHeader">–</div>
+        <div class="akte-id" id="akteIdHeader"># ID: –</div>
+      </div>
+      <button class="akte-close" onclick="closeAkte()">✕</button>
+    </div>
+    <div class="akte-tabs">
+      <button class="akte-tab-btn active" onclick="switchAkteTab('info')"><i data-lucide="clipboard"></i> Info</button>
+      <button class="akte-tab-btn" onclick="switchAkteTab('ausbildungen')"><i data-lucide="graduation-cap"></i> Ausbildungen</button>
+      <button class="akte-tab-btn" id="akteSanktionenTabBtn" style="display:none" onclick="switchAkteTab('sanktionen')"><i data-lucide="gavel"></i> Sanktionen</button>
+    </div>
+    <div class="akte-body">
+      <div class="akte-tab-content active" id="akte-tab-info">
+        <div class="info-grid" id="akteInfoGrid"></div>
+      </div>
+      <div class="akte-tab-content" id="akte-tab-ausbildungen">
+        <div class="aus-list" id="akteAusList"></div>
+      </div>
+      <div class="akte-tab-content" id="akte-tab-sanktionen">
+        <div class="sank-akte-list" id="akteSanktionenList"></div>
+      </div>
+    </div>
+    <div class="akte-footer">
+      <div id="akteSaveAusBtn" style="display:none">
+        <button class="btn btn-primary" style="width:auto;padding:7px 16px;font-size:13px" onclick="saveAusbildungen()"><i data-lucide="save"></i> Speichern</button>
+      </div>
+      <button class="btn btn-outline" style="width:auto;padding:7px 14px;font-size:13px" onclick="closeAkte()">✕ Schließen</button>
+    </div>
   </div>
 </div>
 
-<!-- TOKEN MODAL -->
-<div class="modal-bg" id="token-modal" style="display:none" onclick="if(event.target===this&&!tokenRequired)closeTokenModal()">
+<!-- ═══════════ EDIT / ADD MODAL ═══════════ -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3>🔑 GitHub Write-Token</h3>
-    <p class="token-info">
-      Für das Speichern von Änderungen wird ein GitHub Personal Access Token benötigt.<br><br>
-      Token erstellen: <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a><br>
-      Scope: <strong>public_repo</strong> · Ablauf: nach Bedarf<br><br>
+    <h2 id="modalTitle">Beamter hinzufügen</h2>
+    <div id="dnHintBox" class="dn-hint-box" style="display:none">
+      <strong>Bereits vergeben:</strong> <span id="dnHintList">–</span>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>ID *</label>
+        <input type="text" id="f_id" placeholder="z.B. 288863">
+      </div>
+      <div class="form-group">
+        <label>DN (Dienstnummer)</label>
+        <input type="text" id="f_dn" placeholder="z.B. 01" oninput="checkDnWarning()">
+        <div class="dn-hint" id="dnWarning" style="display:none">⚠ Diese DN ist bereits vergeben!</div>
+      </div>
+      <div class="form-group form-col-full">
+        <label>Name *</label>
+        <input type="text" id="f_name" placeholder="Vor- und Nachname">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Rang</label>
+        <select id="f_rang">
+          <option value="">— Rang wählen —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Division</label>
+        <select id="f_div">
+          <option value="Besucher">Besucher</option>
+          <option value="Suspendiert">Suspendiert</option>
+          <option value="Vacation">Vacation</option>
+          <option value="Nicht dienstfähig">Nicht dienstfähig</option>
+          <option value="Agent">Agent</option>
+          <option value="Abteilungsrang">Abteilungsrang</option>
+          <option value="HR-Rang">HR-Rang</option>
+          <option value="Command">Command</option>
+          <option value="High Command">High Command</option>
+          <option value="Stellv. Division Lead">Stellv. Division Lead</option>
+          <option value="Division Lead">Division Lead</option>
+          <option value="Curator of Agents">Curator of Agents</option>
+          <option value="Curator of Division">Curator of Division</option>
+          <option value="Leaderschaft">Leaderschaft</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Strikes (0–3)</label>
+        <select id="f_strikes">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3 (Kick)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Invite (Einstellungsdatum)</label>
+        <input type="date" id="f_invite">
+      </div>
+      <div class="form-group">
+        <label>Last Rank-up</label>
+        <input type="date" id="f_rankup">
+      </div>
+      <div class="form-group">
+        <label>Hauptabteilung</label>
+        <input type="text" id="f_abt1" placeholder="z.B. Patrol">
+      </div>
+      <div class="form-group">
+        <label>Nebenabteilung</label>
+        <input type="text" id="f_abt2" placeholder="z.B. K9">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" style="width:auto;padding:8px 14px" onclick="closeModal()">Abbrechen</button>
+      <button class="btn btn-primary" style="width:auto;padding:8px 16px" id="saveBeamterBtn" onclick="saveBeamter()"><i data-lucide="save"></i> Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ KÜNDIGUNG MODAL ═══════════ -->
+<div class="kuend-overlay" id="kuendOverlay">
+  <div class="kuend-modal">
+    <h2><i data-lucide="alert-triangle"></i> Kündigung ausstellen</h2>
+    <p class="kuend-sub">Der Beamte wird aus dem Verzeichnis entfernt und dokumentiert.</p>
+    <div class="kuend-field">
+      <label>Beamter</label>
+      <input type="text" id="kuend_name" readonly style="opacity:.5">
+    </div>
+    <div class="kuend-field">
+      <label>Grund *</label>
+      <select id="kuend_grund">
+        <option value="">— Grund wählen —</option>
+        <option>Inaktivität</option>
+        <option>Regelverstoß</option>
+        <option>3 Strikes erreicht</option>
+        <option>Verhalten gegenüber Kollegen</option>
+        <option>Eigener Wunsch</option>
+        <option>Sonstiges</option>
+      </select>
+    </div>
+    <div class="kuend-field">
+      <label>Begründung (optional)</label>
+      <textarea id="kuend_text" placeholder="Details zur Kündigung…"></textarea>
+    </div>
+    <div class="kuend-actions">
+      <button class="btn btn-outline" style="width:auto;padding:7px 14px" onclick="closeKuendModal()">Abbrechen</button>
+      <button class="btn-danger" onclick="confirmKuendigung()"><i data-lucide="alert-triangle"></i> Bestätigen &amp; Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAW SANKTION ERSTELLEN MODAL ═══════════ -->
+<div class="modal-overlay" id="sanktionModalOverlay">
+  <div class="modal" style="max-width: 600px;">
+    <h2><i data-lucide="gavel"></i> Sanktion erstellen</h2>
+    <div class="form-grid">
+      <div class="form-group form-col-full">
+        <label>Beamter auswählen *</label>
+        <select id="sank_beamte" onchange="updateSankBeamteInfo()">
+          <option value="">— Beamten wählen —</option>
+        </select>
+        <div id="sank_beamte_info" style="font-size:13px; color:var(--muted); margin-top:6px;"></div>
+      </div>
+      <div class="form-group form-col-full">
+        <label>Sanktionstyp *</label>
+        <select id="sank_type" onchange="toggleSankCustom()">
+          <option value="katalog">Aus Katalog</option>
+          <option value="custom">Benutzerdefiniert</option>
+        </select>
+      </div>
+      <div class="form-group form-col-full" id="sank_katalog_group">
+        <label>Sanktion aus Katalog</label>
+        <select id="sank_katalog" onchange="onSanktionKatalogChange()">
+          <option value="">— Sanktion wählen —</option>
+        </select>
+      </div>
+      <div class="form-group form-col-full" id="sank_custom_group" style="display:none">
+        <label>Benutzerdefinierte Sanktion</label>
+        <input type="text" id="sank_custom" placeholder="z.B. Verwarnung wegen...">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Strafen für diesen Paragraphen</label>
+        <div id="penalties_container" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+          <!-- Penalties werden hier dynamisch hinzugefügt -->
+        </div>
+        <button type="button" class="btn btn-outline" style="width:auto;padding:6px 12px;font-size:12px" onclick="addPenaltyRow()"><i data-lucide="plus"></i> Strafe hinzufügen</button>
+      </div>
+      <div class="form-group form-col-full">
+        <label>Discord Thread URL (ERFORDERLICH) *</label>
+        <input type="url" id="sank_akte" placeholder="https://discord.com/channels/...">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Notiz (optional)</label>
+        <textarea id="sank_notiz" placeholder="Kurze Notiz zur Sanktion…" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" style="width:auto;padding:8px 14px" onclick="closeSanktionModal()">Abbrechen</button>
+      <button class="btn btn-primary" style="width:auto;padding:8px 16px" onclick="saveSanktion()"><i data-lucide="save"></i> Erstellen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LAW SANKTION STATUS MODAL ═══════════ -->
+<div class="modal-overlay" id="sanktionStatusModalOverlay">
+  <div class="modal" style="max-width: 550px;">
+    <h2><i data-lucide="edit"></i> Sanktion bearbeiten</h2>
+    <div class="form-grid">
+      <div class="form-group form-col-full">
+        <label>Sanktionsname</label>
+        <input type="text" id="sanktionStatusName" readonly style="opacity:.6">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Status *</label>
+        <select id="sanktionNewStatus" onchange="updateSanktionStatusField()">
+          <option value="OFFEN">Offen</option>
+          <option value="ABSOLVIERT">Absolviert</option>
+          <option value="NICHT_ABSOLVIERT">Nicht absolviert</option>
+          <option value="REVIDIERT">Revidiert</option>
+        </select>
+      </div>
+      <div class="form-group form-col-full" id="sanktionAkteGroup">
+        <label>Discord Thread URL (bei Status "Absolviert") *</label>
+        <input type="url" id="sanktionNewAkte" placeholder="https://discord.com/channels/...">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Notiz</label>
+        <textarea id="sanktionNewNotiz" placeholder="Notiz zur Statusänderung…" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" style="width:auto;padding:8px 14px" onclick="closeSanktionStatusModal()">Abbrechen</button>
+      <button class="btn btn-primary" style="width:auto;padding:8px 16px" onclick="updateSanktionStatusSave()"><i data-lucide="save"></i> Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ EVENT MODAL ═══════════ -->
+<div class="event-modal-overlay" id="eventModalOverlay">
+  <div class="event-modal">
+    <h2><i data-lucide="calendar"></i> Event erstellen</h2>
+    <div class="form-grid">
+      <div class="form-group form-col-full">
+        <label>Titel *</label>
+        <input type="text" id="ev_title" placeholder="z.B. Großrazzia Downtown">
+      </div>
+      <div class="form-group">
+        <label>Datum</label>
+        <input type="date" id="ev_date">
+      </div>
+      <div class="form-group">
+        <label>Uhrzeit</label>
+        <input type="text" id="ev_time" placeholder="z.B. 20:00 Uhr">
+      </div>
+      <div class="form-group form-col-full">
+        <label>Beschreibung</label>
+        <textarea id="ev_desc" placeholder="Details zum Event…"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" style="width:auto;padding:8px 14px" onclick="closeEventModal()">Abbrechen</button>
+      <button class="btn btn-primary" style="width:auto;padding:8px 16px" onclick="saveEvent()"><i data-lucide="save"></i> Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ UP-RANK MODAL ═══════════ -->
+<div class="uprank-overlay" id="uprankOverlay">
+  <div class="uprank-modal">
+    <div class="uprank-header">
+      <h2><i data-lucide="arrow-up-circle"></i> Up-Rank Liste</h2>
+      <button class="uprank-close" onclick="closeUprankModal()">✕</button>
+    </div>
+    <div class="uprank-input-row">
+      <input class="uprank-id-input" type="text" id="uprankIdInput" placeholder="ID eingeben…" onkeydown="if(event.key==='Enter')addUprankId()">
+      <button class="btn btn-primary" style="width:auto;padding:8px 14px;font-size:13px" onclick="addUprankId()">+ Hinzufügen</button>
+    </div>
+    <div class="uprank-body" id="uprankList">
+      <div class="uprank-empty">Keine IDs eingetragen. Füge IDs oben ein.</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+
+<!-- ═══════════ TOKEN MODAL ═══════════ -->
+<div class="event-modal-overlay" id="tokenModalOverlay" style="display:none">
+  <div class="event-modal" style="max-width:460px">
+    <h2><i data-lucide="key-round"></i> GitHub Write-Token</h2>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px">
+      Für Schreibvorgänge wird ein GitHub Personal Access Token benötigt.<br>
+      Erstellen: <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--accent2)">github.com/settings/tokens/new</a><br>
+      Scope: <strong>public_repo</strong><br>
       Das Token wird nur für diese Browser-Session gespeichert.
     </p>
-    <div class="form-group">
+    <div class="form-group form-col-full">
       <label>Personal Access Token</label>
-      <input id="token-inp" type="password" placeholder="ghp_…">
+      <input type="password" id="tokenInput" placeholder="ghp_…">
     </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="if(!tokenRequired)closeTokenModal()">Abbrechen</button>
-      <button class="btn-primary" onclick="saveToken()">Speichern</button>
-    </div>
-  </div>
-</div>
-
-<!-- EMPLOYEE MODAL -->
-<div class="modal-bg" id="emp-modal" style="display:none" onclick="if(event.target===this)closeEmpModal()">
-  <div class="modal">
-    <h3 id="emp-modal-title">Mitarbeiter hinzufügen</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
-      <div class="form-group"><label>ID</label><input id="emp-id" type="text" placeholder="z.B. 1042"></div>
-      <div class="form-group"><label>Name</label><input id="emp-name" type="text" placeholder="Vorname Nachname"></div>
-      <div class="form-group"><label>Rang</label><input id="emp-rang" type="text" placeholder="z.B. Officer"></div>
-      <div class="form-group"><label>DN</label><input id="emp-dn" type="text" placeholder="Dienstnummer"></div>
-      <div class="form-group"><label>Division</label><input id="emp-div" type="text" placeholder="z.B. Officer"></div>
-      <div class="form-group"><label>Strikes</label><input id="emp-strikes" type="number" min="0" value="0"></div>
-      <div class="form-group"><label>Invite (Datum)</label><input id="emp-invite" type="date"></div>
-      <div class="form-group"><label>Last Rank-up</label><input id="emp-rankup" type="date"></div>
-      <div class="form-group"><label>Hauptabteilung</label><input id="emp-haupt" type="text"></div>
-      <div class="form-group"><label>Nebenabteilung</label><input id="emp-neben" type="text"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeEmpModal()">Abbrechen</button>
-      <button class="btn-primary" onclick="saveEmployee()">Speichern</button>
+    <div class="modal-actions">
+      <button class="btn btn-outline" style="width:auto;padding:8px 14px" onclick="closeTokenModal()">Abbrechen</button>
+      <button class="btn btn-primary" style="width:auto;padding:8px 16px" onclick="saveTokenModal()"><i data-lucide="save"></i> Speichern</button>
     </div>
   </div>
 </div>
-
-<!-- EVENT MODAL -->
-<div class="modal-bg" id="event-modal" style="display:none" onclick="if(event.target===this)closeEventModal()">
-  <div class="modal">
-    <h3>Event hinzufügen</h3>
-    <div class="form-group"><label>Titel</label><input id="ev-title" type="text" placeholder="Event-Name"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
-      <div class="form-group"><label>Datum</label><input id="ev-date" type="date"></div>
-      <div class="form-group"><label>Uhrzeit</label><input id="ev-time" type="time"></div>
-    </div>
-    <div class="form-group"><label>Beschreibung</label><input id="ev-desc" type="text" placeholder="Kurzbeschreibung"></div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeEventModal()">Abbrechen</button>
-      <button class="btn-primary" onclick="saveEvent()">Speichern</button>
-    </div>
-  </div>
-</div>
-
-<!-- SANCTIONS MODAL -->
-<div class="modal-bg" id="sanction-modal" style="display:none" onclick="if(event.target===this)closeSanctionModal()">
-  <div class="modal" style="max-width:600px">
-    <h3 id="sanction-modal-title">Sanktionen</h3>
-    <div id="sanction-modal-list"></div>
-    <hr style="border-color:rgba(139,92,246,0.15);margin:18px 0">
-    <h4 style="font-size:14px;color:#e2d9ff;margin-bottom:14px">Neue Sanktion</h4>
-    <div class="form-group"><label>Bezeichnung</label><input id="s-name" type="text" placeholder="z.B. Regelverstoß §3"></div>
-    <div class="form-group"><label>Beschreibung</label><input id="s-desc" type="text" placeholder="Kurzbeschreibung"></div>
-    <div class="form-group"><label>Strafe</label><input id="s-penalty" type="text" placeholder="z.B. Verwarnung, 3 Tage Suspension"></div>
-    <div class="form-group"><label>Aktenlink (Discord Thread URL)</label><input id="s-akte" type="text" placeholder="https://discord.com/…"></div>
-    <div class="form-group"><label>Notiz</label><input id="s-notiz" type="text" placeholder="Optional"></div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeSanctionModal()">Schließen</button>
-      <button class="btn-primary" onclick="addSanction()">Sanktion hinzufügen</button>
-    </div>
-  </div>
-</div>
-
-<!-- LOADING -->
-<div class="loading-overlay" id="loading" style="display:none">
-  <div class="spinner" style="width:32px;height:32px;border-width:3px"></div>
-  <p id="loading-msg">Laden …</p>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  CONFIG — auto-detected from GitHub Pages URL
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+//  GITHUB CONFIG — auto-detected from GitHub Pages URL
+// ═══════════════════════════════════════════════════════
 const REPO   = 'mitarbeiterverzeichnis';
 const BRANCH = 'main';
-let   OWNER  = '';
+let OWNER = '';
 
 function detectOwner() {
   const h = location.hostname;
@@ -294,531 +1367,1204 @@ function detectOwner() {
   }
 }
 
-// ═══════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════
-let session       = null;   // { username, level }
-let employees     = [];
-let eventsData    = [];
-let admins        = [];
-let writeToken    = sessionStorage.getItem('writeToken') || '';
-let tokenRequired = false;
-let editingEmpIdx = -1;     // index in employees[] or -1 for new
-let sanctionEmpIdx = -1;    // index in employees[] for sanctions modal
-let filteredEmps  = [];
+// ═══════════════════════════════════════════════════════
+//  DATA LAYER
+// ═══════════════════════════════════════════════════════
+let writeToken = sessionStorage.getItem('writeToken') || '';
 
-// ═══════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════
-window.addEventListener('load', () => {
-  detectOwner();
-  document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-  document.getElementById('inp-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
-});
-
-// ═══════════════════════════════════════════════
-//  SHA-256
-// ═══════════════════════════════════════════════
-async function sha256(str) {
-  const enc = new TextEncoder().encode(str);
-  const buf = await crypto.subtle.digest('SHA-256', enc);
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-// ═══════════════════════════════════════════════
-//  GITHUB DATA LAYER
-// ═══════════════════════════════════════════════
 function rawUrl(file) {
   return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${file}?t=${Date.now()}`;
 }
 
 async function loadJSON(file) {
   const r = await fetch(rawUrl(file));
-  if (!r.ok) {
-    if (r.status === 404) return null;
-    throw new Error(`Kann ${file} nicht laden (HTTP ${r.status})`);
-  }
+  if (!r.ok) { if (r.status === 404) return null; throw new Error(`${file} HTTP ${r.status}`); }
   return r.json();
 }
 
-function toBase64(str) {
+function toB64(str) {
   const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  let bin = ''; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
   return btoa(bin);
 }
 
 async function saveJSON(file, data) {
-  if (!writeToken) {
-    await requireToken();
-    if (!writeToken) throw new Error('Kein Token gesetzt.');
-  }
-  // Get current SHA
-  const metaR = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,
-    { headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json' } }
-  );
-  const payload = {
-    message: `Update ${file}`,
-    content: toBase64(JSON.stringify(data, null, 2))
-  };
-  if (metaR.ok) {
-    const meta = await metaR.json();
-    payload.sha = meta.sha;
-  }
-  const r = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,
-    {
-      method: 'PUT',
-      headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }
-  );
+  if (!writeToken) { await requireToken(); if (!writeToken) throw new Error('Kein Token gesetzt.'); }
+  const metaR = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,
+    { headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json' } });
+  const payload = { message: `Update ${file}`, content: toB64(JSON.stringify(data, null, 2)) };
+  if (metaR.ok) { const meta = await metaR.json(); payload.sha = meta.sha; }
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${writeToken}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
   if (!r.ok) {
     const e = await r.json();
-    if (r.status === 401 || r.status === 403) {
-      writeToken = '';
-      sessionStorage.removeItem('writeToken');
-      throw new Error('Token ungültig oder abgelaufen. Bitte neues Token eingeben.');
-    }
+    if (r.status === 401 || r.status === 403) { writeToken = ''; sessionStorage.removeItem('writeToken'); throw new Error('Token ungültig. Bitte neu eingeben.'); }
     throw new Error(e.message || `HTTP ${r.status}`);
   }
 }
 
-// ═══════════════════════════════════════════════
-//  TOKEN
-// ═══════════════════════════════════════════════
+// Helper: strip runtime-only fields before saving
+function cleanBeamter(b) {
+  const { _row, _sanktionen, ...clean } = b;
+  return clean;
+}
+
+async function saveEmployees() {
+  await saveJSON('data/employees.json', allBeamte.map(cleanBeamter));
+}
+
+// ═══════════════════════════════════════════════════════
+//  TOKEN MODAL
+// ═══════════════════════════════════════════════════════
 let tokenResolve = null;
 
 function requireToken() {
   return new Promise(resolve => {
     tokenResolve = resolve;
-    tokenRequired = true;
     showTokenModal();
   });
 }
 
 function showTokenModal() {
-  document.getElementById('token-inp').value = writeToken || '';
-  document.getElementById('token-modal').style.display = 'flex';
+  const el = document.getElementById('tokenModalOverlay');
+  if (el) { document.getElementById('tokenInput').value = writeToken || ''; el.style.display = 'flex'; }
 }
 
 function closeTokenModal() {
-  document.getElementById('token-modal').style.display = 'none';
-  tokenRequired = false;
+  const el = document.getElementById('tokenModalOverlay');
+  if (el) el.style.display = 'none';
   if (tokenResolve) { tokenResolve(); tokenResolve = null; }
 }
 
-function saveToken() {
-  const t = document.getElementById('token-inp').value.trim();
-  if (!t) return toast('Bitte Token eingeben.', 'err');
+function saveTokenModal() {
+  const t = document.getElementById('tokenInput').value.trim();
+  if (!t) { showToast('Bitte Token eingeben.', 'red'); return; }
   writeToken = t;
   sessionStorage.setItem('writeToken', t);
   closeTokenModal();
-  toast('Token gespeichert.', 'ok');
+  showToast('Token gespeichert ✓', 'green');
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let sessionToken   = null;
+let isAdmin        = false;
+let adminLevel     = 0;
+let adminUsername  = '';
+let allBeamte      = [];
+let allRaenge      = [];
+let editingRow     = null;
+let kuendRow       = null;
+let akteBeamter    = null;
+let rangListLoaded = false;
+let uprankIds      = [];
+let allSanktionen  = [];
+let sanktiHeaders  = [];
+let currentTab          = 'beamte';
+let allKleiderordnung    = [];
+let allKleiderordnungDiv = [];
+let rankOrder = new Map();
+let koLoaded    = false;
+let koDivLoaded = false;
+let pendingLoads = 0;
+let loadingFactInterval = null;
+let loadingFactIndex = 0;
+let selectedSankBeamteRow = null;
+let sanktionskatalogData = [];
+let currentEditSanktionId = null;
+let currentEditSanktionBeamteRow = null;
+let penaltyCounter = 0;
+
+const loadingFacts = [
+  'Wusstest du schon? Felix Cunningham und Noah Herzberg haben das System gemeinsam entwickelt.',
+  'Wusstest du schon? Die Ladeanzeige bleibt sichtbar, bis alle Daten im Hintergrund fertig sind.',
+  'Wusstest du schon? Sanktionen, Events und Beamtenliste werden parallel geladen.'
+];
+
+// ═══════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function safeImgUrl(url) { const s = String(url||'').trim(); return /^https?:\/\//i.test(s)?s:''; }
+function renderIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+
+function formatDate(val) {
+  if (!val) return '–';
+  const raw = String(val).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    const [year, month, day] = raw.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString('de-DE');
+  }
+  try { const d = new Date(raw); if (!isNaN(d)) return d.toLocaleDateString('de-DE'); } catch(e) {}
+  return raw;
+}
+function formatTime(val) {
+  if (!val) return '';
+  const raw = String(val).trim();
+  if (/^\d{2}:\d{2}$/.test(raw)) return raw;
+  try { const d = new Date(raw); if (!isNaN(d)) return d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}); } catch(e) {}
+  return raw;
+}
+function getInitials(name) {
+  if (!name) return '–';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].substring(0,2).toUpperCase();
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+}
+function getRoleLabel(level) { return {1:'LAW',2:'TD',3:'HR',4:'Admin'}[level]||'Gast'; }
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  t.style.borderColor = type==='green'?'rgba(31,204,110,.4)':'rgba(232,64,64,.4)';
+  t.style.color = type==='green'?'var(--green)':'var(--red)';
+  setTimeout(()=>{ t.style.display='none'; }, 3000);
+}
+
+function setLoadingFact(index) {
+  const factEl = document.getElementById('loadingFactText');
+  if (!factEl) return;
+  const nextText = loadingFacts[index % loadingFacts.length];
+  factEl.classList.add('fade-out');
+  setTimeout(() => { factEl.textContent = nextText; factEl.classList.remove('fade-out'); factEl.classList.add('fade-in'); setTimeout(()=>factEl.classList.remove('fade-in'),250); }, 180);
+}
+function startLoadingFacts() {
+  loadingFactIndex = 0; setLoadingFact(0);
+  if (loadingFactInterval) clearInterval(loadingFactInterval);
+  loadingFactInterval = setInterval(()=>{ loadingFactIndex=(loadingFactIndex+1)%loadingFacts.length; setLoadingFact(loadingFactIndex); }, 2800);
+}
+function stopLoadingFacts() { if (loadingFactInterval) { clearInterval(loadingFactInterval); loadingFactInterval=null; } }
+
+function checkLoadingComplete() {
+  pendingLoads--;
+  if (pendingLoads <= 0) {
+    const ls = document.getElementById('loadingScreen');
+    if (ls) ls.classList.add('hidden');
+    stopLoadingFacts();
+  }
+}
+
+function onErr(e) { showToast('Fehler: ' + (e.message||e), 'red'); }
+
+// ═══════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════════════
+function switchTab(tab, btnEl) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  const lbl = document.getElementById('archiveLabel');
+  if (lbl) lbl.style.display = tab==='beamte' ? '' : 'none';
+  if (tab==='sanktionen' && allSanktionen.length===0) loadSanktionen();
+  if (tab==='law-sanktionen' && (adminLevel===1||adminLevel===4)) renderLawSanktionen();
+  if (tab==='kuendigungen') loadKuendigungen();
+  if (tab==='kleiderordnung' && !koLoaded) loadKleiderordnung();
+  if (tab==='kleiderordnung-div' && !koDivLoaded) loadKleiderordnungDiv();
+}
+
+function switchAkteTab(tab) {
+  let tabs = ['info','ausbildungen'];
+  if (adminLevel===2) tabs = ['ausbildungen'];
+  if (adminLevel===1||adminLevel===4) tabs.push('sanktionen');
+  document.querySelectorAll('.akte-tab-btn').forEach((b,i)=>{ b.classList.toggle('active', tabs[i]===tab); });
+  document.querySelectorAll('.akte-tab-content').forEach(c=>c.classList.remove('active'));
+  const tc = document.getElementById('akte-tab-'+tab);
+  if (tc) tc.classList.add('active');
+  if (tab==='sanktionen' && akteBeamter) loadSanktionenInPersonalakte(akteBeamter._row);
+}
+
+// ═══════════════════════════════════════════════════════
 //  AUTH
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 async function doLogin() {
-  const username = document.getElementById('inp-user').value.trim();
-  const password = document.getElementById('inp-pass').value;
-  const btn      = document.getElementById('login-btn');
-  const errEl    = document.getElementById('login-err');
-  errEl.style.display = 'none';
-
-  if (!username || !password) { showLoginErr('Bitte Name und Passwort eingeben.'); return; }
-
-  // Validate owner
   if (!OWNER) {
     OWNER = prompt('GitHub Benutzername (einmalig):') || '';
-    if (!OWNER) { showLoginErr('Kein GitHub-Benutzername angegeben.'); return; }
+    if (!OWNER) { document.getElementById('loginErr').textContent = 'Kein GitHub-Benutzername.'; return; }
     localStorage.setItem('ghOwner', OWNER);
   }
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  document.getElementById('loginErr').textContent = '';
+  if (!u||!p) { document.getElementById('loginErr').textContent = 'Bitte alle Felder ausfüllen.'; return; }
 
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Wird geprüft …';
+  let hashHex;
   try {
-    admins = await loadJSON('data/admins.json');
-    if (!admins) throw new Error('admins.json nicht gefunden. Bitte Setup erneut ausführen.');
-    const hash  = await sha256(password);
-    const admin = admins.find(a => a.username.toLowerCase() === username.toLowerCase() && a.passwordHash.toLowerCase() === hash);
-    if (!admin) { showLoginErr('Name oder Passwort falsch.'); return; }
-    session = { username: admin.username, level: admin.level };
-    await loadDashboard();
-  } catch(e) {
-    showLoginErr('Fehler: ' + e.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Anmelden';
-  }
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(p));
+    hashHex = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  } catch(e) { document.getElementById('loginErr').textContent = 'Hashing nicht verfügbar.'; return; }
+
+  try {
+    const admins = await loadJSON('data/admins.json');
+    if (!admins) { document.getElementById('loginErr').textContent = 'admins.json nicht gefunden.'; return; }
+    const admin = admins.find(a => a.username.toLowerCase()===u.toLowerCase() && a.passwordHash.toLowerCase()===hashHex);
+    if (!admin) { document.getElementById('loginErr').textContent = 'Name oder Passwort falsch.'; return; }
+    sessionToken = 'gh-session';
+    isAdmin = true; adminLevel = admin.level; adminUsername = admin.username;
+    showApp(admin.username);
+  } catch(e) { document.getElementById('loginErr').textContent = 'Fehler: ' + e.message; }
 }
 
-function showLoginErr(msg) {
-  const el = document.getElementById('login-err');
-  el.textContent = msg; el.style.display = 'block';
-  document.getElementById('login-btn').disabled = false;
-  document.getElementById('login-btn').textContent = 'Anmelden';
+function publicView() { isAdmin=false; sessionToken=null; adminLevel=0; showApp(null); }
+
+function goToLogin() {
+  document.getElementById('appPage').classList.remove('visible');
+  document.getElementById('appPage').style.display = '';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
 }
 
 function doLogout() {
-  session = null; employees = []; eventsData = [];
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-wrap').style.display = 'flex';
-  document.getElementById('inp-user').value = '';
-  document.getElementById('inp-pass').value = '';
-  document.getElementById('login-err').style.display = 'none';
+  sessionToken=null; isAdmin=false; adminLevel=0;
+  document.getElementById('appPage').classList.remove('visible');
+  document.getElementById('appPage').style.display = '';
+  document.getElementById('loginPage').style.display = 'flex';
 }
 
-// ═══════════════════════════════════════════════
-//  DASHBOARD
-// ═══════════════════════════════════════════════
-async function loadDashboard() {
-  showLoading('Daten werden geladen …');
-  try {
-    const [emps, evs] = await Promise.all([
-      loadJSON('data/employees.json'),
-      loadJSON('data/events.json')
-    ]);
-    employees  = emps  || [];
-    eventsData = evs   || [];
-  } catch(e) {
-    employees = []; eventsData = [];
+function showApp(username) {
+  const ls = document.getElementById('loadingScreen');
+  if (ls) ls.classList.remove('hidden');
+  startLoadingFacts();
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appPage').style.display = 'flex';
+  document.getElementById('appPage').classList.add('visible');
+
+  if (isAdmin && username) {
+    document.getElementById('topbarUser').style.display = 'flex';
+    document.getElementById('topbarUsername').textContent = username;
+    const badge = document.getElementById('adminLevelBadge');
+    badge.textContent = getRoleLabel(adminLevel);
+    badge.className = 'admin-level-badge level-' + adminLevel;
+    document.getElementById('addBtn').style.display     = adminLevel>=3 ? 'inline-block' : 'none';
+    document.getElementById('eventBtn').style.display   = adminLevel>=2 ? 'inline-block' : 'none';
+    document.getElementById('uprankBtn').style.display  = adminLevel>=3 ? 'inline-block' : 'none';
+    document.getElementById('logoutBtn').style.display  = 'block';
+    document.getElementById('loginBtn').style.display   = 'none';
+    document.getElementById('publicBanner').style.display = 'none';
+    document.getElementById('kuendTabBtn').style.display  = adminLevel>=4 ? 'block' : 'none';
+    document.getElementById('lawTabBtn').style.display    = (adminLevel===1||adminLevel===4) ? 'block' : 'none';
+  } else {
+    document.getElementById('topbarUser').style.display   = 'none';
+    document.getElementById('addBtn').style.display       = 'none';
+    document.getElementById('eventBtn').style.display     = 'none';
+    document.getElementById('uprankBtn').style.display    = 'none';
+    document.getElementById('logoutBtn').style.display    = 'none';
+    document.getElementById('loginBtn').style.display     = 'block';
+    document.getElementById('publicBanner').style.display = 'block';
+    document.getElementById('kuendTabBtn').style.display  = 'none';
+    document.getElementById('lawTabBtn').style.display    = 'none';
   }
-  hideLoading();
 
-  // UI setup
-  document.getElementById('login-wrap').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('user-badge').textContent = `${session.username} · Level ${session.level}`;
+  const archiveLabel = document.getElementById('archiveLabel');
+  if (archiveLabel) archiveLabel.style.display = '';
 
-  // Level-based visibility
-  if (session.level >= 3) document.getElementById('add-emp-btn').style.display = '';
-  if (session.level >= 2) document.getElementById('add-event-btn').style.display = '';
-  if (session.level === 1 || session.level === 4) document.getElementById('tab-sanctions').style.display = '';
-
-  switchTab('employees');
+  pendingLoads = (adminLevel===1||adminLevel===4) ? 3 : 2;
+  loadBeamte();
+  loadSanktionen();
+  if (adminLevel===1||adminLevel===4) renderLawSanktionen();
+  loadEvents();
 }
 
-// ═══════════════════════════════════════════════
-//  TABS
-// ═══════════════════════════════════════════════
-function switchTab(tab) {
-  ['employees','events','sanctions'].forEach(t => {
-    document.getElementById(`tab-${t}-content`).style.display = t===tab ? '' : 'none';
-    document.getElementById(`tab-${t}`)?.classList.toggle('active', t===tab);
+// ═══════════════════════════════════════════════════════
+//  BEAMTE
+// ═══════════════════════════════════════════════════════
+function loadBeamte() {
+  document.getElementById('tableBody').innerHTML =
+    '<tr><td colspan="12" class="loading"><span class="spinner"></span>Lade Beamte…</td></tr>';
+  Promise.all([loadJSON('data/raenge.json'), loadJSON('data/employees.json')])
+    .then(([raenge, data]) => {
+      allRaenge = raenge || [];
+      rankOrder = new Map(allRaenge.map((r,i)=>[String(r).trim().toLowerCase(),i]));
+      allBeamte = (data||[]).map((b,i) => ({...b, _row:i, _sanktionen: b.Sanktionen||[]}));
+      populateFilters();
+      renderTable();
+      checkLoadingComplete();
+    })
+    .catch(e => {
+      document.getElementById('tableBody').innerHTML =
+        '<tr><td colspan="12" class="loading" style="color:var(--red)">Fehler: '+e.message+'</td></tr>';
+      checkLoadingComplete();
+    });
+}
+
+function populateFilters() {
+  const divSel = document.getElementById('divFilter');
+  const curDiv = divSel.value;
+  const divs = new Set(); allBeamte.forEach(b=>{ if(b['Division']) divs.add(b['Division']); });
+  divSel.innerHTML = '<option value="">Alle Divisionen</option>';
+  [...divs].forEach(d=>{ const o=document.createElement('option'); o.value=d; o.textContent=d; divSel.appendChild(o); });
+  divSel.value = curDiv;
+
+  const abtSel = document.getElementById('abtFilter');
+  const curAbt = abtSel.value;
+  const abts = new Set(); allBeamte.forEach(b=>{ if(b['Hauptabteilung']) abts.add(b['Hauptabteilung']); if(b['Nebenabteilung']) abts.add(b['Nebenabteilung']); });
+  abtSel.innerHTML = '<option value="">Alle Abteilungen</option>';
+  [...abts].sort().forEach(a=>{ const o=document.createElement('option'); o.value=a; o.textContent=a; abtSel.appendChild(o); });
+  abtSel.value = curAbt;
+  document.getElementById('beamteCount').textContent = allBeamte.length + ' Mitarbeiter';
+}
+
+function renderTable() {
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const divF   = document.getElementById('divFilter').value;
+  const abtF   = document.getElementById('abtFilter').value;
+  const filtered = allBeamte.filter(b => {
+    const ms = !search || ['ID','DN','Name','Rang','Division'].some(k=>String(b[k]||'').toLowerCase().includes(search));
+    const md = !divF || b['Division']===divF;
+    const ma = !abtF || b['Hauptabteilung']===abtF || b['Nebenabteilung']===abtF;
+    return ms && md && ma;
   });
-  if (tab==='employees') renderEmployees(employees);
-  if (tab==='events')    renderEvents();
-  if (tab==='sanctions') renderSanctionsList();
-}
-
-// ═══════════════════════════════════════════════
-//  EMPLOYEES
-// ═══════════════════════════════════════════════
-function renderEmployees(list) {
-  filteredEmps = list;
-  const tbody  = document.getElementById('emp-body');
-  const empty  = document.getElementById('emp-empty');
-  const count  = document.getElementById('result-count');
-  tbody.innerHTML = '';
-
-  if (!list.length) { empty.style.display=''; count.textContent=''; return; }
-  empty.style.display = 'none';
-  count.textContent = `${list.length} Einträge`;
-
-  list.forEach((emp, i) => {
-    const realIdx = employees.indexOf(emp);
-    const strikes = parseInt(emp.Strikes) || 0;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${esc(emp.ID)}</td>
-      <td><strong style="color:#e2d9ff">${esc(emp.Name)}</strong></td>
-      <td>${esc(emp.Rang)}</td>
-      <td>${esc(emp.DN)}</td>
-      <td>${esc(emp.Division)}</td>
-      <td>${strikes > 0 ? `<span class="badge badge-strike">${strikes}</span>` : `<span class="badge badge-ok">0</span>`}</td>
-      <td>${esc(emp.Invite||'—')}</td>
-      <td>${esc(emp['Last Rank-up']||'—')}</td>
-      <td class="td-actions">
-        ${session.level >= 2 ? `<button class="btn-edit" onclick="openEmployeeModal(${realIdx})">Bearbeiten</button>` : ''}
-        ${(session.level===1||session.level===4) ? `<button class="btn-ghost" style="padding:7px 12px;font-size:12.5px" onclick="openSanctionModal(${realIdx})">⚖️ Sanktionen</button>` : ''}
-        ${session.level >= 4 ? `<button class="btn-danger" onclick="deleteEmployee(${realIdx})">Löschen</button>` : ''}
-      </td>`;
-    tbody.appendChild(tr);
+  const RANK_FALLBACK = 9999;
+  function dnNum(b) { const raw=String(b['DN']||'').replace(/[^0-9]/g,''); return raw?parseInt(raw,10):999999; }
+  filtered.sort((a,b) => {
+    const ra=rankOrder.get(String(a['Rang']||'').trim().toLowerCase())??RANK_FALLBACK;
+    const rb=rankOrder.get(String(b['Rang']||'').trim().toLowerCase())??RANK_FALLBACK;
+    if(ra!==rb) return ra-rb; return dnNum(a)-dnNum(b);
   });
+  document.getElementById('countLabel').textContent = filtered.length + ' Beamte';
+  const tbody = document.getElementById('tableBody');
+  if (!filtered.length) { tbody.innerHTML='<tr><td colspan="12" class="loading">Keine Beamten gefunden.</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(b => {
+    const divClass = {'Officer':'rank-officer','Command':'rank-command','High Command':'rank-hc','Leaderschaft':'rank-leadership'}[b['Division']]||'rank-officer';
+    const strikes = parseInt(b['Strikes'])||0;
+    const strikeClass = ['strike-0','strike-1','strike-2','strike-3'][Math.min(strikes,3)];
+    const inviteVal = b['Invite']?formatDate(b['Invite']):'–';
+    const rankupVal = b['Last Rank-up']?formatDate(b['Last Rank-up']):'–';
+    let actionBtns = '';
+    if (isAdmin) {
+      if (adminLevel>=3) actionBtns+=`<button class="btn-small btn-edit" onclick="openEditModal(${b._row})" title="Bearbeiten">✏ Edit</button>`;
+      if (adminLevel>=4) {
+        actionBtns+=`<button class="btn-small" style="background:rgba(124,29,29,.7);color:#fca5a5;border:1px solid rgba(232,64,64,.25);border-radius:5px;padding:5px 8px;font-size:11px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600" onclick="openKuendModal(${b._row})" title="Kündigen">🔴 Kick</button>`;
+        actionBtns+=`<button class="btn-small btn-del" onclick="confirmDelete(${b._row})" title="Löschen">✕</button>`;
+      } else if (adminLevel===3) {
+        actionBtns+=`<button class="btn-small" disabled style="background:#2b2b2b;color:#777;border:1px solid #555;border-radius:5px;padding:5px 8px;font-size:11px;cursor:not-allowed;text-decoration:line-through;opacity:.7;">🔴 Kick</button>`;
+        actionBtns+=`<button class="btn-small" disabled style="background:#2b2b2b;color:#777;border:1px solid #555;border-radius:5px;padding:5px 8px;font-size:11px;cursor:not-allowed;text-decoration:line-through;opacity:.7;">✕</button>`;
+      }
+    }
+    return `<tr>
+      <td><button class="btn-info" onclick="openAkte(${b._row})" title="Personalakte">${adminLevel===2?'📋':'i'}</button></td>
+      <td class="td-id">${b['ID']||'–'}</td>
+      <td class="td-dn">${b['DN']||'–'}</td>
+      <td class="td-name">${b['Name']||'–'}</td>
+      <td style="font-size:11px;color:var(--muted);font-family:'Rajdhani',sans-serif">${b['Rang']||'–'}</td>
+      <td><span class="rank-badge ${divClass}">${b['Division']||'–'}</span></td>
+      <td><span class="strike-dot ${strikeClass}">${strikes}</span></td>
+      <td class="td-date">${inviteVal}</td>
+      <td class="td-date">${rankupVal}</td>
+      <td style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">${b['Hauptabteilung']||'–'}</td>
+      <td style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">${b['Nebenabteilung']||'–'}</td>
+      <td><div style="display:flex;gap:4px;align-items:center">${actionBtns}</div></td>
+    </tr>`;
+  }).join('');
+  renderIcons();
 }
 
-function filterEmployees() {
-  const q = document.getElementById('search').value.toLowerCase().trim();
-  if (!q) { renderEmployees(employees); return; }
-  renderEmployees(employees.filter(e =>
-    [e.ID,e.Name,e.Rang,e.DN,e.Division,e.Hauptabteilung,e.Nebenabteilung]
-      .some(v => String(v||'').toLowerCase().includes(q))
-  ));
+// ═══════════════════════════════════════════════════════
+//  PERSONALAKTE
+// ═══════════════════════════════════════════════════════
+function openAkte(rowIndex) {
+  const b = allBeamte.find(x=>x._row===rowIndex);
+  if (!b) return;
+  akteBeamter = b;
+  document.getElementById('akteAvatarInitials').textContent = getInitials(b['Name']);
+  document.getElementById('akteNameHeader').textContent = b['Name']||'–';
+  document.getElementById('akteRangHeader').textContent  = b['Rang']||'–';
+  document.getElementById('akteIdHeader').textContent    = '# ID: '+(b['ID']||'–');
+  const strikes = parseInt(b['Strikes'])||0;
+  const fields = [
+    {label:'ID',           value:b['ID']||'–'},
+    {label:'Dienstnummer', value:b['DN']||'–'},
+    {label:'Name',         value:b['Name']||'–', full:true},
+    {label:'Rang',         value:b['Rang']||'–', full:true},
+    {label:'Division',     value:b['Division']||'–'},
+    {label:'Strikes',      value:strikes+' / 3'},
+    {label:'Eingestellt',  value:b['Invite']?formatDate(b['Invite']):'–'},
+    {label:'Last Rank-up', value:b['Last Rank-up']?formatDate(b['Last Rank-up']):'–'},
+    {label:'Hauptabteilung',value:b['Hauptabteilung']||'–'},
+    {label:'Nebenabteilung',value:b['Nebenabteilung']||'–'},
+  ];
+  document.getElementById('akteInfoGrid').innerHTML = fields.map(f=>
+    `<div class="info-item${f.full?' info-full':''}"><div class="info-label">${f.label}</div><div class="info-value">${f.value}</div></div>`
+  ).join('');
+
+  const aus = b['Ausbildungen']||{};
+  const ausEntries = Object.entries(aus);
+  const canEditAus = isAdmin && adminLevel>=2;
+  document.getElementById('akteSaveAusBtn').style.display = canEditAus ? 'block' : 'none';
+  if (!ausEntries.length) {
+    document.getElementById('akteAusList').innerHTML = '<p style="color:var(--muted);font-size:13px;padding:20px 0;font-family:\'JetBrains Mono\',monospace">Keine Ausbildungsdaten vorhanden.</p>';
+  } else {
+    document.getElementById('akteAusList').innerHTML = ausEntries.map(([name,val])=>{
+      const pass = val===true;
+      if (canEditAus) return `<div class="aus-row"><span class="aus-row-name">${name}</span><div class="aus-status"><span class="aus-check ${pass?'pass':'fail'}" id="aus-icon-${encodeAusKey(name)}">${pass?'✔':'✘'}</span><label class="aus-toggle"><input type="checkbox" ${pass?'checked':''} data-aus="${name}" onchange="toggleAusIcon(this)"><span class="aus-slider"></span></label></div></div>`;
+      return `<div class="aus-row"><span class="aus-row-name">${name}</span><span class="aus-check ${pass?'pass':'fail'}">${pass?'✔':'✘'}</span></div>`;
+    }).join('');
+  }
+  const sanktionenTabBtn = document.getElementById('akteSanktionenTabBtn');
+  if (sanktionenTabBtn) sanktionenTabBtn.style.display = (adminLevel===1||adminLevel===4)?'block':'none';
+  if (adminLevel===2) switchAkteTab('ausbildungen');
+  else if (adminLevel===1||adminLevel===4) switchAkteTab('sanktionen');
+  else switchAkteTab('info');
+  document.getElementById('akteOverlay').classList.add('active');
 }
 
-function openEmployeeModal(idx=-1) {
-  editingEmpIdx = idx;
-  document.getElementById('emp-modal-title').textContent = idx===-1 ? 'Mitarbeiter hinzufügen' : 'Mitarbeiter bearbeiten';
-  const emp = idx===-1 ? {} : employees[idx];
-  document.getElementById('emp-id').value      = emp.ID      || '';
-  document.getElementById('emp-name').value    = emp.Name    || '';
-  document.getElementById('emp-rang').value    = emp.Rang    || '';
-  document.getElementById('emp-dn').value      = emp.DN      || '';
-  document.getElementById('emp-div').value     = emp.Division|| '';
-  document.getElementById('emp-strikes').value = emp.Strikes ?? 0;
-  document.getElementById('emp-invite').value  = emp.Invite  || '';
-  document.getElementById('emp-rankup').value  = emp['Last Rank-up'] || '';
-  document.getElementById('emp-haupt').value   = emp.Hauptabteilung  || '';
-  document.getElementById('emp-neben').value   = emp.Nebenabteilung  || '';
-  document.getElementById('emp-modal').style.display = 'flex';
+function encodeAusKey(name) { return btoa(unescape(encodeURIComponent(name))).replace(/[^a-zA-Z0-9]/g,'_'); }
+function toggleAusIcon(checkbox) {
+  const name = checkbox.getAttribute('data-aus');
+  const icon = document.getElementById('aus-icon-'+encodeAusKey(name));
+  if (icon) { icon.textContent=checkbox.checked?'✔':'✘'; icon.className='aus-check '+(checkbox.checked?'pass':'fail'); }
 }
 
-function closeEmpModal() { document.getElementById('emp-modal').style.display='none'; }
+async function saveAusbildungen() {
+  if (!akteBeamter) return;
+  const checkboxes = document.querySelectorAll('#akteAusList input[type=checkbox][data-aus]');
+  const ausData = {};
+  checkboxes.forEach(cb=>{ ausData[cb.getAttribute('data-aus')]=cb.checked; });
+  const idx = akteBeamter._row;
+  if (!allBeamte[idx]['Ausbildungen']) allBeamte[idx]['Ausbildungen']={};
+  Object.assign(allBeamte[idx]['Ausbildungen'], ausData);
+  allBeamte[idx]._sanktionen = allBeamte[idx].Sanktionen||[];
+  try {
+    await saveEmployees();
+    showToast('Ausbildungen gespeichert ✓','green');
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
+}
 
-async function saveEmployee() {
-  const emp = {
-    ID:              document.getElementById('emp-id').value.trim(),
-    Name:            document.getElementById('emp-name').value.trim(),
-    Rang:            document.getElementById('emp-rang').value.trim(),
-    DN:              document.getElementById('emp-dn').value.trim(),
-    Division:        document.getElementById('emp-div').value.trim(),
-    Strikes:         parseInt(document.getElementById('emp-strikes').value)||0,
-    Invite:          document.getElementById('emp-invite').value,
-    'Last Rank-up':  document.getElementById('emp-rankup').value,
-    Hauptabteilung:  document.getElementById('emp-haupt').value.trim(),
-    Nebenabteilung:  document.getElementById('emp-neben').value.trim(),
-    Sanktionen:      editingEmpIdx===-1 ? [] : (employees[editingEmpIdx].Sanktionen||[])
+function closeAkte() { document.getElementById('akteOverlay').classList.remove('active'); akteBeamter=null; }
+
+// ═══════════════════════════════════════════════════════
+//  RANG DROPDOWN
+// ═══════════════════════════════════════════════════════
+function checkDnWarning() {
+  const dn = document.getElementById('f_dn').value.trim();
+  const warn = document.getElementById('dnWarning');
+  if (!dn) { warn.style.display='none'; return; }
+  const isVergeben = allBeamte.some(b=>b['DN']===dn && b._row!==editingRow);
+  if (isVergeben) { warn.style.display='block'; warn.textContent='⚠ Diese DN ist bereits vergeben!'; }
+  else warn.style.display='none';
+}
+
+function loadRangDropdown(currentRang) {
+  const sel = document.getElementById('f_rang');
+  if (rangListLoaded && allRaenge.length) { setRangDropdownValue(currentRang); return; }
+  sel.innerHTML = '<option value="">— Lade Ränge… —</option>';
+  loadJSON('data/raenge.json').then(raenge => {
+    allRaenge = raenge||[];
+    rangListLoaded = true;
+    sel.innerHTML = '<option value="">— Rang wählen —</option>';
+    allRaenge.forEach(r=>{ const o=document.createElement('option'); o.value=r; o.textContent=r; sel.appendChild(o); });
+    setRangDropdownValue(currentRang);
+  }).catch(()=>{ sel.innerHTML='<option value="">— Fehler —</option>'; });
+}
+
+function setRangDropdownValue(currentRang) {
+  const sel = document.getElementById('f_rang');
+  if (!currentRang) return;
+  for (let i=0;i<sel.options.length;i++) {
+    if (sel.options[i].value===currentRang) { sel.selectedIndex=i; return; }
+  }
+  const o=document.createElement('option'); o.value=currentRang; o.textContent=currentRang; sel.appendChild(o); sel.value=currentRang;
+}
+
+// ═══════════════════════════════════════════════════════
+//  ADD / EDIT MODAL
+// ═══════════════════════════════════════════════════════
+function openAddModal() {
+  editingRow = null;
+  document.getElementById('modalTitle').textContent = '+ Beamter hinzufügen';
+  ['f_id','f_dn','f_name','f_invite','f_rankup','f_abt1','f_abt2'].forEach(id=>{ document.getElementById(id).value=''; });
+  document.getElementById('f_strikes').value='0';
+  document.getElementById('f_div').value='Besucher';
+  document.getElementById('dnWarning').style.display='none';
+  const vergeben = allBeamte.map(b=>b['DN']).filter(Boolean);
+  if (vergeben.length>0) { document.getElementById('dnHintBox').style.display='block'; document.getElementById('dnHintList').textContent=vergeben.join(', '); }
+  else document.getElementById('dnHintBox').style.display='none';
+  ['f_id','f_name','f_div','f_strikes'].forEach(id=>{ document.getElementById(id).disabled=false; });
+  rangListLoaded = false;
+  loadRangDropdown('');
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function openEditModal(rowIndex) {
+  editingRow = rowIndex;
+  document.getElementById('modalTitle').textContent = '✏ Beamter bearbeiten';
+  document.getElementById('dnHintBox').style.display='none';
+  document.getElementById('dnWarning').style.display='none';
+  const b = allBeamte.find(x=>x._row===rowIndex);
+  if (!b) { showToast('Beamter nicht gefunden.','red'); return; }
+  document.getElementById('f_id').value      = b['ID']||'';
+  document.getElementById('f_dn').value      = b['DN']||'';
+  document.getElementById('f_name').value    = b['Name']||'';
+  document.getElementById('f_strikes').value = String(b['Strikes']||'0');
+  document.getElementById('f_invite').value  = b['Invite']||'';
+  document.getElementById('f_rankup').value  = b['Last Rank-up']||'';
+  document.getElementById('f_abt1').value    = b['Hauptabteilung']||'';
+  document.getElementById('f_abt2').value    = b['Nebenabteilung']||'';
+  document.getElementById('f_div').value     = b['Division']||'Officer';
+  ['f_id','f_name','f_div','f_strikes'].forEach(id=>{ document.getElementById(id).disabled=adminLevel<3; });
+  loadRangDropdown(b['Rang']||'');
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); editingRow=null; }
+
+async function saveBeamter() {
+  const btn = document.getElementById('saveBeamterBtn');
+  btn.disabled=true; btn.textContent='⏳ Speichere…';
+  const data = {
+    'ID':             document.getElementById('f_id').value.trim(),
+    'DN':             document.getElementById('f_dn').value.trim(),
+    'Name':           document.getElementById('f_name').value.trim(),
+    'Rang':           document.getElementById('f_rang').value,
+    'Division':       document.getElementById('f_div').value,
+    'Strikes':        document.getElementById('f_strikes').value,
+    'Invite':         document.getElementById('f_invite').value,
+    'Last Rank-up':   document.getElementById('f_rankup').value,
+    'Hauptabteilung': document.getElementById('f_abt1').value.trim(),
+    'Nebenabteilung': document.getElementById('f_abt2').value.trim()
   };
-  if (!emp.Name) return toast('Name ist erforderlich.','err');
+  const resetBtn = ()=>{ btn.disabled=false; btn.textContent='💾 Speichern'; };
+  if (!data['Name']) { showToast('Name ist Pflichtfeld.','red'); resetBtn(); return; }
 
-  closeEmpModal();
-  showLoading('Wird gespeichert …');
   try {
-    if (editingEmpIdx===-1) employees.push(emp);
-    else employees[editingEmpIdx] = emp;
-    await saveJSON('data/employees.json', employees);
-    toast('Gespeichert!','ok');
-    renderEmployees(employees);
-  } catch(e) { toast('Fehler: '+e.message,'err'); }
-  hideLoading();
+    if (editingRow !== null) {
+      const idx = allBeamte.findIndex(x=>x._row===editingRow);
+      if (idx>=0) {
+        allBeamte[idx] = {...allBeamte[idx], ...data};
+        allBeamte[idx]._sanktionen = allBeamte[idx].Sanktionen||[];
+      }
+    } else {
+      if (!data['ID']) { showToast('ID ist Pflichtfeld.','red'); resetBtn(); return; }
+      const newEntry = {...data, Ausbildungen:{}, Sanktionen:[], _row:allBeamte.length, _sanktionen:[]};
+      allBeamte.push(newEntry);
+      // Re-index
+      allBeamte = allBeamte.map((b,i)=>({...b,_row:i}));
+    }
+    await saveEmployees();
+    closeModal();
+    showToast('Gespeichert ✓','green');
+    rangListLoaded = false;
+    populateFilters();
+    renderTable();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
+  resetBtn();
 }
 
-async function deleteEmployee(idx) {
-  const emp = employees[idx];
-  if (!confirm(`Mitarbeiter "${emp.Name}" wirklich löschen?`)) return;
-  showLoading('Wird gelöscht …');
+async function confirmDelete(rowIndex) {
+  const b = allBeamte.find(x=>x._row===rowIndex);
+  const name = b?b['Name']:'diesen Beamten';
+  if (!confirm('Beamter "'+name+'" wirklich löschen?\nDiese Aktion kann nicht rückgängig gemacht werden.')) return;
   try {
-    employees.splice(idx,1);
-    await saveJSON('data/employees.json', employees);
-    toast('Gelöscht.','ok');
-    renderEmployees(employees);
-  } catch(e) { toast('Fehler: '+e.message,'err'); employees.splice(idx,0,emp); }
-  hideLoading();
+    allBeamte = allBeamte.filter(x=>x._row!==rowIndex).map((b,i)=>({...b,_row:i}));
+    await saveEmployees();
+    showToast('Beamter gelöscht','green');
+    populateFilters(); renderTable();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
 }
 
-// ═══════════════════════════════════════════════
-//  EVENTS
-// ═══════════════════════════════════════════════
-function renderEvents() {
-  const grid  = document.getElementById('events-grid');
-  const empty = document.getElementById('events-empty');
-  grid.innerHTML = '';
-  if (!eventsData.length) { empty.style.display=''; return; }
-  empty.style.display = 'none';
-  eventsData.slice().reverse().forEach((ev,i) => {
-    const realIdx = eventsData.length-1-i;
-    const div = document.createElement('div');
-    div.className = 'event-card';
-    div.innerHTML = `
-      <h3>${esc(ev.title)}</h3>
-      <div class="event-meta">📅 ${esc(ev.date||'—')}  ⏰ ${esc(ev.time||'—')}</div>
-      <div class="event-desc">${esc(ev.desc||'')}</div>
-      <div class="event-author">Erstellt von: ${esc(ev.author||'—')}
-        ${session.level>=4 ? `<button class="btn-danger" style="margin-left:12px;padding:4px 10px;font-size:11px" onclick="deleteEvent(${realIdx})">Löschen</button>` : ''}
-      </div>`;
-    grid.appendChild(div);
+// ═══════════════════════════════════════════════════════
+//  KÜNDIGUNG
+// ═══════════════════════════════════════════════════════
+function openKuendModal(rowIndex) {
+  kuendRow = rowIndex;
+  const b = allBeamte.find(x=>x._row===rowIndex);
+  document.getElementById('kuend_name').value  = b?(b['Name']+' (ID: '+b['ID']+')'):'–';
+  document.getElementById('kuend_grund').value = '';
+  document.getElementById('kuend_text').value  = '';
+  document.getElementById('kuendOverlay').classList.add('active');
+}
+function closeKuendModal() { document.getElementById('kuendOverlay').classList.remove('active'); kuendRow=null; }
+
+async function confirmKuendigung() {
+  const grund = document.getElementById('kuend_grund').value;
+  if (!grund) { showToast('Bitte einen Grund wählen.','red'); return; }
+  const text = document.getElementById('kuend_text').value.trim();
+  if (!confirm('Kündigung wirklich ausstellen? Der Beamte wird entfernt.')) return;
+
+  const b = allBeamte.find(x=>x._row===kuendRow);
+  if (!b) { showToast('Beamter nicht gefunden.','red'); return; }
+
+  const kuendEintrag = {
+    name: b['Name'], id: b['ID'], dn: b['DN'], rang: b['Rang'],
+    division: b['Division'], invite: b['Invite'], grund, text,
+    datum: new Date().toLocaleDateString('de-DE'), admin: adminUsername
+  };
+
+  try {
+    // Load current kuendigungen
+    const kuend = await loadJSON('data/kuendigungen.json') || [];
+    kuend.push(kuendEintrag);
+    // Remove from employees
+    allBeamte = allBeamte.filter(x=>x._row!==kuendRow).map((b,i)=>({...b,_row:i}));
+    await saveEmployees();
+    await saveJSON('data/kuendigungen.json', kuend);
+    closeKuendModal();
+    showToast('Kündigung gespeichert für '+b['Name']+' ✓','green');
+    populateFilters(); renderTable();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  KÜNDIGUNGEN TAB
+// ═══════════════════════════════════════════════════════
+async function loadKuendigungen() {
+  const container = document.getElementById('kuendListContainer');
+  container.innerHTML = '<div class="loading"><span class="spinner"></span>Lade Kündigungen…</div>';
+  try {
+    const data = await loadJSON('data/kuendigungen.json');
+    renderKuendigungen(data||[]);
+  } catch(e) { container.innerHTML = '<div class="loading" style="color:var(--red)">Fehler: '+e.message+'</div>'; }
+}
+
+function renderKuendigungen(data) {
+  const container = document.getElementById('kuendListContainer');
+  if (!data.length) { container.innerHTML='<div class="loading">Keine Kündigungen vorhanden.</div>'; return; }
+  const sorted = [...data].reverse();
+  container.innerHTML = '<div class="kuend-list">'+sorted.map(k=>`
+    <div class="kuend-entry">
+      <div class="kuend-entry-header">
+        <div class="kuend-entry-name"><i data-lucide="user"></i> ${esc(k.name||'–')}</div>
+        <span class="kuend-grund-badge">${esc(k.grund||'–')}</span>
+        <span class="kuend-entry-datum">${esc(k.datum||'–')}</span>
+      </div>
+      <div class="kuend-entry-grid">
+        <div class="kuend-entry-field"><div class="kuend-entry-label">ID</div><div class="kuend-entry-value">${esc(k.id||'–')}</div></div>
+        <div class="kuend-entry-field"><div class="kuend-entry-label">DN</div><div class="kuend-entry-value">${esc(k.dn||'–')}</div></div>
+        <div class="kuend-entry-field"><div class="kuend-entry-label">Rang</div><div class="kuend-entry-value">${esc(k.rang||'–')}</div></div>
+        <div class="kuend-entry-field"><div class="kuend-entry-label">Division</div><div class="kuend-entry-value">${esc(k.division||'–')}</div></div>
+        <div class="kuend-entry-field"><div class="kuend-entry-label">Eingestellt am</div><div class="kuend-entry-value">${k.invite?formatDate(k.invite):'–'}</div></div>
+        <div class="kuend-entry-field"><div class="kuend-entry-label">Bearbeitet von</div><div class="kuend-entry-value">${esc(k.admin||'–')}</div></div>
+        ${k.text?`<div class="kuend-entry-field" style="grid-column:1/-1"><div class="kuend-entry-label">Begründung</div><div class="kuend-entry-value">${esc(k.text)}</div></div>`:''}
+      </div>
+    </div>`).join('')+'</div>';
+  renderIcons();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SANKTIONSKATALOG
+// ═══════════════════════════════════════════════════════
+async function loadSanktionen() {
+  document.getElementById('sanktiTableWrap').innerHTML = '<div class="sankti-loading"><span class="spinner"></span>Lade Sanktionskatalog…</div>';
+  try {
+    const data = await loadJSON('data/sanktionskatalog.json');
+    if (!data) { document.getElementById('sanktiTableWrap').innerHTML='<div class="sankti-empty">Keine Daten gefunden.</div>'; checkLoadingComplete(); return; }
+    if (Array.isArray(data)) {
+      // Format: [{headers:[], data:[]}] or flat array with headers as first row
+      allSanktionen = data; sanktiHeaders = data.length>0?Object.keys(data[0]).filter(k=>k!=='_row'):[];
+    } else if (data.headers && data.data) {
+      sanktiHeaders = data.headers; allSanktionen = data.data;
+    } else { allSanktionen=[]; sanktiHeaders=[]; }
+    renderSanktionen();
+    checkLoadingComplete();
+  } catch(e) {
+    document.getElementById('sanktiTableWrap').innerHTML='<div class="sankti-empty" style="color:var(--red)">Fehler: '+e.message+'</div>';
+    checkLoadingComplete();
+  }
+}
+
+const SK_PARA  = ['§','para','paragraph'];
+const SK_REGEL = ['regel','definition','beschreibung','vergehen'];
+const SK_PEN   = ['humane','ems','ng','runde','upranksperre','geldstrafe','sperre'];
+const SK_CHECK = ['strike','kündigung','kundigung'];
+
+function skColType(header) {
+  const h=header.toLowerCase();
+  if(SK_PARA.some(k=>h.includes(k))) return 'para';
+  if(SK_CHECK.some(k=>h.includes(k))) return 'check';
+  if(SK_PEN.some(k=>h.includes(k))) return 'pen';
+  if(SK_REGEL.some(k=>h.includes(k))) return 'regel';
+  return 'pen';
+}
+function renderCheckCell(val) {
+  const v=String(val||'').trim();
+  if(!v||v==='0'||v==='-'||v==='–') return '<span class="sankti-check no">–</span>';
+  const isOpt=v.startsWith('(');
+  return `<span class="sankti-check ${isOpt?'opt':'yes'}" title="${isOpt?'Optional':'Ja'}">${isOpt?'(✓)':'✓'}</span>`;
+}
+function isSectionRow(row, paraKey, regelKey) {
+  const para=String(row[paraKey]||'').trim();
+  const regel=String(row[regelKey]||'').trim();
+  return para==='' && /^\d+\./.test(regel);
+}
+function renderSanktionen() {
+  const search=document.getElementById('sanktiSearch').value.toLowerCase();
+  const wrap=document.getElementById('sanktiTableWrap');
+  if(!sanktiHeaders.length) { wrap.innerHTML='<div class="sankti-empty">Keine Daten vorhanden. Sanktionskatalog-Datei in GitHub hochladen.</div>'; document.getElementById('sanktiCount').textContent=''; return; }
+  const paraKeys=sanktiHeaders.filter(h=>skColType(h)==='para');
+  const regelKeys=sanktiHeaders.filter(h=>skColType(h)==='regel');
+  const penKeys=sanktiHeaders.filter(h=>skColType(h)==='pen');
+  const checkKeys=sanktiHeaders.filter(h=>skColType(h)==='check');
+  const paraKey=paraKeys[0]||sanktiHeaders[0];
+  const regelKey=regelKeys[0]||sanktiHeaders[1];
+  const filtered=allSanktionen.filter(row=>{
+    if(!search) return true;
+    if(isSectionRow(row,paraKey,regelKey)) return false;
+    return sanktiHeaders.some(h=>String(row[h]||'').toLowerCase().includes(search));
   });
+  const dataRows=filtered.filter(r=>!isSectionRow(r,paraKey,regelKey));
+  document.getElementById('sanktiCount').textContent=dataRows.length+' Regeln';
+  if(!filtered.length) { wrap.innerHTML='<div class="sankti-empty">Keine Einträge gefunden.</div>'; return; }
+  const totalCols=2+penKeys.length+checkKeys.length;
+  const colgroup=`<colgroup><col class="col-para"><col class="col-regel">${penKeys.map(()=>'<col class="col-pen">').join('')}${checkKeys.map(()=>'<col class="col-check">').join('')}</colgroup>`;
+  const thead=`<thead><tr><th class="th-left">§</th><th class="th-left">Regeldefinition</th>${penKeys.map(h=>`<th>${esc(h)}</th>`).join('')}${checkKeys.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>`;
+  const tbody='<tbody>'+filtered.map(row=>{
+    if(isSectionRow(row,paraKey,regelKey)) return `<tr class="sankti-section-row"><td colspan="${totalCols}">${esc(String(row[regelKey]||'').trim())}</td></tr>`;
+    const para=String(row[paraKey]||'').trim();
+    const regel=String(row[regelKey]||'').trim();
+    return `<tr><td class="td-para">${esc(para)}</td><td class="td-regel">${esc(regel)}</td>${penKeys.map(k=>`<td class="td-pen">${esc(String(row[k]||'–').trim())}</td>`).join('')}${checkKeys.map(k=>`<td class="td-check">${renderCheckCell(row[k])}</td>`).join('')}</tr>`;
+  }).join('')+'</tbody>';
+  wrap.innerHTML=`<table class="sankti-table">${colgroup}${thead}${tbody}</table>`;
 }
 
-function openEventModal() { document.getElementById('event-modal').style.display='flex'; }
-function closeEventModal() { document.getElementById('event-modal').style.display='none'; }
+// ═══════════════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════════════
+async function loadEvents() {
+  try {
+    const events = await loadJSON('data/events.json');
+    renderEventBanner(events||[]);
+  } catch(e) { renderEventBanner([]); }
+}
+
+function renderEventBanner(events) {
+  const banner=document.getElementById('eventBanner');
+  const inner=document.getElementById('eventBannerInner');
+  if(!events||!events.length) { banner.classList.remove('has-events'); inner.innerHTML=''; return; }
+  banner.classList.add('has-events');
+  inner.innerHTML=events.map(ev=>{
+    const delBtn=isAdmin&&adminLevel>=4?`<button class="event-del-btn" onclick="deleteEvent(${JSON.stringify(ev.id)})" title="Event löschen">✕</button>`:'';
+    const meta=[ev.date?formatDate(ev.date):'',ev.time?formatTime(ev.time):'',ev.desc?'— '+ev.desc:''].filter(Boolean).join(' ');
+    return `<div class="event-item"><span><i data-lucide="calendar"></i></span><div><div class="event-title">${esc(ev.title)}</div>${meta?`<div class="event-meta">${esc(meta)}</div>`:''}</div>${delBtn}</div>`;
+  }).join('');
+  renderIcons();
+}
+
+function openEventModal() {
+  ['ev_title','ev_time','ev_desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ev_date').value='';
+  document.getElementById('eventModalOverlay').classList.add('active');
+}
+function closeEventModal() { document.getElementById('eventModalOverlay').classList.remove('active'); }
 
 async function saveEvent() {
-  const ev = {
-    title:  document.getElementById('ev-title').value.trim(),
-    date:   document.getElementById('ev-date').value,
-    time:   document.getElementById('ev-time').value,
-    desc:   document.getElementById('ev-desc').value.trim(),
-    author: session.username
-  };
-  if (!ev.title) return toast('Titel ist erforderlich.','err');
-  closeEventModal();
-  showLoading('Wird gespeichert …');
+  const title=document.getElementById('ev_title').value.trim();
+  if(!title) { showToast('Titel ist Pflichtfeld.','red'); return; }
+  const data = { id: Date.now(), title, date:document.getElementById('ev_date').value, time:document.getElementById('ev_time').value.trim(), desc:document.getElementById('ev_desc').value.trim() };
   try {
-    eventsData.push(ev);
-    await saveJSON('data/events.json', eventsData);
-    toast('Event gespeichert!','ok');
-    renderEvents();
-    ['ev-title','ev-date','ev-time','ev-desc'].forEach(id => document.getElementById(id).value='');
-  } catch(e) { toast('Fehler: '+e.message,'err'); eventsData.pop(); }
-  hideLoading();
+    const events = await loadJSON('data/events.json')||[];
+    events.push(data);
+    await saveJSON('data/events.json', events);
+    closeEventModal(); showToast('Event erstellt ✓','green'); loadEvents();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
 }
 
-async function deleteEvent(idx) {
-  if (!confirm('Event wirklich löschen?')) return;
-  const ev = eventsData.splice(idx,1)[0];
-  showLoading('Wird gelöscht …');
+async function deleteEvent(evId) {
+  if(!confirm('Event löschen?')) return;
   try {
-    await saveJSON('data/events.json', eventsData);
-    toast('Event gelöscht.','ok');
-    renderEvents();
-  } catch(e) { toast('Fehler: '+e.message,'err'); eventsData.splice(idx,0,ev); }
-  hideLoading();
+    let events = await loadJSON('data/events.json')||[];
+    events = events.filter(e=>e.id!==evId);
+    await saveJSON('data/events.json', events);
+    showToast('Event gelöscht','green'); loadEvents();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
 }
 
-// ═══════════════════════════════════════════════
-//  SANCTIONS (overview list)
-// ═══════════════════════════════════════════════
-function renderSanctionsList() {
-  const list  = document.getElementById('sanctions-list');
-  const empty = document.getElementById('sanctions-empty');
-  const q     = document.getElementById('sanction-search').value.toLowerCase().trim();
-  list.innerHTML = '';
+// ═══════════════════════════════════════════════════════
+//  UP-RANK MODAL
+// ═══════════════════════════════════════════════════════
+function openUprankModal() { document.getElementById('uprankIdInput').value=''; renderUprankList(); document.getElementById('uprankOverlay').classList.add('active'); }
+function closeUprankModal() { document.getElementById('uprankOverlay').classList.remove('active'); }
+function addUprankId() {
+  const val=document.getElementById('uprankIdInput').value.trim();
+  if(!val) return;
+  if(!uprankIds.includes(val)) uprankIds.push(val);
+  document.getElementById('uprankIdInput').value='';
+  renderUprankList();
+}
+function removeUprankId(id) { uprankIds=uprankIds.filter(x=>x!==id); renderUprankList(); }
+function renderUprankList() {
+  const container=document.getElementById('uprankList');
+  if(!uprankIds.length) { container.innerHTML='<div class="uprank-empty">Keine IDs eingetragen. Füge IDs oben ein.</div>'; return; }
+  container.innerHTML=uprankIds.map(id=>{
+    const b=allBeamte.find(x=>x['ID']===id);
+    if(!b) return `<div class="uprank-card"><div class="uprank-avatar">?</div><div class="uprank-info"><div class="uprank-name">ID: ${esc(id)}</div><div class="uprank-meta">Nicht gefunden</div></div><span class="uprank-not-found">Nicht im System</span><button class="uprank-del" onclick="removeUprankId('${esc(id)}')" title="Entfernen">✕</button></div>`;
+    return `<div class="uprank-card"><div class="uprank-avatar">👤</div><div class="uprank-info"><div class="uprank-name">${esc(b['Name']||'–')}</div><div class="uprank-meta">ID: ${esc(b['ID']||'–')} · DN: ${esc(b['DN']||'–')}</div></div><div class="uprank-ranks"><span class="uprank-rang-current">${esc(b['Rang']||'–')}</span></div><button class="uprank-del" onclick="removeUprankId('${esc(id)}')" title="Entfernen">✕</button></div>`;
+  }).join('');
+}
 
-  const withSanctions = employees.filter(e =>
-    (e.Sanktionen||[]).length > 0 &&
-    (!q || e.Name.toLowerCase().includes(q) || (e.ID||'').toLowerCase().includes(q))
-  );
+// ═══════════════════════════════════════════════════════
+//  KLEIDERORDNUNG
+// ═══════════════════════════════════════════════════════
+async function loadKleiderordnung() {
+  document.getElementById('koListWrap').innerHTML='<div class="ko-empty"><span class="spinner"></span> Lade&#8230;</div>';
+  try {
+    const data=await loadJSON('data/kleiderordnung.json');
+    if(!data) { document.getElementById('koListWrap').innerHTML='<div class="ko-empty">Keine Daten vorhanden.</div>'; return; }
+    allKleiderordnung=Array.isArray(data)?data:(data.data||[]); koLoaded=true; renderKleiderordnung();
+  } catch(e) { document.getElementById('koListWrap').innerHTML='<div class="ko-empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>'; }
+}
+function renderKleiderordnung() {
+  const search=(document.getElementById('koSearch').value||'').toLowerCase();
+  const filtered=allKleiderordnung.filter(r=>!search||r.rang.toLowerCase().includes(search));
+  document.getElementById('koCount').textContent=filtered.length+' Ränge';
+  if(!filtered.length) { document.getElementById('koListWrap').innerHTML='<div class="ko-empty">Keine Einträge gefunden.</div>'; renderIcons(); return; }
+  document.getElementById('koListWrap').innerHTML=filtered.map(r=>koRangCard(r)).join('');
+  renderIcons();
+}
+function koRangCard(r) {
+  const outfits=[
+    {label:'♂ Kleiderordnung',img:r.kl_m_img,text:r.kl_m_text},{label:'♀ Kleiderordnung',img:r.kl_f_img,text:r.kl_f_text},
+    {label:'♂ Eventkleidung',img:r.ev_m_img,text:r.ev_m_text},{label:'♀ Eventkleidung',img:r.ev_f_img,text:r.ev_f_text}
+  ];
+  return `<div class="ko-card"><div class="ko-card-header" onclick="this.closest('.ko-card').classList.toggle('open')"><span class="ko-card-rank">${esc(r.rang)}</span><span class="ko-card-toggle">&#9660;</span></div><div class="ko-card-body"><div class="ko-info-row"><div class="ko-info-box"><div class="ko-info-label">Genehmigungen &amp; Anforderungen</div><div class="ko-info-text">${esc(r.anforderungen)||'–'}</div></div><div class="ko-info-box"><div class="ko-info-label">Neue Befugnisse für den Dienst</div><div class="ko-info-text">${esc(r.befugnisse)||'–'}</div></div></div><div class="ko-outfits">${outfits.map(o=>koOutfitCell(o.label,o.img,o.text)).join('')}</div>${koWaffen(r)}</div></div>`;
+}
+function koOutfitCell(label,img,text) {
+  const url=safeImgUrl(img);
+  return `<div class="ko-outfit"><div class="ko-outfit-label">${label}</div>${url?`<img class="ko-outfit-img" src="${url}" alt="${label}" loading="lazy">`:'<div class="ko-outfit-noimg">Kein Bild</div>'}<div class="ko-outfit-text">${koParseText(text)}</div></div>`;
+}
+function koWaffen(r) {
+  if(!r.waffen) return '';
+  return `<div class="ko-waffen"><div class="ko-waffen-label">Erlaubte Waffen</div><div class="ko-waffen-text">${esc(r.waffen)}</div></div>`;
+}
+function koParseText(text) {
+  if(!text) return '';
+  return String(text).split('\n').map(line=>{
+    const trimmed=line.trim(); if(!trimmed) return '';
+    const colon=trimmed.indexOf(':'); if(colon<0) return `<span class="ko-item-line">${esc(trimmed)}</span>`;
+    const label=trimmed.substring(0,colon).trim();
+    const value=trimmed.substring(colon+1).trim();
+    const m=value.match(/^(\d+)\s*[|I]\s*(\d+)$/i);
+    if(m) return `<span class="ko-item-line" title="Kleidungsstück ${m[1]} / Farbe ${m[2]}"><span class="ko-item-cat">${esc(label)}</span><span class="ko-item-badge"><span class="ko-item-num">${m[1]}</span><span class="ko-item-sep"></span><span class="ko-item-col">${m[2]}</span></span></span>`;
+    return `<span class="ko-item-line"><span class="ko-item-cat">${esc(label)}</span><span class="ko-item-val">${esc(value)}</span></span>`;
+  }).filter(Boolean).join('');
+}
 
-  if (!withSanctions.length) { empty.style.display=''; return; }
-  empty.style.display='none';
+// ═══════════════════════════════════════════════════════
+//  KLEIDERORDNUNG DIVISION
+// ═══════════════════════════════════════════════════════
+async function loadKleiderordnungDiv() {
+  document.getElementById('koDivListWrap').innerHTML='<div class="ko-empty"><span class="spinner"></span> Lade&#8230;</div>';
+  try {
+    const data=await loadJSON('data/kleiderordnung_div.json');
+    if(!data) { document.getElementById('koDivListWrap').innerHTML='<div class="ko-empty">Keine Daten vorhanden.</div>'; return; }
+    allKleiderordnungDiv=Array.isArray(data)?data:(data.data||[]); koDivLoaded=true; renderKleiderordnungDiv();
+  } catch(e) { document.getElementById('koDivListWrap').innerHTML='<div class="ko-empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>'; }
+}
+function renderKleiderordnungDiv() {
+  const search=(document.getElementById('koDivSearch').value||'').toLowerCase();
+  const filtered=allKleiderordnungDiv.filter(r=>!search||(r.rang||r.division||'').toLowerCase().includes(search));
+  document.getElementById('koDivCount').textContent=filtered.length+' Divisionen';
+  if(!filtered.length) { document.getElementById('koDivListWrap').innerHTML='<div class="ko-empty">Keine Einträge gefunden.</div>'; renderIcons(); return; }
+  document.getElementById('koDivListWrap').innerHTML=filtered.map(r=>koDivCard(r)).join('');
+  renderIcons();
+}
+function koDivCard(r) {
+  const name=r.rang||r.division||'–';
+  const outfits=[
+    {label:'♂ Kleiderordnung',img:r.kl_m_img,text:r.kl_m_text},{label:'♀ Kleiderordnung',img:r.kl_f_img,text:r.kl_f_text},
+    {label:'♂ Eventkleidung',img:r.ev_m_img,text:r.ev_m_text},{label:'♀ Eventkleidung',img:r.ev_f_img,text:r.ev_f_text}
+  ];
+  return `<div class="ko-card"><div class="ko-card-header" onclick="this.closest('.ko-card').classList.toggle('open')"><span class="ko-card-rank">${esc(name)}</span><span class="ko-card-toggle">&#9660;</span></div><div class="ko-card-body"><div class="ko-outfits ko-outfits4">${outfits.map(o=>koOutfitCell(o.label,o.img,o.text)).join('')}</div></div></div>`;
+}
 
-  withSanctions.forEach(emp => {
-    const idx = employees.indexOf(emp);
-    const card = document.createElement('div');
-    card.style.cssText = 'background:rgba(15,12,40,0.8);border:1px solid rgba(139,92,246,0.18);border-radius:12px;padding:16px 20px;margin-bottom:10px';
-    card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <strong style="color:#e2d9ff">${esc(emp.Name)} <span style="color:rgba(180,160,255,0.45);font-weight:400;font-size:12px">${esc(emp.Rang)}</span></strong>
-      <button class="btn-edit" onclick="openSanctionModal(${idx})">Verwalten</button>
-    </div>
-    ${(emp.Sanktionen||[]).map(s=>`<div class="sanction-item">
-      <h4>${esc(s.name)} <span class="status-badge ${s.status==='OFFEN'?'status-offen':'status-absolviert'}">${esc(s.status)}</span></h4>
-      <div class="sanction-meta">${esc(s.penalty||'')} · ${esc(s.erstelltAm||'')} · ${esc(s.erstelltVon||'')}</div>
-    </div>`).join('')}`;
-    list.appendChild(card);
+// ═══════════════════════════════════════════════════════
+//  LAW SANKTIONEN
+// ═══════════════════════════════════════════════════════
+function openCreateSanktionModal() {
+  if(!(adminLevel===1||adminLevel===4)) { showToast('Nur LAW kann Sanktionen erstellen!','red'); return; }
+  // Populate Beamten dropdown from already-loaded allBeamte
+  const select=document.getElementById('sank_beamte');
+  select.innerHTML='<option value="">— Beamten wählen —</option>';
+  allBeamte.forEach(b=>{ const opt=document.createElement('option'); opt.value=b._row; opt.textContent=`${b['Name']} (${b['ID']})`; select.appendChild(opt); });
+  // Load Sanktionskatalog for dropdown
+  loadJSON('data/sanktionskatalog.json').then(data=>{
+    if(data) {
+      sanktionskatalogData=Array.isArray(data)?data:(data.data||[]);
+      populateSankKatalog();
+    }
+  });
+  document.getElementById('sank_beamte').value='';
+  document.getElementById('sank_type').value='katalog';
+  document.getElementById('sank_katalog').value='';
+  document.getElementById('sank_custom').value='';
+  document.getElementById('sank_akte').value='';
+  document.getElementById('sank_notiz').value='';
+  document.getElementById('sank_beamte_info').textContent='';
+  document.getElementById('penalties_container').innerHTML='';
+  toggleSankCustom();
+  document.getElementById('sanktionModalOverlay').classList.add('active');
+}
+
+function closeSanktionModal() { document.getElementById('sanktionModalOverlay').classList.remove('active'); selectedSankBeamteRow=null; }
+
+function populateSankKatalog() {
+  const select=document.getElementById('sank_katalog');
+  select.innerHTML='<option value="">— Sanktion wählen —</option>';
+  sanktionskatalogData.forEach(s=>{
+    const opt=document.createElement('option');
+    const paragraph=s['§']||'';
+    const regel=s['Regel']||s['Regeldefinition']||'';
+    opt.value=paragraph;
+    const displayText=paragraph+(regel?' - '+regel:'');
+    opt.textContent=displayText.substring(0,80)+(displayText.length>80?'…':'');
+    opt.dataset.paragraph=paragraph; opt.dataset.regel=regel;
+    select.appendChild(opt);
   });
 }
 
-function filterSanctions() { renderSanctionsList(); }
-
-// ═══════════════════════════════════════════════
-//  SANCTIONS MODAL (per employee)
-// ═══════════════════════════════════════════════
-function openSanctionModal(idx) {
-  sanctionEmpIdx = idx;
-  const emp = employees[idx];
-  document.getElementById('sanction-modal-title').textContent = `⚖️ Sanktionen: ${emp.Name}`;
-  renderSanctionModalList();
-  ['s-name','s-desc','s-penalty','s-akte','s-notiz'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('sanction-modal').style.display='flex';
+function updateSankBeamteInfo() {
+  const rowIndex=parseInt(document.getElementById('sank_beamte').value);
+  if(!rowIndex&&rowIndex!==0) { document.getElementById('sank_beamte_info').textContent=''; selectedSankBeamteRow=null; return; }
+  const b=allBeamte.find(x=>x._row===rowIndex);
+  if(b) { selectedSankBeamteRow=rowIndex; document.getElementById('sank_beamte_info').textContent=`${b['Rang']||'–'} · Division: ${b['Division']||'–'} · Strikes: ${b['Strikes']||0}/3`; }
 }
 
-function closeSanctionModal() { document.getElementById('sanction-modal').style.display='none'; }
-
-function renderSanctionModalList() {
-  const emp  = employees[sanctionEmpIdx];
-  const list = document.getElementById('sanction-modal-list');
-  const sans = emp.Sanktionen||[];
-  if (!sans.length) { list.innerHTML='<p style="color:rgba(180,160,255,0.4);font-size:13px;margin-bottom:12px">Noch keine Sanktionen.</p>'; return; }
-  list.innerHTML = sans.map((s,i)=>`
-    <div class="sanction-item">
-      <h4>${esc(s.name)} <span class="status-badge ${s.status==='OFFEN'?'status-offen':'status-absolviert'}">${esc(s.status)}</span></h4>
-      <div class="sanction-meta">${esc(s.penalty||'')} · ${esc(s.desc||'')} · ${esc(s.erstelltAm||'')}</div>
-      ${s.akte?`<div style="font-size:11.5px;margin-top:4px"><a href="${esc(s.akte)}" target="_blank" style="color:#a78bfa">Aktenlink</a></div>`:''}
-      ${s.notiz?`<div style="font-size:12px;color:rgba(180,160,255,0.45);margin-top:3px">Notiz: ${esc(s.notiz)}</div>`:''}
-      <div style="margin-top:10px;display:flex;gap:8px">
-        ${s.status==='OFFEN'
-          ? `<button class="btn-success" onclick="toggleSanction(${i},'ABSOLVIERT')">Als absolviert markieren</button>`
-          : `<button class="btn-ghost" style="padding:7px 12px;font-size:12.5px" onclick="toggleSanction(${i},'OFFEN')">Wieder öffnen</button>`}
-        <button class="btn-danger" onclick="deleteSanction(${i})">Löschen</button>
-      </div>
-    </div>`).join('');
+function toggleSankCustom() {
+  const type=document.getElementById('sank_type').value;
+  document.getElementById('sank_katalog_group').style.display=type==='katalog'?'block':'none';
+  document.getElementById('sank_custom_group').style.display=type==='custom'?'block':'none';
+  if(type==='katalog') document.getElementById('penalties_container').innerHTML='';
 }
 
-async function addSanction() {
-  const s = {
-    id:          crypto.randomUUID(),
-    name:        document.getElementById('s-name').value.trim(),
-    desc:        document.getElementById('s-desc').value.trim(),
-    penalty:     document.getElementById('s-penalty').value.trim(),
-    akte:        document.getElementById('s-akte').value.trim(),
-    notiz:       document.getElementById('s-notiz').value.trim(),
-    status:      'OFFEN',
-    erstelltVon: session.username,
-    erstelltAm:  new Date().toISOString().split('T')[0]
+function onSanktionKatalogChange() {
+  const select=document.getElementById('sank_katalog');
+  const selectedOpt=select.options[select.selectedIndex];
+  if(!selectedOpt||!selectedOpt.value) return;
+  const paragraph=selectedOpt.dataset.paragraph||selectedOpt.value;
+  const sanktion=sanktionskatalogData.find(s=>s['§']===paragraph);
+  if(!sanktion) return;
+  const container=document.getElementById('penalties_container');
+  container.innerHTML=''; penaltyCounter=0;
+  const penaltyColumns=[
+    {key:'Humane Labs',label:'Humane Labs'},{key:'EMS - Dienst',label:'EMS-Dienst'},
+    {key:'NG Runde',label:'NG-Runden'},{key:'Upranksperre',label:'Upranksperre'},
+    {key:'Geldstrafe',label:'Geldstrafe'},{key:'Strike',label:'Strike'},{key:'Kündigung',label:'Kündigung'}
+  ];
+  penaltyColumns.forEach(col=>{
+    const val=sanktion[col.key];
+    if(val&&val!=='–'&&val!=='-'&&val!=='0'&&val!=='') addPenaltyRowWithData(col.label, val);
+  });
+}
+
+function addPenaltyRow() {
+  penaltyCounter++;
+  const id=penaltyCounter;
+  const container=document.getElementById('penalties_container');
+  const div=document.createElement('div');
+  div.className='penalty-row'; div.id='penalty-'+id;
+  div.innerHTML=`<input type="text" class="penalty-type" placeholder="Typ (z.B. Strike)"><input type="text" class="penalty-value" placeholder="Wert (z.B. 1)"><button type="button" onclick="removePenaltyRow(${id})">✕</button>`;
+  container.appendChild(div);
+}
+
+function addPenaltyRowWithData(type, value) {
+  penaltyCounter++;
+  const id=penaltyCounter;
+  const container=document.getElementById('penalties_container');
+  const div=document.createElement('div');
+  div.className='penalty-row'; div.id='penalty-'+id;
+  div.innerHTML=`<input type="text" class="penalty-type" value="${esc(type)}" placeholder="Typ"><input type="text" class="penalty-value" value="${esc(String(value))}" placeholder="Wert"><button type="button" onclick="removePenaltyRow(${id})">✕</button>`;
+  container.appendChild(div);
+}
+
+function removePenaltyRow(id) { const el=document.getElementById('penalty-'+id); if(el) el.remove(); }
+
+function collectPenalties() {
+  const rows=document.querySelectorAll('#penalties_container .penalty-row');
+  const penalties=[];
+  rows.forEach(row=>{
+    const typeInput=row.querySelector('.penalty-type');
+    const valueInput=row.querySelector('.penalty-value');
+    if(typeInput&&valueInput) { const type=typeInput.value.trim(); const value=valueInput.value.trim(); if(type&&value) penalties.push({type,value}); }
+  });
+  return penalties;
+}
+
+async function saveSanktion() {
+  const beamteRow=parseInt(document.getElementById('sank_beamte').value);
+  const type=document.getElementById('sank_type').value;
+  const akte=String(document.getElementById('sank_akte').value||'').trim();
+  const notiz=String(document.getElementById('sank_notiz').value||'').trim();
+  const penalties=collectPenalties();
+  if(isNaN(beamteRow)&&beamteRow!==0) { showToast('Beamte auswählen!','red'); return; }
+  if(!akte) { showToast('Discord Thread URL ist erforderlich!','red'); return; }
+  let name='',regel='';
+  if(type==='katalog') {
+    const select=document.getElementById('sank_katalog');
+    const selectedOpt=select.options[select.selectedIndex];
+    name=String(select.value||'').trim();
+    if(!name) { showToast('Sanktion aus Katalog wählen!','red'); return; }
+    regel=selectedOpt?selectedOpt.dataset.regel||'':'';
+  } else {
+    name=String(document.getElementById('sank_custom').value||'').trim();
+    if(!name) { showToast('Benutzerdefinierte Sanktion eingeben!','red'); return; }
+  }
+
+  const sanktion = {
+    id: crypto.randomUUID(), type, name, regel, penalties, akte, notiz,
+    status: 'OFFEN', erstelltVon: adminUsername,
+    erstelltAm: new Date().toLocaleDateString('de-DE')
   };
-  if (!s.name) return toast('Bezeichnung erforderlich.','err');
-  if (!s.akte) return toast('Aktenlink (Discord) ist erforderlich.','err');
 
-  const emp = employees[sanctionEmpIdx];
-  if (!emp.Sanktionen) emp.Sanktionen = [];
-  emp.Sanktionen.push(s);
-  showLoading('Wird gespeichert …');
+  const idx=allBeamte.findIndex(x=>x._row===beamteRow);
+  if(idx<0) { showToast('Beamter nicht gefunden.','red'); return; }
+  if(!allBeamte[idx].Sanktionen) allBeamte[idx].Sanktionen=[];
+  allBeamte[idx].Sanktionen.push(sanktion);
+  allBeamte[idx]._sanktionen=allBeamte[idx].Sanktionen;
+
   try {
-    await saveJSON('data/employees.json', employees);
-    toast('Sanktion gespeichert.','ok');
-    renderSanctionModalList();
-    ['s-name','s-desc','s-penalty','s-akte','s-notiz'].forEach(id => document.getElementById(id).value='');
-  } catch(e) { toast('Fehler: '+e.message,'err'); emp.Sanktionen.pop(); }
-  hideLoading();
+    await saveEmployees();
+    showToast('Sanktion erstellt!','green');
+    closeSanktionModal();
+    renderLawSanktionen();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); allBeamte[idx].Sanktionen.pop(); allBeamte[idx]._sanktionen=allBeamte[idx].Sanktionen; }
 }
 
-async function toggleSanction(sIdx, newStatus) {
-  employees[sanctionEmpIdx].Sanktionen[sIdx].status = newStatus;
-  showLoading('Wird gespeichert …');
+function renderLawSanktionen() {
+  if(!(adminLevel===1||adminLevel===4)) return;
+  const container=document.getElementById('lawBeamteList');
+  container.innerHTML='<div class="spinner"></div>';
+  // Use allBeamte (already loaded), filter those with sanktionen
+  const beamtenMitSanktionen=allBeamte.filter(b=>(b.Sanktionen||[]).length>0);
+  if(!beamtenMitSanktionen.length) { container.innerHTML='<div class="law-empty">Keine Sanktionen vorhanden.</div>'; if(pendingLoads>0) checkLoadingComplete(); return; }
+  let html='<div class="law-beamte-list">';
+  beamtenMitSanktionen.forEach(b=>{
+    const initials=getInitials(b['Name']);
+    const sanktionen=b.Sanktionen||[];
+    html+=`<div class="law-beamte-card"><div class="law-beamte-header" onclick="toggleSanktionenListe(${b._row})"><div class="law-beamte-avatar">${initials}</div><div class="law-beamte-info"><div class="law-beamte-name">${esc(b['Name'])}</div><div class="law-beamte-details">ID: ${esc(b['ID'])} · DN: ${esc(b['DN'])} · ${esc(b['Rang'])}</div></div><div class="law-beamte-toggle">▼</div></div>`;
+    html+=`<div class="law-sanktionen open" id="sank-list-${b._row}">`;
+    sanktionen.forEach(s=>{
+      const statusClass=`sank-status-${s.status.toLowerCase()}`;
+      const statusLabel={'OFFEN':'Offen','ABSOLVIERT':'Absolviert','NICHT_ABSOLVIERT':'Nicht absolviert','REVIDIERT':'Revidiert'}[s.status]||s.status;
+      html+=`<div class="law-sanktion"><div class="law-sanktion-status ${statusClass}" title="${statusLabel}">${s.status[0]}</div><div class="law-sanktion-content"><div class="law-sanktion-name">${esc(s.name)}${s.regel?` - ${esc(s.regel)}`:''}</div>${s.penalties&&s.penalties.length?`<div class="law-sanktion-penalties" style="font-size:11px;color:var(--accent2);margin-top:3px">${s.penalties.map(p=>`${esc(p.type)}: ${esc(p.value)}`).join(' • ')}</div>`:''}<div class="law-sanktion-meta">Von ${esc(s.erstelltVon)} • ${s.erstelltAm}</div></div><div class="law-sanktion-actions"><button class="law-sank-btn" onclick="openSanktionStatusModal(${b._row},'${s.id}')">✏ Bearbeiten</button><button class="law-sank-btn" onclick="deleteSanktionFromLaw(${b._row},'${s.id}')">✕ Löschen</button></div></div>`;
+    });
+    html+=`</div></div>`;
+  });
+  html+='</div>';
+  container.innerHTML=html;
+  if(pendingLoads>0) checkLoadingComplete();
+}
+
+function toggleSanktionenListe(beamteRow) { const el=document.getElementById(`sank-list-${beamteRow}`); if(el) el.classList.toggle('open'); }
+
+function openSanktionStatusModal(beamteRow, sanktionId) {
+  const b=allBeamte.find(x=>x._row===beamteRow);
+  if(!b||!b.Sanktionen) return;
+  const s=b.Sanktionen.find(sn=>sn.id===sanktionId);
+  if(!s) return;
+  currentEditSanktionId=sanktionId; currentEditSanktionBeamteRow=beamteRow;
+  document.getElementById('sanktionStatusName').value=s.name;
+  document.getElementById('sanktionNewStatus').value=s.status;
+  document.getElementById('sanktionNewAkte').value=s.akte||'';
+  document.getElementById('sanktionNewNotiz').value=s.notiz||'';
+  updateSanktionStatusField();
+  document.getElementById('sanktionStatusModalOverlay').classList.add('active');
+}
+
+function closeSanktionStatusModal() { document.getElementById('sanktionStatusModalOverlay').classList.remove('active'); currentEditSanktionId=null; currentEditSanktionBeamteRow=null; }
+function updateSanktionStatusField() { const status=document.getElementById('sanktionNewStatus').value; document.getElementById('sanktionAkteGroup').style.display=status==='ABSOLVIERT'?'block':'none'; }
+
+async function updateSanktionStatusSave() {
+  if(!currentEditSanktionId||currentEditSanktionBeamteRow===null) return;
+  const newStatus=String(document.getElementById('sanktionNewStatus').value).trim();
+  const akte=String(document.getElementById('sanktionNewAkte').value||'').trim();
+  const notiz=String(document.getElementById('sanktionNewNotiz').value||'').trim();
+  if(newStatus==='ABSOLVIERT'&&!akte) { showToast("Bei Status 'Absolviert' ist die Discord Thread URL erforderlich!",'red'); return; }
+
+  const idx=allBeamte.findIndex(x=>x._row===currentEditSanktionBeamteRow);
+  if(idx<0) return;
+  const sIdx=allBeamte[idx].Sanktionen.findIndex(s=>s.id===currentEditSanktionId);
+  if(sIdx<0) return;
+  allBeamte[idx].Sanktionen[sIdx]={...allBeamte[idx].Sanktionen[sIdx], status:newStatus, akte, notiz};
+  allBeamte[idx]._sanktionen=allBeamte[idx].Sanktionen;
+
   try {
-    await saveJSON('data/employees.json', employees);
-    toast('Status aktualisiert.','ok');
-    renderSanctionModalList();
-    renderSanctionsList();
-  } catch(e) { toast('Fehler: '+e.message,'err'); }
-  hideLoading();
+    await saveEmployees();
+    showToast('Sanktion aktualisiert','green');
+    closeSanktionStatusModal();
+    loadSanktionenInPersonalakte(currentEditSanktionBeamteRow);
+    renderLawSanktionen();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); }
 }
 
-async function deleteSanction(sIdx) {
-  if (!confirm('Sanktion wirklich löschen?')) return;
-  const removed = employees[sanctionEmpIdx].Sanktionen.splice(sIdx,1)[0];
-  showLoading('Wird gelöscht …');
+async function deleteSanktionFromLaw(beamteRow, sanktionId) {
+  if(!confirm('Sanktion wirklich löschen?')) return;
+  const idx=allBeamte.findIndex(x=>x._row===beamteRow);
+  if(idx<0) return;
+  const removed=allBeamte[idx].Sanktionen.find(s=>s.id===sanktionId);
+  allBeamte[idx].Sanktionen=allBeamte[idx].Sanktionen.filter(s=>s.id!==sanktionId);
+  allBeamte[idx]._sanktionen=allBeamte[idx].Sanktionen;
   try {
-    await saveJSON('data/employees.json', employees);
-    toast('Sanktion gelöscht.','ok');
-    renderSanctionModalList();
-  } catch(e) { toast('Fehler: '+e.message,'err'); employees[sanctionEmpIdx].Sanktionen.splice(sIdx,0,removed); }
-  hideLoading();
+    await saveEmployees();
+    showToast('Sanktion gelöscht','green');
+    renderLawSanktionen();
+  } catch(e) { showToast('Fehler: '+e.message,'red'); if(removed) { allBeamte[idx].Sanktionen.push(removed); allBeamte[idx]._sanktionen=allBeamte[idx].Sanktionen; } }
 }
 
-// ═══════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// ═══════════════════════════════════════════════════════
+//  SANKTIONEN IN PERSONALAKTE
+// ═══════════════════════════════════════════════════════
+function loadSanktionenInPersonalakte(rowIndex) {
+  const b=allBeamte.find(x=>x._row===rowIndex);
+  const container=document.getElementById('akteSanktionenList');
+  if(!b) { container.innerHTML='<div class="sank-akte-empty">Beamter nicht gefunden.</div>'; return; }
+  const sanktionen=b.Sanktionen||[];
+  if(!sanktionen.length) { container.innerHTML='<div class="sank-akte-empty">Keine Sanktionen vorhanden.</div>'; return; }
+  let html='<div class="sank-akte-list">';
+  sanktionen.forEach(s=>{
+    const statusClass=s.status.toLowerCase().replace('_','-');
+    const statusLabel={'OFFEN':'Offen','ABSOLVIERT':'Absolviert','NICHT_ABSOLVIERT':'Nicht absolviert','REVIDIERT':'Revidiert'}[s.status]||s.status;
+    html+=`<div class="sank-akte-item ${statusClass}"><div class="sank-akte-header"><div class="sank-akte-status sank-status-${statusClass}" title="${statusLabel}">${s.status[0]}</div><div class="sank-akte-name">${esc(s.name)}${s.regel?` - ${esc(s.regel)}`:''}</div><div class="sank-akte-date">${s.erstelltAm}</div>${adminLevel===1?`<button class="sank-akte-btn" onclick="openEditSanktionAkte('${s.id}',${rowIndex})">Bearbeiten</button>`:''}</div>${s.penalties&&s.penalties.length?`<div style="font-size:12px;color:var(--accent2);padding:6px 0;border-bottom:1px solid var(--border)">${s.penalties.map(p=>`<div style="display:inline-flex;align-items:center;gap:4px;margin-right:12px"><strong>${esc(p.type)}:</strong> ${esc(p.value)}</div>`).join('')}</div>`:''}<div class="sank-akte-meta"><div class="sank-akte-creator">Von: ${esc(s.erstelltVon)}</div>${s.akte?`<a class="sank-akte-akte" href="${s.akte}" target="_blank" rel="noopener">🔗 Akte öffnen</a>`:''}</div>${s.notiz?`<div class="sank-akte-notiz">${esc(s.notiz)}</div>`:''}</div>`;
+  });
+  html+='</div>';
+  container.innerHTML=html;
 }
 
-function showLoading(msg='Laden …') {
-  document.getElementById('loading-msg').textContent = msg;
-  document.getElementById('loading').style.display = 'flex';
-}
-function hideLoading() { document.getElementById('loading').style.display = 'none'; }
+function openEditSanktionAkte(sanktionId, beamteRow) { openSanktionStatusModal(beamteRow, sanktionId); }
 
-let toastTimer;
-function toast(msg, type='') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (type==='ok'?' toast-ok':type==='err'?' toast-err':'');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ el.className='toast'; },3500);
-}
+// ═══════════════════════════════════════════════════════
+//  CLOSE-ON-BACKDROP
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+  document.getElementById('kuendOverlay').addEventListener('click', function(e){ if(e.target===this) closeKuendModal(); });
+  document.getElementById('akteOverlay').addEventListener('click', function(e){ if(e.target===this) closeAkte(); });
+  document.getElementById('eventModalOverlay').addEventListener('click', function(e){ if(e.target===this) closeEventModal(); });
+  document.getElementById('uprankOverlay').addEventListener('click', function(e){ if(e.target===this) closeUprankModal(); });
+  detectOwner();
+  renderIcons();
+});
+
+window.addEventListener('load', () => { if(typeof lucide!=='undefined') lucide.createIcons(); });
+
+// Export to window for onclick handlers
+Object.assign(window, {
+  doLogin, publicView, goToLogin, doLogout, showApp,
+  loadBeamte, renderTable, switchTab, switchAkteTab,
+  openAkte, closeAkte, saveAusbildungen, toggleAusIcon, encodeAusKey,
+  openAddModal, openEditModal, closeModal, saveBeamter, confirmDelete,
+  checkDnWarning, loadRangDropdown,
+  openKuendModal, closeKuendModal, confirmKuendigung, loadKuendigungen,
+  renderSanktionen, loadSanktionen,
+  openEventModal, closeEventModal, saveEvent, deleteEvent,
+  openUprankModal, closeUprankModal, addUprankId, removeUprankId, renderUprankList,
+  loadKleiderordnung, renderKleiderordnung,
+  loadKleiderordnungDiv, renderKleiderordnungDiv,
+  openCreateSanktionModal, closeSanktionModal, saveSanktion, renderLawSanktionen,
+  toggleSanktionenListe, updateSankBeamteInfo, toggleSankCustom, onSanktionKatalogChange,
+  addPenaltyRow, addPenaltyRowWithData, removePenaltyRow,
+  openSanktionStatusModal, closeSanktionStatusModal, updateSanktionStatusField, updateSanktionStatusSave,
+  deleteSanktionFromLaw, openEditSanktionAkte, loadSanktionenInPersonalakte,
+  showTokenModal, closeTokenModal, saveTokenModal
+});
 </script>
+
 </body>
 </html>
