@@ -2592,6 +2592,30 @@
     "Sanktionen": []
   },
   {
+    "ID": "276284",
+    "Name": "Musa Shikshakharuf",
+    "Rang": "13. Special Agent",
+    "DN": "54",
+    "Division": "Command",
+    "Strikes": 0,
+    "Invite": "27.02.2026",
+    "Last Rank-up": "08.03.2026",
+    "Hauptabteilung": "",
+    "Nebenabteilung": "",
+    "Ausbildungen": {
+      "GA": true,
+      "EVS": true,
+      "LST": true,
+      "AKS": false,
+      "TST": true,
+      "VHF/EL": true,
+      "JUR": true,
+      "UC": false,
+      "FTK": true
+    },
+    "Sanktionen": []
+  },
+  {
     "ID": "52617",
     "Name": "Michi Mahoni",
     "Rang": "13. Special Agent",
