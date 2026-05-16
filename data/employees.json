@@ -1228,30 +1228,6 @@
     "Sanktionen": []
   },
   {
-    "ID": "181163",
-    "Name": "Fero Federov",
-    "Rang": "20. Supervisory Special Agent",
-    "DN": "27",
-    "Division": "High Command",
-    "Strikes": 0,
-    "Invite": "02.03.2026",
-    "Last Rank-up": "02.03.2026",
-    "Hauptabteilung": "FIBCO",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": true,
-      "EVS": true,
-      "LST": true,
-      "AKS": true,
-      "TST": true,
-      "VHF/EL": true,
-      "JUR": true,
-      "UC": true,
-      "FTK": true
-    },
-    "Sanktionen": []
-  },
-  {
     "ID": "13952",
     "Name": "Arno Elite",
     "Rang": "20. Supervisory Special Agent",
