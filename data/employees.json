@@ -1084,54 +1084,6 @@
     "Sanktionen": []
   },
   {
-    "ID": "146479",
-    "Name": "Tana Yagi",
-    "Rang": "20. Supervisory Special Agent",
-    "DN": "6",
-    "Division": "High Command",
-    "Strikes": 0,
-    "Invite": "27.02.2026",
-    "Last Rank-up": "27.02.2026",
-    "Hauptabteilung": "CIRG",
-    "Nebenabteilung": "PR",
-    "Ausbildungen": {
-      "GA": true,
-      "EVS": true,
-      "LST": true,
-      "AKS": true,
-      "TST": true,
-      "VHF/EL": true,
-      "JUR": true,
-      "UC": true,
-      "FTK": true
-    },
-    "Sanktionen": []
-  },
-  {
-    "ID": "108422",
-    "Name": "Ellie Reese",
-    "Rang": "20. Supervisory Special Agent",
-    "DN": "11",
-    "Division": "High Command",
-    "Strikes": 0,
-    "Invite": "27.02.2026",
-    "Last Rank-up": "27.02.2026",
-    "Hauptabteilung": "PR",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": true,
-      "EVS": true,
-      "LST": true,
-      "AKS": true,
-      "TST": true,
-      "VHF/EL": true,
-      "JUR": true,
-      "UC": true,
-      "FTK": true
-    },
-    "Sanktionen": []
-  },
-  {
     "ID": "12829",
     "Name": "Nyx Reversed",
     "Rang": "20. Supervisory Special Agent",
