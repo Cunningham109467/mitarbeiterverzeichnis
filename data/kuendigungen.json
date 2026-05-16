@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "-",
+    "id": "-",
+    "dn": "-",
+    "rang": "01. Visitor",
+    "division": "Besucher",
+    "invite": "-",
+    "grund": "Inaktivität",
+    "text": "",
+    "datum": "16.5.2026",
+    "admin": "admin"
+  }
+]
