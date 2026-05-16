@@ -1,0 +1,16 @@
+[
+  {
+    "rang": "Officer",
+    "anforderungen": "Mindestens 2 Wochen im Dienst",
+    "befugnisse": "Standardwaffe, Streife",
+    "kl_m_img": "",
+    "kl_m_text": "Oberteil: 1 | 0\nHose: 24 | 0\nSchuhe: 10 | 0",
+    "kl_f_img": "",
+    "kl_f_text": "Oberteil: 1 | 0\nHose: 24 | 0\nSchuhe: 10 | 0",
+    "ev_m_img": "",
+    "ev_m_text": "Formelle Kleidung nach Vorgabe",
+    "ev_f_img": "",
+    "ev_f_text": "Formelle Kleidung nach Vorgabe",
+    "waffen": "Pistole, Schlagstock"
+  }
+]
