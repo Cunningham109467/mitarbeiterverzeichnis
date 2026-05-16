@@ -195,6 +195,10 @@
       "Abteilungsname": "TRUE"
     },
     {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
       "Anzahl": "FALSE",
       "Abteilungsname": "FALSE"
     },
@@ -209,10 +213,6 @@
     {
       "Anzahl": "FALSE",
       "Abteilungsname": "FALSE"
-    },
-    {
-      "Anzahl": "TRUE",
-      "Abteilungsname": "TRUE"
     },
     {
       "Anzahl": "TRUE",
