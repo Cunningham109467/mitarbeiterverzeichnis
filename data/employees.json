@@ -3770,29 +3770,5 @@
       "FTK": true
     },
     "Sanktionen": []
-  },
-  {
-    "ID": "-",
-    "Name": "-",
-    "Rang": "03. Vacation",
-    "DN": "-",
-    "Division": "Vacation",
-    "Strikes": 0,
-    "Invite": "-",
-    "Last Rank-up": "-",
-    "Hauptabteilung": "",
-    "Nebenabteilung": "",
-    "Ausbildungen": {
-      "GA": false,
-      "EVS": false,
-      "LST": false,
-      "AKS": false,
-      "TST": false,
-      "VHF/EL": false,
-      "JUR": false,
-      "UC": false,
-      "FTK": false
-    },
-    "Sanktionen": []
   }
 ]
