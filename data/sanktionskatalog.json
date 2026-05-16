@@ -1,0 +1,81 @@
+{
+  "headers": [
+    "§",
+    "Regeldefinition",
+    "Humane Labs",
+    "EMS - Dienst",
+    "NG Runde",
+    "Upranksperre",
+    "Geldstrafe",
+    "Strike",
+    "Kündigung"
+  ],
+  "data": [
+    {
+      "§": "",
+      "Regeldefinition": "1. Dienstvergehen",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "",
+      "Geldstrafe": "",
+      "Strike": "",
+      "Kündigung": ""
+    },
+    {
+      "§": "§1",
+      "Regeldefinition": "Unerlaubtes Fernbleiben vom Dienst",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "2 Wochen",
+      "Geldstrafe": "",
+      "Strike": "1",
+      "Kündigung": ""
+    },
+    {
+      "§": "§2",
+      "Regeldefinition": "Respektlosigkeit gegenüber Vorgesetzten",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "1 Woche",
+      "Geldstrafe": "",
+      "Strike": "1",
+      "Kündigung": ""
+    },
+    {
+      "§": "§3",
+      "Regeldefinition": "Schwerwiegendes Fehlverhalten im Dienst",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "",
+      "Geldstrafe": "",
+      "Strike": "2",
+      "Kündigung": "(✓)"
+    },
+    {
+      "§": "",
+      "Regeldefinition": "2. Vergehen außerhalb des Dienstes",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "",
+      "Geldstrafe": "",
+      "Strike": "",
+      "Kündigung": ""
+    },
+    {
+      "§": "§4",
+      "Regeldefinition": "Straftat gegen Zivilisten",
+      "Humane Labs": "",
+      "EMS - Dienst": "",
+      "NG Runde": "",
+      "Upranksperre": "",
+      "Geldstrafe": "",
+      "Strike": "2",
+      "Kündigung": "✓"
+    }
+  ]
+}
