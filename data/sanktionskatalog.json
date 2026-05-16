@@ -1,81 +1,702 @@
 {
   "headers": [
-    "§",
-    "Regeldefinition",
-    "Humane Labs",
-    "EMS - Dienst",
-    "NG Runde",
-    "Upranksperre",
-    "Geldstrafe",
-    "Strike",
-    "Kündigung"
+    "Anzahl",
+    "Abteilungsname",
+    "Anzahl",
+    "Abteilungsname"
   ],
   "data": [
     {
-      "§": "",
-      "Regeldefinition": "1. Dienstvergehen",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "",
-      "Geldstrafe": "",
-      "Strike": "",
-      "Kündigung": ""
+      "Anzahl": "13",
+      "Abteilungsname": "Public Relations"
     },
     {
-      "§": "§1",
-      "Regeldefinition": "Unerlaubtes Fernbleiben vom Dienst",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "2 Wochen",
-      "Geldstrafe": "",
-      "Strike": "1",
-      "Kündigung": ""
+      "Anzahl": "4",
+      "Abteilungsname": "Training Division"
     },
     {
-      "§": "§2",
-      "Regeldefinition": "Respektlosigkeit gegenüber Vorgesetzten",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "1 Woche",
-      "Geldstrafe": "",
-      "Strike": "1",
-      "Kündigung": ""
+      "Anzahl": "5",
+      "Abteilungsname": "LAW Department"
     },
     {
-      "§": "§3",
-      "Regeldefinition": "Schwerwiegendes Fehlverhalten im Dienst",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "",
-      "Geldstrafe": "",
-      "Strike": "2",
-      "Kündigung": "(✓)"
+      "Anzahl": "",
+      "Abteilungsname": ""
     },
     {
-      "§": "",
-      "Regeldefinition": "2. Vergehen außerhalb des Dienstes",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "",
-      "Geldstrafe": "",
-      "Strike": "",
-      "Kündigung": ""
+      "Anzahl": "VHF/EL",
+      "Abteilungsname": "JUR"
     },
     {
-      "§": "§4",
-      "Regeldefinition": "Straftat gegen Zivilisten",
-      "Humane Labs": "",
-      "EMS - Dienst": "",
-      "NG Runde": "",
-      "Upranksperre": "",
-      "Geldstrafe": "",
-      "Strike": "2",
-      "Kündigung": "✓"
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "",
+      "Abteilungsname": ""
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "TRUE",
+      "Abteilungsname": "TRUE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
+    },
+    {
+      "Anzahl": "FALSE",
+      "Abteilungsname": "FALSE"
     }
   ]
 }
