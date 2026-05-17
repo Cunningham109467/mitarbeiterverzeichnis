@@ -984,39 +984,41 @@
 
   <!-- ═══════════ BENUTZER TAB ═══════════ -->
   <div class="tab-content" id="tab-benutzer">
-    <div class="uform-card">
-      <div class="uform-title"><i data-lucide="user-plus" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px"></i>Neuen Benutzer anlegen</div>
-      <div class="form-row" style="align-items:flex-end;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:140px">
-          <label class="flabel">Benutzername</label>
-          <input id="nwUser" class="finput" type="text" placeholder="Name" autocomplete="off"/>
-        </div>
-        <div style="flex:1;min-width:140px">
-          <label class="flabel">Passwort</label>
-          <input id="nwPass" class="finput" type="password" placeholder="Min. 6 Zeichen"/>
-        </div>
-        <div style="flex:1;min-width:160px">
-          <label class="flabel">Level</label>
-          <select id="nwLvl" class="fselect">
-            <option value="1">Level 1 – Mitarbeiter</option>
-            <option value="2">Level 2 – Moderator</option>
-            <option value="3">Level 3 – Supervisor</option>
-            <option value="4">Level 4 – Admin (Vollzugriff)</option>
-          </select>
-        </div>
-        <div>
-          <button class="btn-gold" onclick="doCreateUser()"><i data-lucide="plus" style="width:14px;height:14px;vertical-align:-2px"></i> Erstellen</button>
+    <div class="main" style="overflow-y:auto">
+      <div class="uform-card">
+        <div class="uform-title"><i data-lucide="user-plus" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px"></i>Neuen Benutzer anlegen</div>
+        <div class="form-row" style="align-items:flex-end;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:140px">
+            <label class="flabel">Benutzername</label>
+            <input id="nwUser" class="finput" type="text" placeholder="Name" autocomplete="off"/>
+          </div>
+          <div style="flex:1;min-width:140px">
+            <label class="flabel">Passwort</label>
+            <input id="nwPass" class="finput" type="password" placeholder="Min. 6 Zeichen"/>
+          </div>
+          <div style="flex:1;min-width:160px">
+            <label class="flabel">Level</label>
+            <select id="nwLvl" class="fselect">
+              <option value="1">Level 1 – Mitarbeiter</option>
+              <option value="2">Level 2 – Moderator</option>
+              <option value="3">Level 3 – Supervisor</option>
+              <option value="4">Level 4 – Admin (Vollzugriff)</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn-gold" onclick="doCreateUser()"><i data-lucide="plus" style="width:14px;height:14px;vertical-align:-2px"></i> Erstellen</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="sec-head">
-      <div class="sec-title">Benutzer <span id="userCnt" class="cnt">0</span></div>
-      <button class="btn-sm" onclick="loadUsers()"><i data-lucide="refresh-cw" style="width:12px;height:12px;vertical-align:-1px"></i> Aktualisieren</button>
-    </div>
-    <div class="tbl-card">
-      <div class="tbl-scroll">
-        <div id="userArea" style="padding:12px;color:var(--muted);font-size:13px">Lade…</div>
+      <div class="sec-head">
+        <div class="sec-title">Benutzer <span id="userCnt" class="cnt">0</span></div>
+        <button class="btn-sm" onclick="loadUsers()"><i data-lucide="refresh-cw" style="width:12px;height:12px;vertical-align:-1px"></i> Aktualisieren</button>
+      </div>
+      <div class="tbl-card">
+        <div class="tbl-scroll">
+          <div id="userArea" style="padding:12px;color:var(--muted);font-size:13px">Lade…</div>
+        </div>
       </div>
     </div>
   </div>
