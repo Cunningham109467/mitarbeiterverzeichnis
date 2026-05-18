@@ -2335,8 +2335,7 @@ async function bpCreateUser() {
 
   // Level 4: require own password confirmation
   if (level >= 4) {
-    const ownPw = prompt('⚠ Level-4-Admin anlegen!
-Bestätige mit deinem eigenen Passwort:');
+    const ownPw = prompt('⚠ Level-4-Admin anlegen! Bestätige mit deinem eigenen Passwort:');
     if (!ownPw) return;
     const ownHash = await _bpHash(ownPw.trim());
     const self = _bpAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
@@ -2713,4 +2712,4 @@ Object.assign(window, {
 </script>
 
 </body>
-</html>      
+</html>
