@@ -590,7 +590,6 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .public-banner { background: rgba(79,110,247,.07); border: 1px solid rgba(79,110,247,.18); border-radius: 7px; padding: 8px 13px; font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 
-    /* ─── KLEIDERORDNUNG ─── */
     /* ─── Lucide icon sizing ─── */
     svg.lucide { display: inline-block; vertical-align: middle; flex-shrink: 0; }
     .tab-btn svg.lucide { width: 13px; height: 13px; margin-right: 5px; }
@@ -717,6 +716,29 @@
 .btn-danger-sm:hover{ background:rgba(232,64,64,.12); }
 .btn-pw-sm    { background:transparent;border:1px solid rgba(79,110,247,.4);color:#818cf8;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;transition:all .15s; }
 .btn-pw-sm:hover{ background:rgba(79,110,247,.1); }
+
+    /* ── Benutzer Profile Tab ───────────────────────── */
+    .bp-grid       { display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start; }
+    .bp-card       { background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px; }
+    .bp-card-title { font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:16px;display:flex;align-items:center;gap:8px; }
+    .bp-table      { width:100%;border-collapse:collapse; }
+    .bp-table th   { font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left; }
+    .bp-table td   { padding:10px;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;vertical-align:middle; }
+    .bp-table tr:last-child td { border-bottom:none; }
+    .bp-table tr:hover td { background:rgba(255,255,255,.025); }
+    .bp-badge      { display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.04em; }
+    .bp-badge-4    { background:rgba(139,92,246,.18);color:#a78bfa;border:1px solid rgba(139,92,246,.3); }
+    .bp-badge-3    { background:rgba(79,110,247,.18);color:#818cf8;border:1px solid rgba(79,110,247,.3); }
+    .bp-badge-2    { background:rgba(20,184,166,.18);color:#2dd4bf;border:1px solid rgba(20,184,166,.3); }
+    .bp-badge-1    { background:rgba(100,116,139,.18);color:#94a3b8;border:1px solid rgba(100,116,139,.3); }
+    .bp-badge-you  { background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3);margin-left:4px; }
+    .bp-btn-create { background:linear-gradient(135deg,#4f6ef7,#7c3aed);color:#fff;border:none;border-radius:8px;padding:9px 0;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:4px;transition:opacity .15s; }
+    .bp-btn-create:hover { opacity:.85; }
+    .bp-btn-pw     { background:transparent;border:1px solid rgba(79,110,247,.4);color:#818cf8;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;transition:all .15s; }
+    .bp-btn-pw:hover { background:rgba(79,110,247,.1); }
+    .bp-btn-del    { background:transparent;border:1px solid rgba(232,64,64,.35);color:var(--red);border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;transition:all .15s; }
+    .bp-btn-del:hover { background:rgba(232,64,64,.1); }
+    .bp-empty      { padding:24px;text-align:center;color:var(--muted);font-size:13px; }
 </style>
 </head>
 <body>
@@ -791,8 +813,8 @@
     <button id="lawTabBtn" class="tab-btn" style="display:none" onclick="switchTab('law-sanktionen', this)"><i data-lucide="gavel"></i><span class="tab-btn-text"> Sanktionen</span></button>
     <button class="tab-btn" onclick="switchTab('dokumente', this)"><i data-lucide="folder"></i><span class="tab-btn-text"> Dokumente</span></button>
     <button id="kuendTabBtn" class="tab-btn" style="display:none" onclick="switchTab('kuendigungen', this)"><i data-lucide="user-x"></i><span class="tab-btn-text"> Kündigungen</span></button>
-    <button id="benutzerTabBtn" class="tab-btn" style="display:none" onclick="switchTab('benutzer', this)"><i data-lucide="users"></i><span class="tab-btn-text"> Benutzer</span></button>
-    <button class="tab-btn" style="display:none" onclick="switchTab('kleiderordnung-div', this)"><i data-lucide="shirt"></i><span class="tab-btn-text"> KO Division</span></button>
+    <button id="bpTabBtn" class="tab-btn" style="display:none" onclick="switchTab('benutzer-profile', this)"><i data-lucide="shield-check"></i><span class="tab-btn-text"> Benutzer</span></button>
+    
   </div>
 
   <!-- ── TAB: BEAMTE ── -->
@@ -982,47 +1004,51 @@
     </div>
   </div>
 
+  <!-- ═══════════ BENUTZER PROFILE TAB ═══════════ -->
+  <div class="tab-content" id="tab-benutzer-profile">
+    <div class="main" style="overflow-y:auto;display:block">
 
-  <!-- ═══════════ BENUTZER TAB ═══════════ -->
-  <div class="benutzer-panel" id="tab-benutzer" style="display:none;position:absolute;inset:0;overflow-y:auto;padding:16px 18px;background:var(--bg)">
-    <div class="main" style="overflow-y:auto">
-      <div class="uform-card">
-        <div class="uform-title"><i data-lucide="user-plus" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px"></i>Neuen Benutzer anlegen</div>
-        <div class="form-row" style="align-items:flex-end;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:140px">
-            <label class="flabel">Benutzername</label>
-            <input id="nwUser" class="finput" type="text" placeholder="Name" autocomplete="off"/>
+      <div class="bp-grid">
+        <!-- Create form -->
+        <div class="bp-card">
+          <div class="bp-card-title"><i data-lucide="user-plus" style="width:15px;height:15px"></i> Neuen Benutzer anlegen</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div>
+              <label class="flabel">Benutzername</label>
+              <input id="bp-username" class="finput" type="text" placeholder="Name eingeben" autocomplete="off">
+            </div>
+            <div>
+              <label class="flabel">Passwort <small style="color:var(--muted)">(min. 6 Zeichen)</small></label>
+              <input id="bp-password" class="finput" type="password" placeholder="Passwort">
+            </div>
+            <div>
+              <label class="flabel">Level</label>
+              <select id="bp-level" class="fselect">
+                <option value="1">Level 1 – Mitarbeiter</option>
+                <option value="2">Level 2 – Moderator</option>
+                <option value="3">Level 3 – Supervisor</option>
+                <option value="4">Level 4 – Admin</option>
+              </select>
+            </div>
+            <button class="bp-btn-create" onclick="bpCreateUser()">
+              <i data-lucide="plus" style="width:13px;height:13px;vertical-align:-1px;margin-right:4px"></i> Benutzer erstellen
+            </button>
           </div>
-          <div style="flex:1;min-width:140px">
-            <label class="flabel">Passwort</label>
-            <input id="nwPass" class="finput" type="password" placeholder="Min. 6 Zeichen"/>
+        </div>
+
+        <!-- User list -->
+        <div class="bp-card">
+          <div class="bp-card-title" style="justify-content:space-between">
+            <span><i data-lucide="users" style="width:15px;height:15px"></i> Benutzer (<span id="bp-count">0</span>)</span>
+            <button class="btn-sm" onclick="bpLoadUsers()"><i data-lucide="refresh-cw" style="width:11px;height:11px;vertical-align:-1px"></i> Aktualisieren</button>
           </div>
-          <div style="flex:1;min-width:160px">
-            <label class="flabel">Level</label>
-            <select id="nwLvl" class="fselect">
-              <option value="1">Level 1 – Mitarbeiter</option>
-              <option value="2">Level 2 – Moderator</option>
-              <option value="3">Level 3 – Supervisor</option>
-              <option value="4">Level 4 – Admin (Vollzugriff)</option>
-            </select>
-          </div>
-          <div>
-            <button class="btn-gold" onclick="doCreateUser()"><i data-lucide="plus" style="width:14px;height:14px;vertical-align:-2px"></i> Erstellen</button>
-          </div>
+          <div id="bp-list"><div class="bp-empty">Lade…</div></div>
         </div>
       </div>
 
-      <div class="sec-head">
-        <div class="sec-title">Benutzer <span id="userCnt" class="cnt">0</span></div>
-        <button class="btn-sm" onclick="loadUsers()"><i data-lucide="refresh-cw" style="width:12px;height:12px;vertical-align:-1px"></i> Aktualisieren</button>
-      </div>
-      <div class="tbl-card">
-        <div class="tbl-scroll">
-          <div id="userArea" style="padding:12px;color:var(--muted);font-size:13px">Lade…</div>
-        </div>
-      </div>
     </div>
   </div>
+
 </div><!-- /#appPage -->
 
 <!-- ═══════════ PERSONALAKTE MODAL ═══════════ -->
@@ -1544,15 +1570,12 @@ function switchTab(tab, btnEl) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   if (btnEl) btnEl.classList.add('active');
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  // Benutzer panel uses its own show/hide (not tab-content class)
-  const bPanel = document.getElementById('tab-benutzer');
-  if (bPanel) bPanel.style.display = (tab === 'benutzer') ? 'block' : 'none';
-  if (tab !== 'benutzer') document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
   const lbl = document.getElementById('archiveLabel');
   if (lbl) lbl.style.display = tab==='beamte' ? '' : 'none';
   if (tab==='sanktionen' && allSanktionen.length===0) loadSanktionen();
   if (tab==='law-sanktionen' && (adminLevel===1||adminLevel===4)) renderLawSanktionen();
-  if (tab==='benutzer' && adminLevel>=4) loadUsers();
+  if (tab==='benutzer-profile') bpLoadUsers();
   if (tab==='kuendigungen') loadKuendigungen();
 }
 
@@ -1644,7 +1667,7 @@ function showApp(username) {
     document.getElementById('loginBtn').style.display   = 'none';
     document.getElementById('publicBanner').style.display = 'none';
     document.getElementById('kuendTabBtn').style.display  = adminLevel>=4 ? 'block' : 'none';
-    document.getElementById('benutzerTabBtn').style.display = adminLevel>=4 ? 'block' : 'none';
+    document.getElementById('bpTabBtn').style.display       = adminLevel>=4 ? 'block' : 'none';
     document.getElementById('lawTabBtn').style.display    = (adminLevel===1||adminLevel===4) ? 'block' : 'none';
   } else {
     document.getElementById('topbarUser').style.display   = 'none';
@@ -2248,125 +2271,143 @@ async function applyUprankChanges() {
 // ═══════════════════════════════════════════════════════
 //  BENUTZERVERWALTUNG
 // ═══════════════════════════════════════════════════════
-let allAdmins = [];
 
-async function loadUsers() {
-  const area = document.getElementById('userArea');
-  if (!area) return;
-  area.innerHTML = '<span style="color:var(--muted)">Lade…</span>';
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════
+//  BENUTZER PROFILE
+// ═══════════════════════════════════════════════════════
+let _bpAdmins = [];
+
+async function _bpHash(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function bpLoadUsers() {
+  const el = document.getElementById('bp-list');
+  if (!el) return;
+  el.innerHTML = '<div class="bp-empty">Lade…</div>';
   try {
-    const data = await loadJSON('data/admins.json');
-    allAdmins = data || [];
-    renderUsers();
+    _bpAdmins = (await loadJSON('data/admins.json')) || [];
+    bpRenderUsers();
   } catch(e) {
-    area.innerHTML = '<span style="color:var(--red)">Fehler: ' + e.message + '</span>';
+    el.innerHTML = '<div class="bp-empty" style="color:var(--red)">Fehler: ' + e.message + '</div>';
   }
 }
 
-function renderUsers() {
-  const area = document.getElementById('userArea');
-  const cnt  = document.getElementById('userCnt');
-  if (cnt) cnt.textContent = allAdmins.length;
-  if (!allAdmins.length) {
-    area.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Keine Benutzer gefunden.</div>';
-    return;
-  }
-  const levelLabel = { 1:'Level 1', 2:'Level 2', 3:'Level 3', 4:'Level 4' };
-  const rows = allAdmins.map((u, i) => {
+function bpRenderUsers() {
+  const el = document.getElementById('bp-list');
+  const cnt = document.getElementById('bp-count');
+  if (cnt) cnt.textContent = _bpAdmins.length;
+  if (!_bpAdmins.length) { el.innerHTML = '<div class="bp-empty">Keine Benutzer vorhanden.</div>'; return; }
+  const lvlLabel = {1:'Level 1', 2:'Level 2', 3:'Level 3', 4:'Level 4'};
+  const rows = _bpAdmins.map((u, i) => {
     const isSelf = u.username.toLowerCase() === (adminUsername||'').toLowerCase();
-    const isL4   = u.level >= 4;
-    const badge  = `<span class="user-badge badge-${Math.min(u.level,4)}">${levelLabel[u.level]||('Level '+u.level)}</span>`;
-    const selfMark = isSelf ? ' <span class="user-badge badge-self">Du</span>' : '';
-    const delBtn = (!isSelf && !isL4) ? `<button class="btn-danger-sm" onclick="doDeleteUser(${i})">Löschen</button>` : '<span style="color:var(--muted);font-size:11px">–</span>';
-    const pwBtn  = `<button class="btn-pw-sm" onclick="doChangePw(${i})">Passwort</button>`;
+    const badgeClass = 'bp-badge bp-badge-' + Math.min(u.level||1, 4);
+    const selfTag = isSelf ? '<span class="bp-badge bp-badge-you">Du</span>' : '';
+    const pwBtn  = `<button class="bp-btn-pw" onclick="bpChangePw(${i})">Passwort</button>`;
+    const delBtn = isSelf ? '' : `<button class="bp-btn-del" onclick="bpDeleteUser(${i})">Löschen</button>`;
     return `<tr>
-      <td><span style="font-weight:600">${esc(u.username)}</span>${selfMark}</td>
-      <td>${badge}</td>
-      <td style="display:flex;gap:6px;align-items:center">${pwBtn}${delBtn}</td>
+      <td><b>${esc(u.username)}</b>${selfTag}</td>
+      <td><span class="${badgeClass}">${lvlLabel[u.level||1]||'Level '+(u.level||1)}</span></td>
+      <td style="display:flex;gap:5px">${pwBtn}${delBtn}</td>
     </tr>`;
   }).join('');
-  area.innerHTML = `<table class="user-table">
-    <thead><tr><th>Benutzername</th><th>Level</th><th>Aktionen</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  el.innerHTML = `<table class="bp-table"><thead><tr><th>Name</th><th>Level</th><th>Aktionen</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-async function doCreateUser() {
-  const username = (document.getElementById('nwUser')?.value||'').trim();
-  const password = (document.getElementById('nwPass')?.value||'').trim();
-  const level    = parseInt(document.getElementById('nwLvl')?.value||'1');
-  if (!username) { showToast('Benutzername fehlt.','red'); return; }
-  if (password.length < 6) { showToast('Passwort min. 6 Zeichen.','red'); return; }
-  if (allAdmins.some(a => a.username.toLowerCase() === username.toLowerCase())) {
-    showToast('Benutzer existiert bereits.','red'); return;
+async function bpCreateUser() {
+  const username = (document.getElementById('bp-username')?.value || '').trim();
+  const password = (document.getElementById('bp-password')?.value || '').trim();
+  const level    = parseInt(document.getElementById('bp-level')?.value || '1');
+
+  if (!username) { showToast('Benutzername fehlt.', 'red'); return; }
+  if (password.length < 6) { showToast('Passwort min. 6 Zeichen.', 'red'); return; }
+  if (_bpAdmins.some(a => a.username.toLowerCase() === username.toLowerCase())) {
+    showToast('Benutzer existiert bereits.', 'red'); return;
   }
+
+  // Level 4: require own password confirmation
   if (level >= 4) {
-    const confirm1 = prompt('⚠ Level-4-Account erstellen!\nZur Bestätigung dein eigenes Passwort eingeben:');
-    if (!confirm1) return;
-    const ownHash = await sha256(confirm1.trim());
-    const self = allAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
+    const ownPw = prompt('⚠ Level-4-Admin anlegen!
+Bestätige mit deinem eigenen Passwort:');
+    if (!ownPw) return;
+    const ownHash = await _bpHash(ownPw.trim());
+    const self = _bpAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
     if (!self || self.passwordHash !== ownHash) {
-      showToast('Falsches Passwort – Level-4-Account nicht erstellt.','red'); return;
+      showToast('Falsches Passwort – Account nicht erstellt.', 'red'); return;
     }
   }
-  const hash = await sha256(password);
-  allAdmins.push({ username, passwordHash: hash, level });
+
+  const hash = await _bpHash(password);
+  _bpAdmins.push({ username, passwordHash: hash, level });
   try {
-    await saveJSON('data/admins.json', allAdmins);
-    showToast('Benutzer angelegt ✓','green');
-    document.getElementById('nwUser').value = '';
-    document.getElementById('nwPass').value = '';
-    renderUsers();
+    await saveJSON('data/admins.json', _bpAdmins);
+    showToast('Benutzer "' + username + '" erstellt ✓', 'green');
+    document.getElementById('bp-username').value = '';
+    document.getElementById('bp-password').value = '';
+    document.getElementById('bp-level').value = '1';
+    bpRenderUsers();
   } catch(e) {
-    allAdmins.pop();
-    showToast('Fehler: '+e.message,'red');
+    _bpAdmins.pop();
+    showToast('Fehler: ' + e.message, 'red');
   }
 }
 
-async function doDeleteUser(index) {
-  const u = allAdmins[index];
+async function bpChangePw(index) {
+  const u = _bpAdmins[index];
   if (!u) return;
-  if (u.level >= 4) {
-    const confirmDel = prompt('⚠ Level-4-Account löschen!\nZur Bestätigung dein eigenes Passwort eingeben:');
-    if (!confirmDel) return;
-    const ownHash = await sha256(confirmDel.trim());
-    const self = allAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
-    if (!self || self.passwordHash !== ownHash) {
-      showToast('Falsches Passwort – Account nicht gelöscht.','red'); return;
-    }
-  }
-  if (!confirm(`Benutzer "${u.username}" wirklich löschen?`)) return;
-  const removed = allAdmins.splice(index, 1);
-  try {
-    await saveJSON('data/admins.json', allAdmins);
-    showToast('Benutzer gelöscht ✓','green');
-    renderUsers();
-  } catch(e) {
-    allAdmins.splice(index, 0, ...removed);
-    showToast('Fehler: '+e.message,'red');
-  }
-}
 
-async function doChangePw(index) {
-  const u = allAdmins[index];
-  if (!u) return;
-  const newPw = prompt(`Neues Passwort für "${u.username}" (min. 6 Zeichen):`);
-  if (!newPw) return;
-  if (newPw.trim().length < 6) { showToast('Passwort min. 6 Zeichen.','red'); return; }
+  const ownPw = prompt('Eigenes Passwort zur Bestätigung eingeben:');
+  if (!ownPw) return;
+  const ownHash = await _bpHash(ownPw.trim());
+  const self = _bpAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
+  if (!self || self.passwordHash !== ownHash) {
+    showToast('Falsches Passwort.', 'red'); return;
+  }
+
+  const newPw = prompt('Neues Passwort für "' + u.username + '" (min. 6 Zeichen):');
+  if (!newPw || newPw.trim().length < 6) { showToast('Passwort zu kurz oder abgebrochen.', 'red'); return; }
+
   const oldHash = u.passwordHash;
-  allAdmins[index].passwordHash = await sha256(newPw.trim());
+  _bpAdmins[index].passwordHash = await _bpHash(newPw.trim());
   try {
-    await saveJSON('data/admins.json', allAdmins);
-    showToast('Passwort geändert ✓','green');
+    await saveJSON('data/admins.json', _bpAdmins);
+    showToast('Passwort geändert ✓', 'green');
   } catch(e) {
-    allAdmins[index].passwordHash = oldHash;
-    showToast('Fehler: '+e.message,'red');
+    _bpAdmins[index].passwordHash = oldHash;
+    showToast('Fehler: ' + e.message, 'red');
   }
 }
 
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+async function bpDeleteUser(index) {
+  const u = _bpAdmins[index];
+  if (!u) return;
+  if (!confirm('Benutzer "' + u.username + '" wirklich löschen?')) return;
+
+  const ownPw = prompt('Eigenes Passwort zur Bestätigung:');
+  if (!ownPw) return;
+  const ownHash = await _bpHash(ownPw.trim());
+  const self = _bpAdmins.find(a => a.username.toLowerCase() === (adminUsername||'').toLowerCase());
+  if (!self || self.passwordHash !== ownHash) {
+    showToast('Falsches Passwort.', 'red'); return;
+  }
+
+  const removed = _bpAdmins.splice(index, 1);
+  try {
+    await saveJSON('data/admins.json', _bpAdmins);
+    showToast('Benutzer gelöscht ✓', 'green');
+    bpRenderUsers();
+  } catch(e) {
+    _bpAdmins.splice(index, 0, ...removed);
+    showToast('Fehler: ' + e.message, 'red');
+  }
 }
 
 function startUprankAutoSave() {
@@ -2380,25 +2421,6 @@ function startUprankAutoSave() {
 }
 
 
-// ═══════════════════════════════════════════════════════
-//  KLEIDERORDNUNG DIVISION
-// ═══════════════════════════════════════════════════════
-function renderKleiderordnungDiv() {
-  const search=(document.getElementById('koDivSearch').value||'').toLowerCase();
-  const filtered=allKleiderordnungDiv.filter(r=>!search||(r.rang||r.division||'').toLowerCase().includes(search));
-  document.getElementById('koDivCount').textContent=filtered.length+' Divisionen';
-  if(!filtered.length) { document.getElementById('koDivListWrap').innerHTML='<div class="ko-empty">Keine Einträge gefunden.</div>'; renderIcons(); return; }
-  document.getElementById('koDivListWrap').innerHTML=filtered.map(r=>koDivCard(r)).join('');
-  renderIcons();
-}
-function koDivCard(r) {
-  const name=r.rang||r.division||'–';
-  const outfits=[
-    {label:'♂ Kleiderordnung',img:r.kl_m_img,text:r.kl_m_text},{label:'♀ Kleiderordnung',img:r.kl_f_img,text:r.kl_f_text},
-    {label:'♂ Eventkleidung',img:r.ev_m_img,text:r.ev_m_text},{label:'♀ Eventkleidung',img:r.ev_f_img,text:r.ev_f_text}
-  ];
-  return `<div class="ko-card"><div class="ko-card-header" onclick="this.closest('.ko-card').classList.toggle('open')"><span class="ko-card-rank">${esc(name)}</span><span class="ko-card-toggle">&#9660;</span></div><div class="ko-card-body"><div class="ko-outfits ko-outfits4">${outfits.map(o=>koOutfitCell(o.label,o.img,o.text)).join('')}</div></div></div>`;
-}
 
 // ═══════════════════════════════════════════════════════
 //  LAW SANKTIONEN
@@ -2680,7 +2702,7 @@ Object.assign(window, {
   renderSanktionen, loadSanktionen,
   openEventModal, closeEventModal, saveEvent, deleteEvent,
   openUprankModal, closeUprankModal, renderUprankList, setUprankChange, applyUprankChanges,
-  loadUsers, doCreateUser, doDeleteUser, doChangePw,
+  bpLoadUsers, bpCreateUser, bpChangePw, bpDeleteUser,
   openCreateSanktionModal, closeSanktionModal, saveSanktion, renderLawSanktionen,
   toggleSanktionenListe, updateSankBeamteInfo, toggleSankCustom, onSanktionKatalogChange,
   addPenaltyRow, addPenaltyRowWithData, removePenaltyRow,
