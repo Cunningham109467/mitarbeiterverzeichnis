@@ -739,16 +739,6 @@
     .bp-btn-del    { background:transparent;border:1px solid rgba(232,64,64,.35);color:var(--red);border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;transition:all .15s; }
     .bp-btn-del:hover { background:rgba(232,64,64,.1); }
     .bp-empty      { padding:24px;text-align:center;color:var(--muted);font-size:13px; }
-
-    /* ── Benutzer-Tab: Formular-Klassen (fehlten ursprünglich) ─── */
-    .flabel { display:block; font-size:10px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-bottom:5px; font-family:'JetBrains Mono',monospace; }
-    .finput { width:100%; background:var(--card2); border:1px solid var(--border2); border-radius:6px; color:var(--text); padding:8px 11px; font-size:13px; font-family:'Rajdhani',sans-serif; outline:none; transition:border-color .2s; }
-    .finput:focus { border-color:var(--accent); }
-    .fselect { width:100%; background:var(--card2); border:1px solid var(--border2); border-radius:6px; color:var(--text); padding:8px 11px; font-size:13px; font-family:'Rajdhani',sans-serif; outline:none; cursor:pointer; }
-    .fselect option { background:var(--card); }
-    .fselect:focus { border-color:var(--accent); }
-    .btn-sm { background:transparent; border:1px solid var(--border2); color:var(--muted); border-radius:5px; padding:4px 9px; font-size:11px; font-family:'Rajdhani',sans-serif; font-weight:600; cursor:pointer; transition:all .15s; display:inline-flex; align-items:center; gap:4px; }
-    .btn-sm:hover { border-color:var(--accent2); color:var(--accent2); }
 </style>
 </head>
 <body>
@@ -1689,7 +1679,6 @@ function showApp(username) {
     document.getElementById('publicBanner').style.display = 'block';
     document.getElementById('kuendTabBtn').style.display  = 'none';
     document.getElementById('lawTabBtn').style.display    = 'none';
-    document.getElementById('bpTabBtn').style.display      = 'none';
   }
 
   const archiveLabel = document.getElementById('archiveLabel');
