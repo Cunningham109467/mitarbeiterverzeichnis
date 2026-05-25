@@ -864,3 +864,52 @@ function migrateAllAdminPasswords() {
   }
   Logger.log(migrated + " Passwort(e) gehasht.");
 }
+
+// ====================================================
+// ---- Index.html Kompatibilitäts-Funktionen ----
+// ====================================================
+
+/**
+ * Alias für die Index.html-Oberfläche.
+ * Index.html schickt das Passwort bereits als SHA-256-Hex-Hash.
+ * login() erkennt Hashes anhand der 64-Zeichen-Hex-Regel automatisch.
+ */
+function checkLogin(username, hashedPassword) {
+  const result = login(username, hashedPassword);
+  if (result.success) {
+    return { success: true, name: result.username };
+  }
+  return { success: false, error: result.message || "Benutzername oder Passwort falsch." };
+}
+
+/**
+ * Liefert alle Mitarbeiter-Daten als Header + Zeilen für die
+ * tabellarische Darstellung in Index.html ("Formular-Antworten").
+ */
+function getFormAnswers() {
+  try {
+    const beamte = getAllBeamte();
+    const headers = [
+      "ID", "Name", "Rang", "DN", "Division",
+      "Strikes", "Eingestellt am", "Letzter Rank-up",
+      "Hauptabteilung", "Nebenabteilung"
+    ];
+    const rows = beamte.map(function(b) {
+      return [
+        b["ID"]             || "",
+        b["Name"]           || "",
+        b["Rang"]           || "",
+        b["DN"]             || "",
+        b["Division"]       || "",
+        String(b["Strikes"] || 0),
+        b["Invite"]         || "",
+        b["Last Rank-up"]   || "",
+        b["Hauptabteilung"] || "",
+        b["Nebenabteilung"] || ""
+      ];
+    });
+    return { success: true, headers: headers, rows: rows };
+  } catch (e) {
+    return { success: false, error: "Fehler beim Laden: " + e.message };
+  }
+}
