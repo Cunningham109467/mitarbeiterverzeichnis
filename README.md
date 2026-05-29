@@ -39,5 +39,3 @@ Das Backend erwartet folgende Tabellenblätter in der Google-Tabelle:
 - `Events` – Veranstaltungen
 - `Leyla Kündigungen neu` – Kündigungsprotokoll
 - `Sanktionskatalog` – Strafkatalog
-- `Kleiderordnung` – Uniformregeln nach Rang
-- `Kleiderordnung Division` – Uniformregeln nach Division
