@@ -1370,10 +1370,10 @@
   <div class="event-modal" style="max-width:460px">
     <h2><i data-lucide="key-round"></i> GitHub Write-Token</h2>
     <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px">
-      Für Schreibvorgänge wird ein GitHub Personal Access Token benötigt.<br>
-      Erstellen: <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--accent2)">github.com/settings/tokens/new</a><br>
-      Scope: <strong>public_repo</strong><br>
-      Das Token wird dauerhaft in diesem Browser gespeichert.
+      Nur der <strong style="color:var(--accent2)">Projekt-Creator</strong> muss diesen Token einmalig eintragen.<br>
+      Danach wird er automatisch für alle Admins gespeichert.<br><br>
+      Token erstellen: <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--accent2)">github.com/settings/tokens/new</a><br>
+      Scope: <strong>public_repo</strong>
     </p>
     <div class="form-group form-col-full">
       <label>Personal Access Token</label>
@@ -1416,6 +1416,17 @@ async function loadJSON(file) {
   const r = await fetch(rawUrl(file));
   if (!r.ok) { if (r.status === 404) return null; throw new Error(`${file} HTTP ${r.status}`); }
   return r.json();
+}
+
+// Lädt den Write-Token aus data/config.json (vom Creator einmalig gespeichert)
+async function loadSharedToken() {
+  try {
+    const cfg = await loadJSON('data/config.json');
+    if (cfg && cfg.writeToken) {
+      writeToken = cfg.writeToken;
+      localStorage.setItem('writeToken', writeToken);
+    }
+  } catch(e) {}
 }
 
 function toB64(str) {
@@ -1475,15 +1486,21 @@ function closeTokenModal() {
   if (tokenResolve) { tokenResolve(); tokenResolve = null; }
 }
 
-function saveTokenModal() {
+async function saveTokenModal() {
   const t = document.getElementById('tokenInput').value.trim();
   if (!t) { showToast('Bitte Token eingeben.', 'red'); return; }
   writeToken = t;
   localStorage.setItem('writeToken', t);
   closeTokenModal();
-  showToast('Token gespeichert ✓', 'green');
   const warnBox = document.getElementById('bp-token-warn-box');
   if (warnBox) warnBox.style.display = 'none';
+  // Token in data/config.json speichern damit alle Admins ihn automatisch erhalten
+  try {
+    await saveJSON('data/config.json', { writeToken: t });
+    showToast('Token gespeichert & für alle Admins hinterlegt ✓', 'green');
+  } catch(e) {
+    showToast('Token lokal gespeichert (Repo-Sync fehlgeschlagen: ' + e.message + ')', 'orange');
+  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2728,7 +2745,7 @@ function openEditSanktionAkte(sanktionId, beamteRow) { openSanktionStatusModal(b
 // ═══════════════════════════════════════════════════════
 //  CLOSE-ON-BACKDROP
 // ═══════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
   document.getElementById('kuendOverlay').addEventListener('click', function(e){ if(e.target===this) closeKuendModal(); });
   document.getElementById('akteOverlay').addEventListener('click', function(e){ if(e.target===this) closeAkte(); });
@@ -2736,6 +2753,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('uprankOverlay').addEventListener('click', function(e){ if(e.target===this) closeUprankModal(); });
   detectOwner();
   renderIcons();
+  // Geteilten Write-Token aus data/config.json laden (vom Creator einmalig gesetzt)
+  if (OWNER) await loadSharedToken();
 });
 
 window.addEventListener('load', () => { if(typeof lucide!=='undefined') lucide.createIcons(); });
