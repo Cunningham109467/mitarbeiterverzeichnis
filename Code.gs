@@ -7,7 +7,7 @@ const SHEET_MITARBEITER   = "Mitarbeiter";
 const SHEET_ADMINS        = "Admins";
 const SHEET_RANGNUMMERN   = "Daten";          // Ränge für Dropdown + Ausbildungen
 const SHEET_EVENTS        = "Events";
-const SHEET_KUENDIGUNGEN  = "Leyla Kündigungen neu";
+const SHEET_KUENDIGUNGEN  = "Eko Kündigungen neu";
 const SHEET_SANKTIONEN    = "Sanktionskatalog";
 
 // Ausbildungen: Spalten AZ–BH im Tabellenblatt "Daten"
