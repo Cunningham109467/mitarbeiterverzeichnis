@@ -758,6 +758,9 @@
     @media (max-width: 780px) {
       .bp-grid { grid-template-columns: 1fr !important; }
     }
+
+    /* ── Benutzer-Tab Scroll-Wrapper ─────────────────────── */
+    .bp-scroll { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
 </style>
 </head>
 <body>
@@ -1025,7 +1028,7 @@
 
   <!-- ═══════════ BENUTZER PROFILE TAB ═══════════ -->
   <div class="tab-content" id="tab-benutzer-profile">
-    <div class="main" style="overflow-y:auto;display:block">
+    <div class="bp-scroll">
 
       <div id="bp-token-warn-box" style="display:none" class="bp-token-warn">
         ⚠ Kein GitHub Write-Token gesetzt – Speichern ist nicht möglich.
