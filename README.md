@@ -37,5 +37,5 @@ Das Backend erwartet folgende Tabellenblätter in der Google-Tabelle:
 - `Admins` – Zugangsdaten
 - `Daten` – Ränge & Ausbildungs-Header
 - `Events` – Veranstaltungen
-- `Leyla Kündigungen neu` – Kündigungsprotokoll
+- `Eko Kündigungen neu` – Kündigungsprotokoll
 - `Sanktionskatalog` – Strafkatalog
