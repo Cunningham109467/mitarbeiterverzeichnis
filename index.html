@@ -749,6 +749,15 @@
     .fselect:focus { border-color:var(--accent); }
     .btn-sm { background:transparent; border:1px solid var(--border2); color:var(--muted); border-radius:5px; padding:4px 9px; font-size:11px; font-family:'Rajdhani',sans-serif; font-weight:600; cursor:pointer; transition:all .15s; display:inline-flex; align-items:center; gap:4px; }
     .btn-sm:hover { border-color:var(--accent2); color:var(--accent2); }
+
+    /* ── Benutzer-Tab Token-Warning ─────────────────────── */
+    .bp-token-warn { background:rgba(240,160,48,.08); border:1px solid rgba(240,160,48,.3); border-radius:9px; padding:11px 15px; margin-bottom:16px; font-size:12px; color:var(--yellow); display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; }
+    .bp-token-warn button { flex-shrink:0; background:rgba(240,160,48,.15); border:1px solid rgba(240,160,48,.4); color:var(--yellow); border-radius:6px; padding:5px 12px; font-size:11px; cursor:pointer; font-family:'Rajdhani',sans-serif; font-weight:700; transition:background .15s; }
+    .bp-token-warn button:hover { background:rgba(240,160,48,.28); }
+
+    @media (max-width: 780px) {
+      .bp-grid { grid-template-columns: 1fr !important; }
+    }
 </style>
 </head>
 <body>
@@ -1017,6 +1026,11 @@
   <!-- ═══════════ BENUTZER PROFILE TAB ═══════════ -->
   <div class="tab-content" id="tab-benutzer-profile">
     <div class="main" style="overflow-y:auto;display:block">
+
+      <div id="bp-token-warn-box" style="display:none" class="bp-token-warn">
+        ⚠ Kein GitHub Write-Token gesetzt – Speichern ist nicht möglich.
+        <button onclick="showTokenModal()">Token eintragen</button>
+      </div>
 
       <div class="bp-grid">
         <!-- Create form -->
@@ -1465,6 +1479,8 @@ function saveTokenModal() {
   localStorage.setItem('writeToken', t);
   closeTokenModal();
   showToast('Token gespeichert ✓', 'green');
+  const warnBox = document.getElementById('bp-token-warn-box');
+  if (warnBox) warnBox.style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1585,7 +1601,12 @@ function switchTab(tab, btnEl) {
   if (lbl) lbl.style.display = tab==='beamte' ? '' : 'none';
   if (tab==='sanktionen' && allSanktionen.length===0) loadSanktionen();
   if (tab==='law-sanktionen' && (adminLevel===1||adminLevel===4)) renderLawSanktionen();
-  if (tab==='benutzer-profile') bpLoadUsers();
+  if (tab==='benutzer-profile') {
+    const warnBox = document.getElementById('bp-token-warn-box');
+    if (warnBox) warnBox.style.display = writeToken ? 'none' : 'flex';
+    bpLoadUsers();
+    renderIcons();
+  }
   if (tab==='kuendigungen') loadKuendigungen();
 }
 
@@ -2303,12 +2324,19 @@ async function _bpHash(str) {
 async function bpLoadUsers() {
   const el = document.getElementById('bp-list');
   if (!el) return;
-  el.innerHTML = '<div class="bp-empty">Lade…</div>';
+  el.innerHTML = '<div class="bp-empty"><span class="spinner"></span> Lade Benutzer…</div>';
+  const warnBox = document.getElementById('bp-token-warn-box');
+  if (warnBox) warnBox.style.display = writeToken ? 'none' : 'flex';
   try {
-    _bpAdmins = (await loadJSON('data/admins.json')) || [];
+    const data = await loadJSON('data/admins.json');
+    if (!data) {
+      el.innerHTML = '<div class="bp-empty" style="color:var(--red)">admins.json nicht gefunden – bitte Setup erneut ausführen.</div>';
+      return;
+    }
+    _bpAdmins = data;
     bpRenderUsers();
   } catch(e) {
-    el.innerHTML = '<div class="bp-empty" style="color:var(--red)">Fehler: ' + e.message + '</div>';
+    el.innerHTML = '<div class="bp-empty" style="color:var(--red)">Fehler beim Laden: ' + e.message + '</div>';
   }
 }
 
@@ -2340,6 +2368,13 @@ async function bpCreateUser() {
 
   if (!username) { showToast('Benutzername fehlt.', 'red'); return; }
   if (password.length < 6) { showToast('Passwort min. 6 Zeichen.', 'red'); return; }
+
+  // Aktuelle Admins neu laden um Datenverlust zu verhindern
+  try {
+    const fresh = await loadJSON('data/admins.json');
+    if (fresh && Array.isArray(fresh)) _bpAdmins = fresh;
+  } catch(e) {}
+
   if (_bpAdmins.some(a => a.username.toLowerCase() === username.toLowerCase())) {
     showToast('Benutzer existiert bereits.', 'red'); return;
   }
@@ -2356,7 +2391,8 @@ async function bpCreateUser() {
   }
 
   const hash = await _bpHash(password);
-  _bpAdmins.push({ username, passwordHash: hash, level });
+  const newEntry = { username, passwordHash: hash, level };
+  _bpAdmins.push(newEntry);
   try {
     await saveJSON('data/admins.json', _bpAdmins);
     showToast('Benutzer "' + username + '" erstellt ✓', 'green');
@@ -2366,7 +2402,7 @@ async function bpCreateUser() {
     bpRenderUsers();
   } catch(e) {
     _bpAdmins.pop();
-    showToast('Fehler: ' + e.message, 'red');
+    showToast('Fehler beim Speichern: ' + e.message, 'red');
   }
 }
 
