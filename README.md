@@ -20,14 +20,14 @@ Google Apps Script Backend + HTML-Frontend für ein internes Mitarbeiterverzeich
 
 ## Admin-Level
 
-| Level | Rolle | Standard-Passwort |
-|-------|-------|-------------------|
-| 4 | Admin | admin123 |
-| 3 | HR (Mod) | mod123 |
-| 2 | TD (Event) | event123 |
-| 1 | LAW | law123 |
+| Level | Rolle |
+|-------|-------|
+| 4 | Admin |
+| 3 | HR (Mod) |
+| 2 | TD (Event) |
+| 1 | LAW |
 
-> **Hinweis:** Passwörter werden als SHA-256-Hash gespeichert. Bitte ändere die Standard-Passwörter nach dem ersten Login.
+> **Hinweis:** Passwörter werden als geHash gespeichert. Bitte ändere die Standard-Passwörter nach dem ersten Login.
 
 ## Tabellenblätter
 
